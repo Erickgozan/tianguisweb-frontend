@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { HeaderComponent } from './pages/header/header.component';
 import { FooterComponent } from './pages/footer/footer.component';
 import { Error404Component } from './pages/error404/error404.component';
+import { ProductoComponent } from './producto/producto.component';
 
 
 
@@ -10,7 +11,7 @@ const routes: Routes = [
   //Ruta principal
  // {path:'', redirectTo:'header', pathMatch:'full'},
   //ruta encabezado
-  {path:'header', component:HeaderComponent},
+  {path:'productos', component:ProductoComponent},
   //Ruta pie de pagina
   {path:'footer',component:FooterComponent},
   //Ruta error 404
