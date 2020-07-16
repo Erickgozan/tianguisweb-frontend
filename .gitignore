@@ -8,7 +8,7 @@
 /bazel-out
 
 #imagenes
-/assets/images
+src/assets/images
 
 # dependencies
 /node_modules
