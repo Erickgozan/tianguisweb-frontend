@@ -15,4 +15,5 @@ export class Producto {
     public img3:string;
     public img4:string;
     public img5:string;
+    
 }

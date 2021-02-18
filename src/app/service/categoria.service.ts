@@ -22,8 +22,7 @@ export class CategoriaService {
   public saveCategory(categoria: Categoria): Observable<Categoria> {
     return this.http
       .post<Categoria>(`${this.urlEndPoint}/categorias/create`, categoria)
-      .pipe(
-        catchError((err) => {
+      .pipe(catchError((err) => {
           if (err.status == 400 && err.error_400) {
             return throwError(err);
           }

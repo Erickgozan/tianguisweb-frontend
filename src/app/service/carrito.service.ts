@@ -8,9 +8,5 @@ import { Cliente } from "../entity/cliente";
   providedIn: "root",
 })
 export class CarritoService {
-  
-
   constructor() {}
-
- 
 }

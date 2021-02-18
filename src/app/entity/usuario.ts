@@ -1,7 +1,6 @@
 import { Role } from "./role";
 
-export class Usuario{
-   
+export class Usuario{ 
     public id:number;
     public username:string;
     public password:string;

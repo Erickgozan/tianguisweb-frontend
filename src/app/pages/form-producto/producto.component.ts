@@ -16,7 +16,7 @@ export class ProductoComponent implements OnInit {
   public producto: Producto;
   public categoria: Categoria;
   public errores: Array<string>;
-  public files:Array<File>;
+  public files: Array<File>;
   public categorias: Array<Categoria>;
   public fotoSeleccionada: boolean = false;
 

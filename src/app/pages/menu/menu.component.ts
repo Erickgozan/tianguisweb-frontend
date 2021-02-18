@@ -20,6 +20,7 @@ export class MenuComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    
     this.cargarCategoria();
   }
 

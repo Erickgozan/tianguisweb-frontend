@@ -10,7 +10,7 @@ import { CarritoProductoComponent } from "./pages/carrito-producto/carrito-produ
 import { ClienteComponent } from "./pages/form-cliente/cliente.component";
 import { LoginComponent } from "./pages/login/login.component";
 
-const routes: Routes = [
+const routes: Routes = [ 
   //Ruta principal
   //{path:'', redirectTo:'lista-productos', pathMatch:'full'},
   { path: "", component: ListaProductosComponent },

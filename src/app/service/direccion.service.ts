@@ -12,7 +12,7 @@ export class DireccionService {
 
   constructor(private http: HttpClient) {}
 
-  public obtenerDireciones(cp: number): Observable<any> {
+  public obtenerDireciones(cp: number): Observable<any>{
     return this.http.get<any>(`${this.urlEndPoint}/${cp}`);
   }
 }

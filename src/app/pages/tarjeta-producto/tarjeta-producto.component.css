@@ -1,7 +1,7 @@
-.descripcion{
-    width: 300px;
-    text-overflow: clip;
-     text-overflow: ellipsis;
-     overflow: hidden;
-     white-space: nowrap;
+.descripcion {
+  width: 300px;
+  text-overflow: clip;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }

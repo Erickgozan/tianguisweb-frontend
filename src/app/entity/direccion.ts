@@ -1,7 +1,6 @@
 import { Cliente } from "./cliente";
 
-export class Direccion{
-    
+export class Direccion{  
     public id:number;
     public calle:string;//0
     public colonia:string;//1

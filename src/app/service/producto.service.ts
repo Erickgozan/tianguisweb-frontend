@@ -9,7 +9,6 @@ import { Categoria } from "../entity/categoria";
   providedIn: "root",
 })
 export class ProductoService {
-
   private urlEndPoint: string = "http://localhost:8080/api/productos";
 
   private httpHeaders = new HttpHeaders({ "Content-Type": "form-data" });
@@ -35,7 +34,6 @@ export class ProductoService {
             if (err.status == 400 && err.error_400) {
               return throwError(err);
             }
-            
           })
         )
     );
@@ -71,7 +69,7 @@ export class ProductoService {
         .pipe(
           map((response: any) => response.producto as Producto),
           catchError((err) => {
-            if (err.status == 400 && err.error_400) {           
+            if (err.status == 400 && err.error_400) {
               return throwError(err);
             }
             if (err.status == 500 && err.error_500) {
@@ -91,11 +89,11 @@ export class ProductoService {
       .pipe(
         catchError((err) => {
           if (err.status == 400 && err.error_400) {
-           return throwError(err);
-          } else if(err.staus==404 && err.error_404){
             return throwError(err);
-          }else if (err.status == 500 && err.error_500) {
-           return throwError(err);
+          } else if (err.staus == 404 && err.error_404) {
+            return throwError(err);
+          } else if (err.status == 500 && err.error_500) {
+            return throwError(err);
           }
           return throwError(err);
         })
@@ -122,38 +120,40 @@ export class ProductoService {
   //Actualizar las imagenes
   public updateImgs(file: File[], id): Observable<any> {
     let formData = new FormData();
-      formData.append("file", file[0]);
-      formData.append("file", file[1]);
-      formData.append("file", file[2]);
-      formData.append("file", file[3]);
-      formData.append("file", file[4]); 
-      formData.append("id",id);
-    
+    formData.append("file", file[0]);
+    formData.append("file", file[1]);
+    formData.append("file", file[2]);
+    formData.append("file", file[3]);
+    formData.append("file", file[4]);
+    formData.append("id", id);
+
     return this.http
       .put<any>(`${this.urlEndPoint}/image/update`, formData)
       .pipe(
         catchError((err) => {
           if (err.status == 404 && err.error_404) {
-           return throwError(err);
+            return throwError(err);
           } else if (err.status == 500 && err.error_500) {
-           return throwError(err);
+            return throwError(err);
           }
           return throwError(err);
         })
       );
   }
   //Eliminar la imagen
-  public delteImg(id: number,img:string): Observable<any> {
-    return this.http.put<any>(`${this.urlEndPoint}/image/delete/${id}/?img=${img}`,null).pipe(
-      catchError((err) => {
-        if (err.status == 404 && err.error_404) {
-           return throwError(err);
-        } else if (err.status == 404 && err.error_500) {
-           return throwError(err);
-        }
-        return throwError(err);
-      })
-    );
+  public delteImg(id: number, img: string): Observable<any> {
+    return this.http
+      .put<any>(`${this.urlEndPoint}/image/delete/${id}/?img=${img}`, null)
+      .pipe(
+        catchError((err) => {
+          if (err.status == 404 && err.error_404) {
+            return throwError(err);
+          } else if (err.status == 404 && err.error_500) {
+            return throwError(err);
+          }
+          return throwError(err);
+        })
+      );
   }
   //Eliminar producto
   public deleteProduct(id: number): Observable<Producto> {
@@ -166,6 +166,4 @@ export class ProductoService {
       })
     );
   }
-
-  
 }

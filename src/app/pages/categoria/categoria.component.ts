@@ -74,20 +74,22 @@ export class CategoriaComponent implements OnInit {
       confirmButtonText: "Si, eliminar!",
     }).then((result) => {
       if (result.isConfirmed) {
-        this.categoriaService.delateCategory(categoria.id).subscribe(() => {
-          this.categorias = this.categorias.filter((cat) => cat !== categoria);
-        },(err) => {
-         //Manejo del error del servidor
-         if(err.status==500){
-          Swal.fire("Error!",`${err.error.error_500}`,"error");
-         }
-         console.log(err);
-         
-        }
-        )
+        this.categoriaService.delateCategory(categoria.id).subscribe(
+          () => {
+            this.categorias = this.categorias.filter(
+              (cat) => cat !== categoria
+            );
+          },
+          (err) => {
+            //Manejo del error del servidor
+            if (err.status == 500) {
+              Swal.fire("Error!", `${err.error.error_500}`, "error");
+            }
+            console.log(err);
+          }
+        );
       }
     });
-   
   }
 
   //Selecciona la categoria para editarla

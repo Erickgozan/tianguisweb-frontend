@@ -34,20 +34,22 @@
                 <tr *ngFor="let categoria of categorias; let i = index">
                   <th scope="row"><button class="btn btn-danger" (click)="eliminarCategoria(categoria)">X</button></th>
                   <td *ngIf="categoria.id != idSeleccionado">{{categoria.nombre}}</td>
-                  <td *ngIf="categoria.id == idSeleccionado">  
-                      <input type="text" class="form-control" [(ngModel)]="categoria.nombre" name="nombre" placeholder="{{categoria.nombre}}" >
+                  <td *ngIf="categoria.id == idSeleccionado">
+                    <input type="text" class="form-control" [(ngModel)]="categoria.nombre" name="nombre"
+                      placeholder="{{categoria.nombre}}">
                   </td>
                   <td>
                     <div style="float: right;" *ngIf="categoria.id != idSeleccionado">
                       <button class="btn btn-warning" (click)="seleccionarCategoria(categoria.id)">Editar</button>
                     </div>
                     <div style="float: right;" *ngIf="categoria.id == idSeleccionado">
-                      <button class="btn btn-primary"(click)="editarCategoria(categoria)">Guardar</button>
-                  </div>
+                      <button class="btn btn-primary" (click)="editarCategoria(categoria)">Guardar</button>
+                    </div>
                   </td>
                   <td>
                     <div style="float: right; padding-left: 0.5rem;">
-                      <button class="btn btn-secondary" (click)="cancelarEdicion()">Cancelar</button></div>
+                      <button class="btn btn-secondary" (click)="cancelarEdicion()">Cancelar</button>
+                    </div>
                   </td>
                 </tr>
               </tbody>

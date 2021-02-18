@@ -7,7 +7,7 @@ import Swal from "sweetalert2";
 @Component({
   selector: "app-lista-productos",
   templateUrl: "./lista-productos.component.html",
-  styleUrls: ["./lista-productos.component.css"],
+  styleUrls: ["./lista-productos.component.css"], 
 })
 export class ListaProductosComponent implements OnInit {
   public productos: Array<Producto>;
@@ -23,5 +23,4 @@ export class ListaProductosComponent implements OnInit {
       .puductList()
       .subscribe((productos) => (this.productos = productos));
   }
- 
 }

@@ -1,21 +1,19 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Producto } from 'src/app/entity/producto';
-import { ProductoService } from 'src/app/service/producto.service';
-import Swal from 'sweetalert2';
+import { Component, Input, OnInit } from "@angular/core";
+import { Producto } from "src/app/entity/producto";
+import { ProductoService } from "src/app/service/producto.service";
+import Swal from "sweetalert2";
 
 @Component({
-  selector: 'app-tarjeta-producto',
-  templateUrl: './tarjeta-producto.component.html',
-  styleUrls: ['./tarjeta-producto.component.css']
+  selector: "app-tarjeta-producto",
+  templateUrl: "./tarjeta-producto.component.html",
+  styleUrls: ["./tarjeta-producto.component.css"],
 })
 export class TarjetaProductoComponent implements OnInit {
+  @Input() public producto: Producto;
 
- @Input() public producto:Producto;
+  constructor(private productoService: ProductoService) {}
 
-  constructor(private productoService:ProductoService) { }
-
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   public eliminarProducto(producto: Producto): void {
     Swal.fire({

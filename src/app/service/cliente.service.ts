@@ -1,21 +1,20 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-import { Cliente } from '../entity/cliente';
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { Observable, throwError } from "rxjs";
+import { catchError } from "rxjs/operators";
+import { Cliente } from "../entity/cliente";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class ClienteService {
-
   public urlEndPoint: string = "http://localhost:8080/api/clientes";
   public httpHeaders = new HttpHeaders({ "content-type": "application/json" });
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-   //Retornar el listado de clientes
-   public customerList(): Observable<Array<Cliente>> {
+  //Retornar el listado de clientes
+  public customerList(): Observable<Array<Cliente>> {
     return this.http.get<Array<Cliente>>(`${this.httpHeaders}`);
   }
 

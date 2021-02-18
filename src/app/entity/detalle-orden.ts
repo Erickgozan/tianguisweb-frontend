@@ -1,7 +1,6 @@
 import { Producto } from "./producto";
 
 export class DetalleOrden{
-
     public id:number;
     public producto:Producto;
     public numOrden:number;
