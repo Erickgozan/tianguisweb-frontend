@@ -8,3 +8,9 @@ li>a{
 .marca{
     color: azure;
 }
+.item:hover{
+    color: black!important;
+}
+.icon{
+    margin:0px 10px 5px 0px;/*top,rigth,buttom,left*/
+}

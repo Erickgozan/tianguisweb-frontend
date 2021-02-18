@@ -1,0 +1,27 @@
+<div class="card animated fadeIn fast text-center">
+    <a [routerLink]="['productos/detalles',producto.id]">
+        <img src="http://localhost:8080/api/uploads/img/{{producto.img1}}" class="card-img-top" [alt]="producto.img1"
+            style="max-width: 500px;">
+    </a>
+    <hr>
+    <div class="card-body">
+        <h5 class="card-title">{{producto.nombre}}</h5>
+        <p class="card-text descripcion">{{producto.descripcion}}</p>
+        <p class="card-text"><small class="text-muted">{{producto.precio | currency}}</small></p>
+        <a href="#" class="btn btn-outline-success " [routerLink]="['productos/carrito',producto.id]"
+            style="margin: 5px;">Agregar al carrito</a>
+        <a href="#" class="btn btn-outline-info " [routerLink]="['productos/detalles',producto.id]"
+            routerLinkActive="router-link-active" style="margin: 5px;">Ver detalles...</a>
+        <hr>
+        <div class="btn-group" role="group">
+            <button id="btnGroupDrop1" type="button" class="btn btn-outline-secondary dropdown-toggle"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Mas opciones
+            </button>
+            <div class="dropdown-menu ">
+                <a class="dropdown-item" [routerLink]="['productos/form',producto.id]">Editar</a>
+                <a class="dropdown-item" (click)="eliminarProducto(producto)" style="cursor: pointer;">Eliminar</a>
+            </div>
+        </div>
+    </div>
+</div>

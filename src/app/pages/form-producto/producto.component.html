@@ -1,0 +1,183 @@
+<div class="container mt-4 lead main">
+  <form method="POST" enctype="multipart/form-data">
+    <div class="form-row ">
+      <!--Lista de errores-->
+      <ul class="alert alert-danger" *ngIf="errores?.length>0">
+        <li *ngFor="let error of errores">
+          {{error}}
+        </li>
+      </ul>
+      <!--Campo Nombre--->
+      <div class="form-group col-md-6">
+        <label for="nombre">Nombre:</label>
+        <input type="text" class="form-control" [(ngModel)]="producto.nombre" name="nombre"
+          placeholder="Nombre del producto" required #nombre="ngModel">
+        <div class="alert alert-danger my-2" *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)">
+          <small *ngIf="nombre.errors.required">El nombre es requerido!</small>
+        </div>
+      </div>
+      <!--Campo precio-->
+      <div class="form-group col-md-6">
+        <label for="precio">Precio:</label>
+        <input type="number" class="form-control" [(ngModel)]="producto.precio" name="precio" placeholder="Precio"
+          required #precio="ngModel">
+        <div class="alert alert-danger my-2" *ngIf="precio.invalid && (precio.dirty || precio.touched)">
+          <small *ngIf="precio.errors.required">El precio es requerido!</small>
+        </div>
+      </div>
+    </div>
+    <!--Campo descripción-->
+    <div class="form-group">
+      <label for="descripcion">Descripción</label>
+      <textarea class="form-control" [(ngModel)]="producto.descripcion" name="descripcion" placeholder="Descripción"
+        required #descripcion="ngModel"></textarea>
+      <div class="alert alert-danger my-2" *ngIf="descripcion.invalid && (descripcion.dirty || descripcion.touched)">
+        <small *ngIf="descripcion.errors.required">La descrición es requerida!</small>
+      </div>
+    </div>
+    <!--Campos caracteristicas-->
+    <div class="form-group">
+      <label for="caracteristicas">Características</label>
+      <textarea class="form-control" [(ngModel)]="producto.caracteristicas" name="caracteristicas"
+        placeholder="características" required #caracteristicas="ngModel"></textarea>
+      <div class="alert alert-danger my-2"
+        *ngIf="caracteristicas.invalid && (caracteristicas.dirty || caracteristicas.touched)">
+        <small *ngIf="caracteristicas.errors.required">La característica es requerida!</small>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <!--Campo stock-->
+      <div class="form-group col-md-4">
+        <label for="stock">Stock</label>
+        <input type="number" class="form-control" [(ngModel)]="producto.stock" name="stock"
+          placeholder="Cantidad de productos" required #stock="ngModel">
+        <div class="alert alert-danger my-2" *ngIf="stock.invalid && (stock.dirty || stock.touched)">
+          <small *ngIf="stock.errors.required">El stock es requerido!</small>
+        </div>
+      </div>
+      <!--Campo oferta-->
+      <div class="form-group col-md-4">
+        <label for="oferta">Oferta</label>
+        <select class="form-control" [(ngModel)]="producto.oferta" name="oferta" required #oferta="ngModel">
+          <option [ngValue]="undefined">--Seleccionar--</option>
+          <option>true</option>
+          <option>false</option>
+        </select>
+        <div class="alert alert-danger my-2" *ngIf="oferta.invalid && (oferta.dirty || oferta.touched)">
+          <small *ngIf="oferta.errors.required">La oferta es requerida!</small>
+        </div>
+      </div>
+      <!--Campo categoria-->
+      <div class="form-group col-md-2">
+        <label for="categoria">Categoria</label>
+        <select [compareWith]="compararCategoria" [(ngModel)]="producto.categoria" name="categoria" type="categoria"
+          class="form-control" required #categoria="ngModel">
+          <option [ngValue]="undefined">--Seleccionar--</option>
+          <option *ngFor="let categoria of categorias" [ngValue]="categoria">{{categoria.nombre}}</option>
+        </select>
+        <div class="alert alert-danger my-2" *ngIf="categoria.invalid && (categoria.dirty || categoria.touched)">
+          <small *ngIf="categoria.errors.required">La categoria es requerida</small>
+        </div>
+      </div>
+      <!--Boton para agregar categoria-->
+      <div class="form-group col-md-2 " style="margin-top: 2rem">
+        <!--Ruta que mustra la ventana para editar la cateoria-->
+        <router-outlet></router-outlet>
+        <a *ngIf="!producto.id" class="btn btn-outline-info btn-block" data-toggle="modal"
+          [routerLink]="['/productos/form/categoria']" data-target="#categoriaModal">Agregar
+          categoria</a>
+      </div>
+    </div>
+    <!--Campo de selección de archivos-->
+    <div
+      *ngIf="producto.img1!=null || producto.img2!=null || producto.img3!=null || producto.img4!=null || producto.img5!=null">
+      <ul class="list-group">
+        <!--Imagen 1-->
+        <li *ngIf="producto.img1!=null" class="list-group-item"><img
+            src="http://localhost:8080/api/uploads/img/{{producto.img1}}" alt="{{producto.img1}}" width="100px"
+            height="100px"> {{producto.img1}} <div style="float: right;"><button class="btn btn-danger"
+              (click)="eliminarImg(producto.img1)">X</button></div>
+        </li>
+        <!--Imagen 2-->
+        <li *ngIf="producto.img2!=null" class="list-group-item"><img
+            src="http://localhost:8080/api/uploads/img/{{producto.img2}}" alt="{{producto.img2}}" width="100px"
+            height="100px"> {{producto.img2}} <div style="float: right;"><button class="btn btn-danger"
+              (click)="eliminarImg(producto.img2)">X</button></div>
+        </li>
+        <!--Imagen 3-->
+        <li *ngIf="producto.img3!=null" class="list-group-item"><img
+            src="http://localhost:8080/api/uploads/img/{{producto.img3}}" alt="{{producto.img3}}" width="100px"
+            height="100px"> {{producto.img3}} <div style="float: right;"><button class="btn btn-danger"
+              (click)="eliminarImg(producto.img3)">X</button></div>
+        </li>
+        <!--Imagen 4-->
+        <li *ngIf="producto.img4!=null" class="list-group-item"><img
+            src="http://localhost:8080/api/uploads/img/{{producto.img4}}" alt="{{producto.img4}}" width="100px"
+            height="100px"> {{producto.img4}} <div style="float: right;"><button class="btn btn-danger"
+              (click)="eliminarImg(producto.img4)">X</button></div>
+        </li>
+        <!--Imagen 5-->
+        <li *ngIf="producto.img5!=null" class="list-group-item"><img
+            src="http://localhost:8080/api/uploads/img/{{producto.img5}}" alt="{{producto.img5}}" width="100px"
+            height="100px"> {{producto.img5}} <div style="float: right;"><button class="btn btn-danger"
+              (click)="eliminarImg(producto.img5)">X</button></div>
+        </li>
+
+        <!--Input file actualizar imagen-->
+        <li
+          *ngIf="producto.img1==null || producto.img2==null || producto.img3==null || producto.img4==null || producto.img5==null"
+          class="list-group-item">
+          <div class="input-group">
+            <div class="custom-file">
+              <input type="file" class="custom-file-input" id="file-1" (change)="fotosSeleccionadas($event)" required>
+              <label *ngIf="files?.length<=0" class="custom-file-label" for="file-1">Seleccionar Archivo</label>
+              <label *ngIf="files?.length>0" class="custom-file-label" for="file-1">{{files[0].name}}</label>
+            </div>
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" (click)="actualizarImg()" type="button"
+                [disabled]="files?.length<=0">Enviar</button>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div><br>
+    <!--Input file cuando no hay ninguna imagen-->
+    <div
+      *ngIf="producto.img1==null && producto.img2==null && producto.img3==null && producto.img4==null && producto.img5==null">
+      <div *ngIf="!producto.id">
+        <div class="custom-file">
+          <label for="files">Seleccioanar los archivos:</label>
+          <input type="file" (change)="fotosSeleccionadas($event)" class="custom-file-input" lang="es" required
+            multiple>
+          <label *ngIf="files?.length<=0" class="custom-file-label" for="files">Seleccionar Archivos</label>
+          <label *ngIf="files?.length>0" class="custom-file-label" for="files">Seleccionaste {{files.length}}
+            archivos</label>
+        </div>
+      </div>
+      <div *ngIf="producto.id">
+        <div class="input-group">
+          <div class="custom-file">
+            <input type="file" class="custom-file-input" id="files" (change)="fotosSeleccionadas($event)" required
+              multiple>
+            <label *ngIf="files?.length<=0" class="custom-file-label" for="files">Seleccionar Archivo</label>
+            <label *ngIf="files?.length>0" class="custom-file-label" for="files">Seleccionaste {{files.length}}
+              imagenes</label>
+          </div>
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" (click)="actualizarImgs()" type="button"
+              [disabled]="files?.length<=0">Enviar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-group col">
+      <button type="button" *ngIf="!producto.id else elseBlock" (click)="crearProducto()"
+        class="btn btn-outline-primary btn-block">Guardar</button><br>
+      <ng-template #elseBlock>
+        <button type="button" (click)="actualizarProducto()"
+          class="btn btn-outline-primary btn-block">Actualizar</button>
+      </ng-template>
+    </div>
+  </form>
+</div>
