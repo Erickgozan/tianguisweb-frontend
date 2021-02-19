@@ -9,8 +9,9 @@ import { DetalleProductoComponent } from "./pages/detalle-producto/detalle-produ
 import { CarritoProductoComponent } from "./pages/carrito-producto/carrito-producto.component";
 import { ClienteComponent } from "./pages/form-cliente/cliente.component";
 import { LoginComponent } from "./pages/login/login.component";
+import { DireccionClienteComponent } from "./pages/direccion-cliente/direccion-cliente.component";
 
-const routes: Routes = [ 
+const routes: Routes = [
   //Ruta principal
   //{path:'', redirectTo:'lista-productos', pathMatch:'full'},
   { path: "", component: ListaProductosComponent },
@@ -32,8 +33,10 @@ const routes: Routes = [
   { path: "productos/detalles/:id", component: DetalleProductoComponent },
   //Ruta para el carrito de compras
   { path: "productos/carrito/:id", component: CarritoProductoComponent },
+  //Ruta para el formulario del direccion
+  {path: "direccion/form", component: DireccionClienteComponent },
   //Ruta para el formulario del cliente
-  { path: "cliente/form", component: ClienteComponent },
+  { path: "cliente/form", component: ClienteComponent},
   //Ruta para el login
   { path: "cliente/login", component: LoginComponent },
   //Ruta pie de pagina
