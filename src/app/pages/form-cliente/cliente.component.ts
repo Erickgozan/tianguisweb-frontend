@@ -13,39 +13,12 @@ import Swal from "sweetalert2";
 })
 export class ClienteComponent implements OnInit {
   public cliente: Cliente;
-  public direcciones: any;
-  public direccion: Direccion;
 
-  constructor(
-    private clienteService: ClienteService,
-    private direccionService: DireccionService
-  ) {
+  constructor(private clienteService: ClienteService) {
     this.cliente = new Cliente();
-    this.direccion = new Direccion();
   }
 
   ngOnInit(): void {}
-
-  //Obtener direcciones
-  public listarDirecciones(cp: number): void {
-    this.direccionService.obtenerDireciones(cp).subscribe(
-      (direcciones) => {
-        //this.direcciones = direcciones;
-        this.cliente.direccion = direcciones;
-        this.cliente.direccion.cp = direcciones[0].response.cp;
-        this.cliente.direccion.municipio = direcciones[0].response.municipio;
-        this.cliente.direccion.estado = direcciones[0].response.estado;      
-        
-        console.log( this.cliente.direccion.estado);
-      },
-      (err) => {
-        Swal.fire("Upps!", `${err.error.error_message}`, "error");
-        this.cliente.direccion.municipio = "";
-        this.cliente.direccion.estado = "";
-        this.direcciones = null;
-      }
-    );
-  }
 
   //Crear clientes
   public crearClientes(): void {
