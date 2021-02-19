@@ -10,4 +10,5 @@ export class Direccion{
     public cp:number;//1
     public estado:string;//1
     public clientes:Array<Cliente>;
+    public mensaje:string;
 }
