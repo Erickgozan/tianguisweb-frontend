@@ -1,0 +1,53 @@
+<div class="container mt-4 lead main">
+    <form method="POST" #formCliente="ngForm">
+        <div *ngIf="errores" class="alert alert-danger">
+            <p *ngFor="let error of errores">{{error}}</p>
+        </div>
+        <div class="form-row">
+            <!--Input codigo postal-->
+            <div class="form-group col-md-4">
+                <label for="codigoPostal">Codigo posta*</label>
+                <input type="number" class="form-control" #cp [(ngModel)]="direccion.cp" name="codigoPostal"
+                    (focusout)="listarDirecciones(cp.value)" required>
+                <div class="alert alert-danger my-2" *ngIf="cp.invalid && (cp.dirty || cp.touched)">
+                    <small class="form-text" *ngIf="cp.errors.required">Aqui ira el error</small>
+                </div>
+            </div>
+            <!--Input codigo Colonia-->
+            <div class="form-group col-md-4">
+                <label for="categoria">Colonia*</label>
+                <select class="form-control" [(ngModel)]="direccion.colonia" name="colonia" id="">
+                    <option [ngValue]="undefined">--Seleccionar--</option>
+                    <option *ngFor="let colonia of apiDirecciones" [ngValue]="">{{colonia.response.asentamiento}}</option>
+                </select>
+
+            </div>
+            <!--Input codigo Municipio-->
+            <div class="form-group col-md-4">
+                <label for="municipio">Municipio*</label>
+                <input type="text" class="form-control" name="municipio" [(ngModel)]="direccion.municipio">
+            </div>
+            <!--Input codigo Estado-->
+            <div class="form-group col-md-4">
+                <label for="estado">Estado</label>
+                <input type="text" class="form-control" name="estado" [(ngModel)]="direccion.estado">
+            </div>
+            <!--Input codigo Calle-->
+            <div class="form-group col-md-4">
+                <label for="calle">Calle*</label>
+                <input type="text" class="form-control" name="calle" [(ngModel)]="direccion.calle">
+            </div>
+            <!--Input codigo No exterior-->
+            <div class="form-group col-md-4">
+                <label for="noExterior">No. Exterior*</label>
+                <input type="number" class="form-control" name="noExterior" [(ngModel)]="direccion.noExterior">
+            </div>
+            <!--Input codigo No interior-->
+            <div class="form-group col-md-4">
+                <label for="noInterior">No. Interior</label>
+                <input type="number" class="form-control" name="noInterior" [(ngModel)]="direccion.noInterior">
+            </div>
+        </div>
+        <button type="submit" (click)="crearDireccion()" class="btn btn-outline-primary btn-block">Enviar</button>
+    </form>
+</div>
