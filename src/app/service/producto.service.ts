@@ -31,7 +31,7 @@ export class ProductoService {
         //Manejar error 400
         .pipe(
           catchError((err) => {
-            if (err.status == 400 && err.error_400) {
+            if (err.status == 400 && err.error.error_400) {
               return throwError(err);
             }
           })
@@ -40,21 +40,18 @@ export class ProductoService {
   }
 
   //Guardar productos
-  public saveProduct(file: Array<File>, producto): Observable<Producto> {
+  public saveProduct(file: Array<File>, producto: any): Observable<Producto> {;
     //Agregar todos los atributos del producto
     let formData = new FormData();
-    let mensajeImegen: string = "";
-    if (file === undefined) {
-      mensajeImegen = "No se ha seleccionado ninguna imagen";
-    } else {
-      formData.append("file", file[0]);
-      formData.append("file", file[1]);
-      formData.append("file", file[2]);
-      formData.append("file", file[3]);
-      formData.append("file", file[4]);
-    }
+    //Imagenes del producto
+    formData.append("file", file[0]);
+    formData.append("file", file[1]);
+    formData.append("file", file[2]);
+    formData.append("file", file[3]);
+    formData.append("file", file[4]);
+    //Datos del producto
     formData.append("nombre", producto.nombre);
-    formData.append("precio", producto.precio);
+    formData.append("precio",producto.precio);
     formData.append("descripcion", producto.descripcion);
     formData.append("caracteristicas", producto.caracteristicas);
     formData.append("stock", producto.stock);
@@ -64,18 +61,19 @@ export class ProductoService {
 
     return (
       this.http
-        .post<Producto>(`${this.urlEndPoint}/create`, formData)
-        //Manejar errores 400 y 500
+        .post<Producto>(`${this.urlEndPoint}/create`, formData)  
         .pipe(
+          //Convierte el producto de tipo any a tipo Producto
           map((response: any) => response.producto as Producto),
+           //Manejar errores 400 y 500
           catchError((err) => {
-            if (err.status == 400 && err.error_400) {
+            if (err.status == 400 && err.error.error_400) {
               return throwError(err);
             }
-            if (err.status == 500 && err.error_500) {
+            if (err.status == 500 && err.error.error_500) {
               return throwError(err);
             }
-            return throwError(err);
+            return throwError(err.status);
           })
         )
     );
@@ -88,11 +86,11 @@ export class ProductoService {
       .put<any>(`${this.urlEndPoint}/update/${producto.id}`, producto)
       .pipe(
         catchError((err) => {
-          if (err.status == 400 && err.error_400) {
+          if (err.status == 400 && err.error.error_400) {
             return throwError(err);
-          } else if (err.staus == 404 && err.error_404) {
+          } else if (err.staus == 404 && err.error.error_404) {
             return throwError(err);
-          } else if (err.status == 500 && err.error_500) {
+          } else if (err.status == 500 && err.error.error_500) {
             return throwError(err);
           }
           return throwError(err);
@@ -146,9 +144,9 @@ export class ProductoService {
       .put<any>(`${this.urlEndPoint}/image/delete/${id}/?img=${img}`, null)
       .pipe(
         catchError((err) => {
-          if (err.status == 404 && err.error_404) {
+          if (err.status == 404 && err.error.error_404) {
             return throwError(err);
-          } else if (err.status == 404 && err.error_500) {
+          } else if (err.status == 404 && err.error.error_500) {
             return throwError(err);
           }
           return throwError(err);
@@ -159,7 +157,7 @@ export class ProductoService {
   public deleteProduct(id: number): Observable<Producto> {
     return this.http.delete<Producto>(`${this.urlEndPoint}/delete/${id}`).pipe(
       catchError((err) => {
-        if (err.status == 404 && err.error_404) {
+        if (err.status == 404 && err.error.error_404) {
           return throwError(err);
         }
         return throwError(err);
