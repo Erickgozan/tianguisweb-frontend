@@ -11,7 +11,7 @@
       <div class="form-group col-md-6">
         <label for="nombre">Nombre:</label>
         <input type="text" class="form-control" [(ngModel)]="producto.nombre" name="nombre"
-          placeholder="Nombre del producto" required #nombre="ngModel">
+          placeholder="Nombre del producto" #nombre="ngModel" required>
         <div class="alert alert-danger my-2" *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)">
           <small *ngIf="nombre.errors.required">El nombre es requerido!</small>
         </div>
