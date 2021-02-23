@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 import { Route, Router } from "@angular/router";
 import { Direccion } from "src/app/entity/direccion";
 import { DireccionService } from "src/app/service/direccion.service";
@@ -6,11 +6,12 @@ import Swal from "sweetalert2";
 
 @Component({
   selector: "app-direccion-cliente",
-  templateUrl: "./direccion-cliente.component.html",
-  styleUrls: ["./direccion-cliente.component.css"],
+  templateUrl: "./direccion-cliente.component.html"
 })
 export class DireccionClienteComponent implements OnInit {
-  public direccion: Direccion;
+
+  @Input() public direccion: Direccion;
+  @Input() public idDireccion:number; 
   public apiDirecciones: any;
   public errores: Array<string>;
 
@@ -29,6 +30,7 @@ export class DireccionClienteComponent implements OnInit {
         this.direccion.cp = direcciones[0].response.cp;
         this.direccion.municipio = direcciones[0].response.municipio;
         this.direccion.estado = direcciones[0].response.estado;
+        
       },
       (err) => {
         Swal.fire("Upps!", `${err.error.error_message}`, "error");
@@ -42,6 +44,8 @@ export class DireccionClienteComponent implements OnInit {
   public crearDireccion(): void {
     this.direccionService.saveAddress(this.direccion).subscribe(
       (jsonDireccion) => {
+        this.idDireccion = jsonDireccion.direccion.id;
+        console.log( this.idDireccion);
         Swal.fire({
           icon: "success",
           title: "Genial!",
@@ -51,6 +55,7 @@ export class DireccionClienteComponent implements OnInit {
             this.route.navigate(["/cliente/form"])
           }
         });
+        
       },
       (err) => {
         if (err.status == 400) {
@@ -58,7 +63,7 @@ export class DireccionClienteComponent implements OnInit {
           Swal.fire({
             icon: "error",
             title: `Error: ${err.status}`,
-            text: "Todos los campos con * deben de estar llenos",
+            text: "Todos los campos con * deben de estar llenados",
           });
         }
       }
