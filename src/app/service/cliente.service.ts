@@ -22,7 +22,7 @@ export class ClienteService {
   public saveCustomer(cliente: Cliente): Observable<Cliente> {
     return this.http.post<Cliente>(`${this.urlEndPoint}/create`, cliente).pipe(
       catchError((err) => {
-        if (err.status == 400 && err.error_400) {
+        if (err.status == 400 && err.error.error_400) {
           return throwError(err);
         }
         return throwError(err);
@@ -34,13 +34,13 @@ export class ClienteService {
   public updateCustomer(cliente: Cliente, id: number): Observable<Cliente> {
     return this.http.put<Cliente>(`${this.urlEndPoint}/${id}`, cliente).pipe(
       catchError((err) => {
-        if (err.status == 404 && err.error_404) {
+        if (err.status == 404 && err.error.error_404) {
           return throwError(err);
         }
-        if (err.status == 400 && err.error_400) {
+        if (err.status == 400 && err.error.error_400) {
           return throwError(err);
         }
-        if (err.status == 500 && err.error_500) {
+        if (err.status == 500 && err.error.error_500) {
           return throwError(err);
         }
         return throwError(err);
