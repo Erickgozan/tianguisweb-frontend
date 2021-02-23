@@ -53,20 +53,16 @@ export class ProductoComponent implements OnInit {
     } else {
       this.productoService.saveProduct(this.files, this.producto).subscribe(
         (producto) => {
-          this.producto = producto;
-
+          // this.producto = producto;
           swal.fire(
             "Nuevo producto",
-            `Se ha creado el producto ${this.producto.nombre} con éxito`,
+            `Se ha creado el producto ${producto.nombre} con éxito`,
             "success"
           );
           this.router.navigate(["/"]);
         },
         (err) => {
-          this.errores = err.error.error_400 as string[];
-          if (err.status == 500) {
-            swal.fire("Error! ", `Error: ${err.error.message}`, "error");
-          }
+          this.errores = err.error.error_400 as Array<string>;
         }
       );
     }
