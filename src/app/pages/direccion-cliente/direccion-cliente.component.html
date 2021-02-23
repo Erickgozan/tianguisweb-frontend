@@ -1,8 +1,8 @@
 <div class="container mt-4 lead main">
     <form method="POST" #formCliente="ngForm">
-        <div *ngIf="errores" class="alert alert-danger">
-            <p *ngFor="let error of errores">{{error}}</p>
-        </div>
+        <ul *ngIf="errores" class="alert alert-danger">
+            <li *ngFor="let error of errores">{{error}}</li>
+        </ul>
         <div class="form-row">
             <!--Input codigo postal-->
             <div class="form-group col-md-4">
