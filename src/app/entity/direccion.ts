@@ -11,4 +11,5 @@ export class Direccion{
     public estado:string;//1
     public clientes:Array<Cliente>;
     public mensaje:string;
+    public direccion:any;
 }
