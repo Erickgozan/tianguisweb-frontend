@@ -23,7 +23,7 @@ export class CategoriaService {
     return this.http
       .post<Categoria>(`${this.urlEndPoint}/categorias/create`, categoria)
       .pipe(catchError((err) => {
-          if (err.status == 400 && err.error_400) {
+          if (err.status == 400 && err.error.error_400) {
             return throwError(err);
           }
           return throwError(err);
@@ -40,11 +40,11 @@ export class CategoriaService {
       )
       .pipe(
         catchError((err) => {
-          if (err.status == 400 && err.error_400) {
+          if (err.status == 400 && err.error.error_400) {
             return throwError(err);
-          } else if (err.status == 404 && err.error_404) {
+          } else if (err.status == 404 && err.error.error_404) {
             return throwError(err);
-          } else if (err.status == 500 && err.error_500) {
+          } else if (err.status == 500 && err.error.error_500) {
             return throwError(err);
           }
         })
@@ -59,10 +59,10 @@ export class CategoriaService {
       .delete<Categoria>(`${this.urlEndPoint}/categorias/delete/${id}`)
       .pipe(
         catchError((err) => {
-          if (err.status == 404 && err.error_404) {
+          if (err.status == 404 && err.error.error_404) {
             return throwError(err);
           }
-          if (err.status == 500 && err.error_500) {
+          if (err.status == 500 && err.error.error_500) {
             return throwError(err);
           }
           return throwError(err);
