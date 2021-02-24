@@ -122,13 +122,14 @@ export class ProductoComponent implements OnInit {
             });
         }
       }),
-      (err) => {
+      (err:any) => {
         this.errores = err.error.errores as Array<string>;
         if (err.stattus == 500) {
           swal.fire("Error!", `Error: ${err.error.message}`, "error");
         }
       };
   }
+
   //Actualiza todas las imagenes cuando no hay ninguna
   public actualizarImgs(): void {
     this.productoService
@@ -161,7 +162,7 @@ export class ProductoComponent implements OnInit {
             });
         }
       }),
-      (err) => {
+      (err:any) => {
         this.errores = err.console.error.error as string[];
         if (err.stattus == 500) {
           swal.fire("Error!", `Error: ${err.error.message}`, "error");
@@ -197,6 +198,7 @@ export class ProductoComponent implements OnInit {
         }
       });
   }
+  
   //Cargar el producto
   public cargarProducto(): void {
     this.activatedRoute.params.subscribe((params) => {
