@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Cliente } from "src/app/entity/cliente";
 import { Direccion } from "src/app/entity/direccion";
+import { Usuario } from "src/app/entity/usuario";
 import { ClienteService } from "src/app/service/cliente.service";
 import { DireccionService } from "src/app/service/direccion.service";
 import Swal from "sweetalert2";
@@ -12,9 +13,11 @@ import Swal from "sweetalert2";
   styleUrls: ["./cliente.component.css"],
 })
 export class ClienteComponent implements OnInit {
+
   public cliente: Cliente;
-  public direcciones: any;
+  public apiDirecciones: any;
   public direccion: Direccion;
+  public errores:Array<string>;
 
   constructor(
     private clienteService: ClienteService,
@@ -29,20 +32,18 @@ export class ClienteComponent implements OnInit {
   //Obtener direcciones
   public listarDirecciones(cp: number): void {
     this.direccionService.obtenerDireciones(cp).subscribe(
-      (direcciones) => {
-        //this.direcciones = direcciones;
-        this.cliente.direccion = direcciones;
-        this.cliente.direccion.cp = direcciones[0].response.cp;
-        this.cliente.direccion.municipio = direcciones[0].response.municipio;
-        this.cliente.direccion.estado = direcciones[0].response.estado;      
-        
-        console.log( this.cliente.direccion.estado);
+      (jsonDirecciones) => {
+        this.apiDirecciones = jsonDirecciones;
+        this.direccion.cp = jsonDirecciones[0].response.cp;
+        this.direccion.municipio = jsonDirecciones[0].response.municipio;
+        this.direccion.estado = jsonDirecciones[0].response.estado;
+        this.cliente.direccion = this.direccion;     
       },
-      (err) => {
+      (err: any) => {
         Swal.fire("Upps!", `${err.error.error_message}`, "error");
         this.cliente.direccion.municipio = "";
         this.cliente.direccion.estado = "";
-        this.direcciones = null;
+        this.apiDirecciones = null;
       }
     );
   }
@@ -50,18 +51,31 @@ export class ClienteComponent implements OnInit {
   //Crear clientes
   public crearClientes(): void {
     this.clienteService.saveCustomer(this.cliente).subscribe(
-      (cliente) => {
-        this.cliente = cliente;
+      (jsonCliente) => {
+        this.cliente = jsonCliente;
         Swal.fire(
           "Genial!!",
-          `Bienvenido(a) ${cliente.nombre} ${cliente.apellidoPaterno} ${cliente.apellidoMaterno}`,
+          `${jsonCliente.mensaje}`,
           "success"
-        );
+        ).then(result =>{
+          if(result.isConfirmed){
+              this.cliente = new Cliente();
+              this.direccion = new Direccion();
+              this.apiDirecciones = null;
+          }
+        });
+        console.log(this.cliente);
       },
       (err) => {
-        // this.errores = err.error.error_400 as Array<string>;
+        this.errores = err.error.error_400 as Array<string>;
+        if(err.status== 400){
+          Swal.fire(`Error: ${err.status}` , "Los campos con (*) son obligatorios", "error");
+          console.log(err);
+          
+        }
         if (err.status == 500) {
-          Swal.fire("Error!", `Error: ${err.error.message}`, "error");
+          Swal.fire(`Error: ${err.status}`, `Error: ${err.error.message}`, "error");
+          console.log(err);
         }
       }
     );
