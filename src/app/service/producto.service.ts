@@ -40,19 +40,16 @@ export class ProductoService {
   }
 
   //Guardar productos
-  public saveProduct(file: Array<File>, producto): Observable<Producto> {
+  public saveProduct(file: Array<File>, producto:any): Observable<Producto> {
     //Agregar todos los atributos del producto
     let formData = new FormData();
-    let mensajeImegen: string = "";
-    if (file === undefined) {
-      mensajeImegen = "No se ha seleccionado ninguna imagen";
-    } else {
-      formData.append("file", file[0]);
-      formData.append("file", file[1]);
-      formData.append("file", file[2]);
-      formData.append("file", file[3]);
-      formData.append("file", file[4]);
-    }
+    //Agregar las imagenes
+    formData.append("file", file[0]);
+    formData.append("file", file[1]);
+    formData.append("file", file[2]);
+    formData.append("file", file[3]);
+    formData.append("file", file[4]);
+    //Agregar los datos del producto
     formData.append("nombre", producto.nombre);
     formData.append("precio", producto.precio);
     formData.append("descripcion", producto.descripcion);
@@ -69,10 +66,10 @@ export class ProductoService {
         .pipe(
           map((response: any) => response.producto as Producto),
           catchError((err) => {
-            if (err.status == 400 && err.error_400) {
+            if (err.status == 400 && err.error.error_400) {
               return throwError(err);
             }
-            if (err.status == 500 && err.error_500) {
+            if (err.status == 500 && err.error.error_500) {
               return throwError(err);
             }
             return throwError(err);
@@ -88,11 +85,11 @@ export class ProductoService {
       .put<any>(`${this.urlEndPoint}/update/${producto.id}`, producto)
       .pipe(
         catchError((err) => {
-          if (err.status == 400 && err.error_400) {
+          if (err.status == 400 && err.error.error_400) {
             return throwError(err);
-          } else if (err.staus == 404 && err.error_404) {
+          } else if (err.staus == 404 && err.error.error_404) {
             return throwError(err);
-          } else if (err.status == 500 && err.error_500) {
+          } else if (err.status == 500 && err.error.error_500) {
             return throwError(err);
           }
           return throwError(err);
@@ -100,10 +97,10 @@ export class ProductoService {
       );
   }
   //Actualizar la imagen
-  public updateImg(file: File[], id): Observable<any> {
+  public updateImg(file: File[], id:number): Observable<any> {
     let formData = new FormData();
     formData.append("file", file[0]);
-    formData.append("id", id);
+    formData.append("id", id.toString());
     return this.http
       .put<any>(`${this.urlEndPoint}/image/update`, formData)
       .pipe(
@@ -118,22 +115,22 @@ export class ProductoService {
       );
   }
   //Actualizar las imagenes
-  public updateImgs(file: File[], id): Observable<any> {
+  public updateImgs(file: File[], id:number): Observable<any> {
     let formData = new FormData();
     formData.append("file", file[0]);
     formData.append("file", file[1]);
     formData.append("file", file[2]);
     formData.append("file", file[3]);
     formData.append("file", file[4]);
-    formData.append("id", id);
+    formData.append("id", id.toString());
 
     return this.http
       .put<any>(`${this.urlEndPoint}/image/update`, formData)
       .pipe(
         catchError((err) => {
-          if (err.status == 404 && err.error_404) {
+          if (err.status == 404 && err.error.error_404) {
             return throwError(err);
-          } else if (err.status == 500 && err.error_500) {
+          } else if (err.status == 500 && err.error.error_500) {
             return throwError(err);
           }
           return throwError(err);
@@ -146,9 +143,9 @@ export class ProductoService {
       .put<any>(`${this.urlEndPoint}/image/delete/${id}/?img=${img}`, null)
       .pipe(
         catchError((err) => {
-          if (err.status == 404 && err.error_404) {
+          if (err.status == 404 && err.error.error_404) {
             return throwError(err);
-          } else if (err.status == 404 && err.error_500) {
+          } else if (err.status == 404 && err.error.error_500) {
             return throwError(err);
           }
           return throwError(err);
@@ -159,7 +156,7 @@ export class ProductoService {
   public deleteProduct(id: number): Observable<Producto> {
     return this.http.delete<Producto>(`${this.urlEndPoint}/delete/${id}`).pipe(
       catchError((err) => {
-        if (err.status == 404 && err.error_404) {
+        if (err.status == 404 && err.error.error_404) {
           return throwError(err);
         }
         return throwError(err);
