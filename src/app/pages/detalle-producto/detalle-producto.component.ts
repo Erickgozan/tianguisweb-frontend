@@ -2,18 +2,24 @@ import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { Producto } from "src/app/entity/producto";
 import { ProductoService } from "src/app/service/producto.service";
+
+
 @Component({
   selector: "app-detalle-producto",
   templateUrl: "./detalle-producto.component.html",
 })
+
 export class DetalleProductoComponent implements OnInit {
+
   public producto: Producto;
   public imagen: string;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private productoService: ProductoService
-  ) {}
+  ) {
+    this.producto = new Producto();
+  }
 
   ngOnInit(): void {
     this.cargarProducto();
@@ -26,8 +32,12 @@ export class DetalleProductoComponent implements OnInit {
       if (id != null) {
         this.productoService
           .findProductById(id)
-          .subscribe((producto) => (this.producto = producto));
+          .subscribe((jsonProducto) =>{
+            this.producto = jsonProducto;
+          });
+        
       }
+      
     });
   }
   //Selecciona y muestra la imagen del producto.
