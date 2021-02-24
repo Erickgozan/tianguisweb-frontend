@@ -186,15 +186,18 @@ export class ProductoComponent implements OnInit {
         if (result.isConfirmed) {
           this.productoService
             .delteImg(this.producto.id, img)
-            .subscribe((imagen) => {
-              this.producto = imagen;
-              location.reload();
+            .subscribe((jsonResponse) => {
+              swal.fire(
+                "Eliminada!",
+               `$${jsonResponse.mensaje}`,
+                "success"
+              ).then(result=>{
+                if(result.isConfirmed){
+                  location.reload();
+                }
+              });
             });
-          swal.fire(
-            "Eliminada!",
-            "La imagen se ha eliminado correctamente.",
-            "success"
-          );
+          
         }
       });
   }
