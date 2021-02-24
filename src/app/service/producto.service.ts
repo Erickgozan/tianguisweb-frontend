@@ -31,16 +31,17 @@ export class ProductoService {
         //Manejar error 400
         .pipe(
           catchError((err) => {
-            if (err.status == 400 && err.error_400) {
+            if (err.status == 404 && err.error.error_404) {
               return throwError(err);
             }
+            return throwError(err);
           })
         )
     );
   }
 
   //Guardar productos
-  public saveProduct(file: Array<File>, producto:any): Observable<Producto> {
+  public saveProduct(file: Array<File>, producto: any): Observable<Producto> {
     //Agregar todos los atributos del producto
     let formData = new FormData();
     //Agregar las imagenes
@@ -97,7 +98,7 @@ export class ProductoService {
       );
   }
   //Actualizar la imagen
-  public updateImg(file: File[], id:number): Observable<any> {
+  public updateImg(file: File[], id: number): Observable<any> {
     let formData = new FormData();
     formData.append("file", file[0]);
     formData.append("id", id.toString());
@@ -115,7 +116,7 @@ export class ProductoService {
       );
   }
   //Actualizar las imagenes
-  public updateImgs(file: File[], id:number): Observable<any> {
+  public updateImgs(file: File[], id: number): Observable<any> {
     let formData = new FormData();
     formData.append("file", file[0]);
     formData.append("file", file[1]);

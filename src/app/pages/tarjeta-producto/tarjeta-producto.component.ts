@@ -9,6 +9,7 @@ import Swal from "sweetalert2";
   styleUrls: ["./tarjeta-producto.component.css"],
 })
 export class TarjetaProductoComponent implements OnInit {
+  
   @Input() public producto: Producto;
 
   constructor(private productoService: ProductoService) {}
