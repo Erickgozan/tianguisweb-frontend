@@ -27,11 +27,11 @@
             </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
-            <a style="cursor: pointer;" [routerLink]="['productos/carrito']" class="icon"><img
+            <a style="cursor: pointer;" [routerLink]="['/productos/carrito']" class="icon"><img
                     src="./assets/images/carrito2.png" alt="carrito" width="30px"></a>
+                    <span class="badge badge-dark icon-number" >{{carritoService.contarElemtosCarrito()}}</span>
             <input class="form-control mr-sm-2 lead" type="text" placeholder="Buscar productos...">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
-
         </form>
     </div>
 </nav>
