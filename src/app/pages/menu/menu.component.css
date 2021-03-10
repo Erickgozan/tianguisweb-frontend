@@ -11,5 +11,10 @@ li > a {
   color: black !important;
 }
 .icon {
-  margin: 0px 10px 5px 0px; /*top,rigth,buttom,left*/
+  margin: 0px 0px 0px 0px; /*top,rigth,buttom,left*/
+}
+
+.icon-number{
+  font-size: 11px!important;
+  margin-right: 15px;
 }
