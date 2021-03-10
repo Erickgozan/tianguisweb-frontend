@@ -54,7 +54,7 @@ export class CategoriaService {
   }
 
   //Eliminar categoria
-  public delateCategory(id: number): Observable<Categoria> {
+  public delateCategory(id: string): Observable<Categoria> {
     return this.http
       .delete<Categoria>(`${this.urlEndPoint}/categorias/delete/${id}`)
       .pipe(
