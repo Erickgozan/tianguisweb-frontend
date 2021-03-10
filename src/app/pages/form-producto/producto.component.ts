@@ -22,7 +22,6 @@ export class ProductoComponent implements OnInit {
 
   constructor(
     private productoService: ProductoService,
-    private categoriaService: CategoriaService,
     private router: Router,
     private activatedRoute: ActivatedRoute
   ) {
@@ -82,8 +81,8 @@ export class ProductoComponent implements OnInit {
       );
       this.router.navigate(["/"]);
     }),
-      (err) => {
-        this.errores = err.console.error.error_404 as string[];
+      (err: any) => {
+        this.errores = err.error.error_404 as string[];
         if (err.status == 500) {
           swal.fire("Error!", `Error: ${err.error.message}`, "error");
         }
@@ -122,7 +121,7 @@ export class ProductoComponent implements OnInit {
             });
         }
       }),
-      (err:any) => {
+      (err: any) => {
         this.errores = err.error.errores as Array<string>;
         if (err.stattus == 500) {
           swal.fire("Error!", `Error: ${err.error.message}`, "error");
@@ -162,8 +161,8 @@ export class ProductoComponent implements OnInit {
             });
         }
       }),
-      (err:any) => {
-        this.errores = err.console.error.error as string[];
+      (err: any) => {
+        this.errores = err.error.error as string[];
         if (err.stattus == 500) {
           swal.fire("Error!", `Error: ${err.error.message}`, "error");
         }
@@ -186,27 +185,28 @@ export class ProductoComponent implements OnInit {
         if (result.isConfirmed) {
           this.productoService
             .delteImg(this.producto.id, img)
-            .subscribe((imagen) => {
-              this.producto = imagen;
-              location.reload();
+            .subscribe((jsonResponse) => {
+              swal
+                .fire("Eliminada!", `${jsonResponse.mensaje}`, "success")
+                .then((result) => {
+                  if (result.isConfirmed) {
+                    location.reload();
+                  }
+                });
             });
-          swal.fire(
-            "Eliminada!",
-            "La imagen se ha eliminado correctamente.",
-            "success"
-          );
         }
       });
   }
-  
+
   //Cargar el producto
   public cargarProducto(): void {
     this.activatedRoute.params.subscribe((params) => {
       let id = params.id;
       if (id != null) {
-        this.productoService
-          .findProductById(id)
-          .subscribe((producto) => (this.producto = producto));
+        this.productoService.findProductById(id).subscribe((producto) => {
+          this.producto = producto;
+          console.log(producto);
+        });
       }
     });
   }

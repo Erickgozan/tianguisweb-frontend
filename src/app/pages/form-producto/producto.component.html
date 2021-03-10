@@ -85,13 +85,14 @@
         <!--Ruta que mustra la ventana para editar la cateoria-->
         <router-outlet></router-outlet>
         <a *ngIf="!producto.id" class="btn btn-outline-info btn-block" data-toggle="modal"
-          [routerLink]="['/productos/form/categoria']" data-target="#categoriaModal">Agregar
+          [routerLink]="['/productos/form/categorias']" data-target="#categoriaModal">Agregar
           categoria</a>
       </div>
     </div>
     <!--Campo de selección de archivos-->
     <div
       *ngIf="producto.img1!=null || producto.img2!=null || producto.img3!=null || producto.img4!=null || producto.img5!=null">
+      <!--Visualizar la imagen del producto-->
       <ul class="list-group">
         <!--Imagen 1-->
         <li *ngIf="producto.img1!=null" class="list-group-item"><img
@@ -145,24 +146,27 @@
     <!--Input file cuando no hay ninguna imagen-->
     <div
       *ngIf="producto.img1==null && producto.img2==null && producto.img3==null && producto.img4==null && producto.img5==null">
+      <!--Input file para guardar todas las imagenes cuando se crea el producto-->
       <div *ngIf="!producto.id">
-        <div class="custom-file">
-          <label for="files">Seleccioanar los archivos:</label>
-          <input type="file" (change)="fotosSeleccionadas($event)" class="custom-file-input" lang="es" required
-            multiple>
-          <label *ngIf="files?.length<=0" class="custom-file-label" for="files">Seleccionar Archivos</label>
-          <label *ngIf="files?.length>0" class="custom-file-label" for="files">Seleccionaste {{files.length}}
-            archivos</label>
+        <div class="input-group">
+          <div class="custom-file">
+            <input type="file" class="custom-file-input" id="files" (change)="fotosSeleccionadas($event)" required
+              multiple>
+            <label *ngIf="files?.length<=0" class="custom-file-label" for="files">Seleccionar Archivo</label>
+            <label *ngIf="files?.length>0" class="custom-file-label" for="files">{{files.length}}
+              imagenes seleccionadas</label>
+          </div>
         </div>
       </div>
+      <!--Input file para guardar todas las imagenes cuando se edita el producto-->
       <div *ngIf="producto.id">
         <div class="input-group">
           <div class="custom-file">
             <input type="file" class="custom-file-input" id="files" (change)="fotosSeleccionadas($event)" required
               multiple>
             <label *ngIf="files?.length<=0" class="custom-file-label" for="files">Seleccionar Archivo</label>
-            <label *ngIf="files?.length>0" class="custom-file-label" for="files">Seleccionaste {{files.length}}
-              imagenes</label>
+            <label *ngIf="files?.length>0" class="custom-file-label" for="files">{{files.length}}
+              imagenes seleccionadas</label>
           </div>
           <div class="input-group-append">
             <button class="btn btn-outline-secondary" (click)="actualizarImgs()" type="button"
@@ -171,6 +175,7 @@
         </div>
       </div>
     </div>
+    <br>
     <div class="form-group col">
       <button type="button" *ngIf="!producto.id else elseBlock" (click)="crearProducto()"
         class="btn btn-outline-primary btn-block">Guardar</button><br>
