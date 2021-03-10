@@ -18,6 +18,18 @@ export class ClienteService {
     return this.http.get<Array<Cliente>>(`${this.httpHeaders}`);
   }
 
+  //Buscar cliente
+  public findCustumerById(id:string):Observable<Cliente>{
+    return this.http.get<Cliente>(`${this.httpHeaders}/${id}`).pipe(
+      catchError((err) => {
+        if (err.status == 400 && err.error.error_400) {
+          return throwError(err);
+        }
+        return throwError(err);
+      })
+    );
+  }
+
   //Guardar a el cliente
   public saveCustomer(cliente: Cliente): Observable<Cliente> {
     return this.http.post<Cliente>(`${this.urlEndPoint}/create`, cliente).pipe(
@@ -31,7 +43,7 @@ export class ClienteService {
   }
 
   //Actualizar el cliente
-  public updateCustomer(cliente: Cliente, id: number): Observable<Cliente> {
+  public updateCustomer(cliente: Cliente, id: string): Observable<Cliente> {
     return this.http.put<Cliente>(`${this.urlEndPoint}/${id}`, cliente).pipe(
       catchError((err) => {
         if (err.status == 404 && err.error.error_404) {
@@ -47,4 +59,6 @@ export class ClienteService {
       })
     );
   }
+
+
 }
