@@ -1,8 +1,7 @@
 import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Router } from "@angular/router";
 import { Cliente } from "src/app/entity/cliente";
 import { Direccion } from "src/app/entity/direccion";
-import { Usuario } from "src/app/entity/usuario";
 import { ClienteService } from "src/app/service/cliente.service";
 import { DireccionService } from "src/app/service/direccion.service";
 import Swal from "sweetalert2";
@@ -21,7 +20,8 @@ export class ClienteComponent implements OnInit {
 
   constructor(
     private clienteService: ClienteService,
-    private direccionService: DireccionService
+    private direccionService: DireccionService,
+    private router:Router
   ) {
     this.cliente = new Cliente();
     this.direccion = new Direccion();
@@ -64,7 +64,7 @@ export class ClienteComponent implements OnInit {
               this.apiDirecciones = null;
           }
         });
-        console.log(this.cliente);
+        this.router.navigate(["/"]);
       },
       (err) => {
         this.errores = err.error.error_400 as Array<string>;
