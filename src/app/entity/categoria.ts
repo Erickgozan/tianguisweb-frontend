@@ -1,4 +1,4 @@
 export class Categoria {
-  public id: number;
+  public id: string;
   public nombre: string;
 }

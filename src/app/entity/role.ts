@@ -1,5 +1,5 @@
 export class Role{
-    public id:number;
+    public id:string;
     public nombre:string;
     
 }
