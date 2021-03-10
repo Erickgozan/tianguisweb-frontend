@@ -1,1 +1,67 @@
+<div class="container my-4 text-center">
+    <div class="row main" *ngFor="let pedido of pedido.productos">
+        <table class="table">
+            <thead class="thead-ligth">
+                <tr>
+                    <th scope="col">Imagen</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Precio</th>
+                    <th scope="col">Stock</th>
+                    <th scope="col">Cantidad</th>
+                    <th scope="col">Comprar</th>
+                    <th scope="col">Eliminar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <img src="http://localhost:8080/api/uploads/img/{{pedido.producto.img1}}" class="card-img-top"
+                            style="max-width: 100px;">
+                    </td>
+                    <td>
+                        <div class="col my-4">
+                            <p>{{pedido.producto.nombre}}</p>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="col my-4">
+                            <p>{{pedido.producto.precio | currency}}</p>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="col my-4">
+                            <p>{{pedido.producto.stock}}</p>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="my-3">
+                            <input type="number" min="1" [max]="pedido.producto.stock" class="form-control"
+                                [value]="pedido.cantidad"
+                                (change)="actualizarCantidad(pedido.producto,$event)">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="my-3">
+                            <button type="button" class="btn btn-primary">Compar</button>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="my-3">
+                            <button type="button" class="btn btn-danger"
+                                (click)="eliminarProducto(pedido.producto)">Eliminar</button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="col-12" *ngIf="pedido.productos.length<=0">
+        <p class="alert alert-info">Tu carrito esta vació!</p>
+    </div>
 
+    <div class="float-right text-wrap" *ngIf="pedido.productos.length>0">
+        <h4>Total: {{pedido.precioTotal | currency}}</h4>
+   </div>
+
+</div>
