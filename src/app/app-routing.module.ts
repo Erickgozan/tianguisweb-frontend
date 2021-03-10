@@ -21,7 +21,7 @@ const routes: Routes = [
     children: [
       {
         //Ruta para categorias
-        path: "categoria",
+        path: "categorias",
         component: CategoriaComponent,
       },
     ],
@@ -31,7 +31,7 @@ const routes: Routes = [
   //Ruta para ver detalles
   { path: "productos/detalles/:id", component: DetalleProductoComponent },
   //Ruta para el carrito de compras
-  { path: "productos/carrito/:id", component: CarritoProductoComponent },
+  { path: "productos/carrito", component: CarritoProductoComponent },
   //Ruta para el formulario del cliente
   { path: "cliente/form", component: ClienteComponent },
   //Ruta para el login
