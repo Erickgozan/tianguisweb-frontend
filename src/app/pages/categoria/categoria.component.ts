@@ -15,13 +15,12 @@ export class CategoriaComponent implements OnInit {
   public errores: string[];
   public habilitar: boolean;
   public buttonValue: string = "";
-  public idSeleccionado: number;
+  public idSeleccionado: string="";
 
   constructor(
     private productoService: ProductoService,
     private categoriaService: CategoriaService,
-    private router: Router,
-    private activatedRoute: ActivatedRoute
+    private router: Router
   ) {
     this.categoria = new Categoria();
     this.habilitar = false;
@@ -41,8 +40,8 @@ export class CategoriaComponent implements OnInit {
   //Crear categoria.
   public crearCategoria(): void {
     this.categoriaService.saveCategory(this.categoria).subscribe(
-      (catego) => {
-        this.categoria = catego;
+      () => {
+        this.categorias = this.categorias.filter(data => data !== this.categoria);
         Swal.fire(
           "Genial!",
           `La categoria se agrego con éxito!`,
@@ -93,11 +92,12 @@ export class CategoriaComponent implements OnInit {
   }
 
   //Selecciona la categoria para editarla
-  public seleccionarCategoria(id: number): void {
+  public seleccionarCategoria(id: string): void {
     this.idSeleccionado = id;
   }
 
-  public editarCategoria(categoria): void {
+  //Ediatar categoria
+  public editarCategoria(categoria:Categoria): void {
     this.categoriaService.editCategory(categoria).subscribe((json) => {
       Swal.fire(
         "Genial!",
@@ -105,10 +105,10 @@ export class CategoriaComponent implements OnInit {
         "success"
       ).then((result) => {
         if (result.isConfirmed) {
-          this.router.navigate(["/productos/form"]);
           location.reload();
         }
       });
+       this.router.navigate(["/productos/form"]);
     });
   }
 
