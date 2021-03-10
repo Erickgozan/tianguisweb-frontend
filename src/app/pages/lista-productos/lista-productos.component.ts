@@ -1,8 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ProductoService } from "src/app/service/producto.service";
-import { ActivatedRoute } from "@angular/router";
 import { Producto } from "src/app/entity/producto";
-import Swal from "sweetalert2";
 
 @Component({
   selector: "app-lista-productos",
@@ -13,9 +11,7 @@ export class ListaProductosComponent implements OnInit {
   public productos: Array<Producto>;
 
   constructor(
-    public productoService: ProductoService,
-    private activateRoute: ActivatedRoute
-  ) {}
+    public productoService: ProductoService  ) {}
 
   ngOnInit(): void {
     //Suscripcion al listados de productos
