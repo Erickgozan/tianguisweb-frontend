@@ -73,7 +73,13 @@
           <small class="from-text" *ngIf="confirmPasword.errors.required">La contraseña es requerida</small>
         </div>
       </div>
-      
+
+      <div class=" ml-4 mt-4">
+      <div class="form-check form-check-inline" *ngFor="let role of cliente.roles">
+        <input class="form-check-input" type="checkbox" [value]="role.id" >
+        <label class="form-check-label">{{role.nombre}}</label>
+      </div>
+    </div>
     </div>
 
 
