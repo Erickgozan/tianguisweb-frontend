@@ -184,7 +184,7 @@ export class ProductoComponent implements OnInit {
       .then((result) => {
         if (result.isConfirmed) {
           this.productoService
-            .delteImg(this.producto.id, img)
+            .delateImg(this.producto.id, img)
             .subscribe((jsonResponse) => {
               swal
                 .fire("Eliminada!", `${jsonResponse.mensaje}`, "success")
@@ -193,6 +193,8 @@ export class ProductoComponent implements OnInit {
                     location.reload();
                   }
                 });
+
+
             });
         }
       });
@@ -205,7 +207,6 @@ export class ProductoComponent implements OnInit {
       if (id != null) {
         this.productoService.findProductById(id).subscribe((producto) => {
           this.producto = producto;
-          console.log(producto);
         });
       }
     });
