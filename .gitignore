@@ -10,6 +10,9 @@
 #imagenes
 src/assets/images
 
+#fontawesome
+src/assets/fontawesome-5
+
 # dependencies
 /node_modules
 
