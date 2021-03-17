@@ -16,9 +16,11 @@ export class TarjetaProductoComponent implements OnInit {
   constructor(
     private productoService: ProductoService,
     private carritoService: CarritoService
-  ) {}
+  ) {
+  }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
   public eliminarProducto(producto: Producto): void {
     Swal.fire({
