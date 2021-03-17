@@ -2,6 +2,8 @@ import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { Cliente } from "src/app/entity/cliente";
 import { Direccion } from "src/app/entity/direccion";
+import { Role } from "src/app/entity/role";
+import { AuthService } from "src/app/service/Auth.service";
 import { ClienteService } from "src/app/service/cliente.service";
 import { DireccionService } from "src/app/service/direccion.service";
 import Swal from "sweetalert2";
@@ -21,13 +23,27 @@ export class ClienteComponent implements OnInit {
   constructor(
     private clienteService: ClienteService,
     private direccionService: DireccionService,
+    private authService:AuthService,
     private router:Router
   ) {
     this.cliente = new Cliente();
     this.direccion = new Direccion();
+    this.cliente.roles = new Array();
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.listarRoles();
+    //console.log(this.roles);  
+  }
+
+  //Obtener los roles
+
+  public listarRoles():void{
+    this.authService.findAllRoles().subscribe(roles=>{
+      this.cliente.roles = roles;
+      
+    });   
+  }
 
   //Obtener direcciones
   public listarDirecciones(cp: number): void {
