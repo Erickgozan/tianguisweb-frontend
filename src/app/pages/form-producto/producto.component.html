@@ -91,43 +91,42 @@
     </div>
     <!--Campo de selección de archivos-->
     <div
-      *ngIf="producto.img1!=null || producto.img2!=null || producto.img3!=null || producto.img4!=null || producto.img5!=null">
+      *ngIf="producto.img1!=undefined  || producto.img2!=undefined || producto.img3!=undefined || producto.img4!=undefined || producto.img5!=undefined">
       <!--Visualizar la imagen del producto-->
       <ul class="list-group">
         <!--Imagen 1-->
-        <li *ngIf="producto.img1!=null" class="list-group-item"><img
+        <li *ngIf="producto.img1!=''" class="list-group-item"><img
             src="http://localhost:8080/api/uploads/img/{{producto.img1}}" alt="{{producto.img1}}" width="100px"
             height="100px"> {{producto.img1}} <div style="float: right;"><button class="btn btn-danger"
               (click)="eliminarImg(producto.img1)">X</button></div>
         </li>
         <!--Imagen 2-->
-        <li *ngIf="producto.img2!=null" class="list-group-item"><img
+        <li *ngIf="producto.img2!=''" class="list-group-item"><img
             src="http://localhost:8080/api/uploads/img/{{producto.img2}}" alt="{{producto.img2}}" width="100px"
             height="100px"> {{producto.img2}} <div style="float: right;"><button class="btn btn-danger"
               (click)="eliminarImg(producto.img2)">X</button></div>
         </li>
         <!--Imagen 3-->
-        <li *ngIf="producto.img3!=null" class="list-group-item"><img
+        <li *ngIf="producto.img3!=''" class="list-group-item"><img
             src="http://localhost:8080/api/uploads/img/{{producto.img3}}" alt="{{producto.img3}}" width="100px"
             height="100px"> {{producto.img3}} <div style="float: right;"><button class="btn btn-danger"
               (click)="eliminarImg(producto.img3)">X</button></div>
         </li>
         <!--Imagen 4-->
-        <li *ngIf="producto.img4!=null" class="list-group-item"><img
+        <li *ngIf="producto.img4!=''" class="list-group-item"><img
             src="http://localhost:8080/api/uploads/img/{{producto.img4}}" alt="{{producto.img4}}" width="100px"
             height="100px"> {{producto.img4}} <div style="float: right;"><button class="btn btn-danger"
               (click)="eliminarImg(producto.img4)">X</button></div>
         </li>
         <!--Imagen 5-->
-        <li *ngIf="producto.img5!=null" class="list-group-item"><img
+        <li *ngIf="producto.img5!=''" class="list-group-item"><img
             src="http://localhost:8080/api/uploads/img/{{producto.img5}}" alt="{{producto.img5}}" width="100px"
             height="100px"> {{producto.img5}} <div style="float: right;"><button class="btn btn-danger"
               (click)="eliminarImg(producto.img5)">X</button></div>
         </li>
 
-        <!--Input file actualizar imagen-->
-        <li
-          *ngIf="producto.img1==null || producto.img2==null || producto.img3==null || producto.img4==null || producto.img5==null"
+        <!--Input file actualizar imagen por imagen-->
+        <li *ngIf="producto.img1=='' || producto.img2=='' || producto.img3=='' || producto.img4=='' || producto.img5==''"
           class="list-group-item">
           <div class="input-group">
             <div class="custom-file">
@@ -143,9 +142,8 @@
         </li>
       </ul>
     </div><br>
-    <!--Input file cuando no hay ninguna imagen-->
-    <div
-      *ngIf="producto.img1==null && producto.img2==null && producto.img3==null && producto.img4==null && producto.img5==null">
+    <!--Input file cuando no hay ninguna imagen-->  
+      
       <!--Input file para guardar todas las imagenes cuando se crea el producto-->
       <div *ngIf="!producto.id">
         <div class="input-group">
@@ -158,23 +156,7 @@
           </div>
         </div>
       </div>
-      <!--Input file para guardar todas las imagenes cuando se edita el producto-->
-      <div *ngIf="producto.id">
-        <div class="input-group">
-          <div class="custom-file">
-            <input type="file" class="custom-file-input" id="files" (change)="fotosSeleccionadas($event)" required
-              multiple>
-            <label *ngIf="files?.length<=0" class="custom-file-label" for="files">Seleccionar Archivo</label>
-            <label *ngIf="files?.length>0" class="custom-file-label" for="files">{{files.length}}
-              imagenes seleccionadas</label>
-          </div>
-          <div class="input-group-append">
-            <button class="btn btn-outline-secondary" (click)="actualizarImgs()" type="button"
-              [disabled]="files?.length<=0">Enviar</button>
-          </div>
-        </div>
-      </div>
-    </div>
+
     <br>
     <div class="form-group col">
       <button type="button" *ngIf="!producto.id else elseBlock" (click)="crearProducto()"
