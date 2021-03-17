@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable, OnInit } from "@angular/core";
 import { Observable } from "rxjs";
+import { EstadoPedido } from "../entity/estadoPedido.enum";
 import { ItemProducto } from "../entity/itemProducto";
 import { Pedido } from "../entity/pedido";
 import { Producto } from "../entity/producto";
@@ -25,7 +26,7 @@ export class CarritoService {
     this.pedido.cliente = null;
     this.pedido.productos = new Array();
     this.pedido.precioTotal = null;
-    this.pedido.estado = "VISTO";
+    this.pedido.estado = EstadoPedido.VISTO;
     this.pedido.createAt = new Date();
 
     this.cargarStorage();
