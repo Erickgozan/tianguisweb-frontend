@@ -106,7 +106,7 @@ export class ProductoService {
   public updateImg(file: File[], id:string): Observable<any> {
     let formData = new FormData();
     formData.append("file", file[0]);
-    formData.append("id", id.toString());
+    formData.append("id", id);
     return this.http
       .put<any>(`${this.urlEndPoint}/image/update`, formData)
       .pipe(
@@ -128,7 +128,7 @@ export class ProductoService {
     formData.append("file", file[2]);
     formData.append("file", file[3]);
     formData.append("file", file[4]);
-    formData.append("id", id.toString());
+    formData.append("id", id);
 
     return this.http
       .put<any>(`${this.urlEndPoint}/image/update`, formData)
@@ -145,7 +145,7 @@ export class ProductoService {
   }
 
   //Eliminar la imagen
-  public delteImg(id: string, img: string): Observable<any> {
+  public delateImg(id: string, img: string): Observable<any> {
     return this.http
       .put<any>(`${this.urlEndPoint}/image/delete/${id}/?img=${img}`, null)
       .pipe(
@@ -158,6 +158,8 @@ export class ProductoService {
           return throwError(err);
         })
       );
+      
+      
   }
 
   //Eliminar producto
