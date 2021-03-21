@@ -24,7 +24,7 @@ export class CarritoService {
   private initCarrito(): void {
     this.pedido.id="";
     this.pedido.cliente = null;
-    this.pedido.productos = new Array();
+    this.pedido.itemProductos = new Array();
     this.pedido.precioTotal = null;
     this.pedido.estado = EstadoPedido.VISTO;
     this.pedido.createAt = new Date();
@@ -36,19 +36,19 @@ export class CarritoService {
   public addProductoPedido(producto: Producto) {
     this.producto = producto;
 
-    let item = this.pedido.productos.find((productos) => {
+    let item = this.pedido.itemProductos.find((productos) => {
       return productos.producto.id === producto.id;
     });
 
     if (item !== undefined) {
       item.cantidad++;
-      item.producto.precio *= item.cantidad;
+      item.producto.precio = item.cantidad * this.producto.precio;
     } else {
       const addProductoCarrito: ItemProducto = {
         cantidad: 1,
         producto,
       };
-      this.pedido.productos.push(addProductoCarrito);
+      this.pedido.itemProductos.push(addProductoCarrito);
     }
 
     localStorage.setItem("pedido", JSON.stringify(this.pedido));
@@ -60,12 +60,7 @@ export class CarritoService {
   //Incrementar la cantidad del producto o eliminarlo desde el carrito de compras
   public addProductoPedidoChange(producto: Producto, event: any) {
     let cantidad = event.target.value as number;
-
-    //Obtener el producto original de la base de datos
-    this.productoService.findProductById(producto.id).subscribe((producto) => {
-      this.producto = producto;
-    });
-
+  
     //Eliminar si la cantidad de productos es igual a 0
     if (cantidad == 0) {
       this.eliminarItem(producto.id);
@@ -73,16 +68,21 @@ export class CarritoService {
     
     //Incrementa o disminuye la cantidad de preductos del itemProducto
     //Y modifica el precio del producto
-    this.pedido.productos = this.pedido.productos.map((item) => {
+    this.pedido.itemProductos = this.pedido.itemProductos.map((item) => {
       if (producto.id === item.producto.id) {
         item.cantidad = cantidad;
         //Multiplicar el precio original por la cantidad de productos
-        item.producto.precio = this.producto.precio * cantidad;
+        this.productoService.findProductById(producto.id).subscribe((jsonProducto) => {
+          this.producto = jsonProducto;
+          item.producto.precio = jsonProducto.precio * cantidad;
+        });
+        
       }
       return item;
     });
-        
+    //Calcular el precio total      
     this.sumarPrecioTotal();
+    //Agregar el pedido al local storage
     localStorage.setItem("pedido", JSON.stringify(this.pedido));
   }
 
@@ -93,14 +93,14 @@ export class CarritoService {
     itemProducto.cantidad = cantidad;
     itemProducto.producto = producto;
 
-    this.pedido.productos.push(itemProducto);
+    this.pedido.itemProductos.push(itemProducto);
 
     localStorage.setItem("pedido",JSON.stringify(this.pedido));
   }
 
   //Eliminar itemProducto
   public eliminarItem(id: string): void {
-    this.pedido.productos = this.pedido.productos.filter(
+    this.pedido.itemProductos = this.pedido.itemProductos.filter(
       (item) => id !== item.producto.id
     );
     this.sumarPrecioTotal();
@@ -115,7 +115,7 @@ export class CarritoService {
   //Contar todos los productos que se vayan agregando al carrito
   public contarElemtosCarrito(): number {
     let contarElementos: number = 0;
-    this.pedido.productos.forEach((itemProducto) => {
+    this.pedido.itemProductos.forEach((itemProducto) => {
       contarElementos += Number(itemProducto.cantidad);
     });
     return contarElementos;
@@ -124,9 +124,8 @@ export class CarritoService {
   //Obtener el precio total del pedio
   public sumarPrecioTotal(): void {
     let total: number = 0;
-    this.pedido.productos.forEach((itemPreudctos) => {
+    this.pedido.itemProductos.forEach((itemPreudctos) => {
       total += Number(itemPreudctos.producto.precio);
-      //console.log(itemPreudctos.producto.precio);
     });
     this.pedido.precioTotal = total;
   }
