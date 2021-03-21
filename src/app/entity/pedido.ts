@@ -5,7 +5,7 @@ import { EstadoPedido } from "./estadoPedido.enum";
 export class Pedido {
   id: string;
   cliente: Cliente;
-  productos: Array<ItemProducto>;
+  itemProductos: Array<ItemProducto>;
   precioTotal: number;
   estado: EstadoPedido;
   createAt: Date;
