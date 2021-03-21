@@ -1,15 +1,42 @@
-<form class="form-signin text-center">
-    <img class="mb-4" src="./assets/images/carrito.png" alt="" width="72" height="72">
-    <h1 class="h3 mb-3 font-weight-normal">Iniciar sesión</h1>
-    <label for="inputEmail" class="sr-only">Email</label>
-    <input type="email" class="form-control" placeholder="Email" required="" autofocus="">
-    <label for="inputPassword" class="sr-only">Contraseña</label>
-    <input type="password" class="form-control" placeholder="Contraseña" required=""><br>
-    <button class="btn btn-lg btn-outline-primary btn-block" type="submit">Ingresar</button><br>
-    <div class="checkbox mb-3">
-        <label>
-            <a [routerLink]="['/cliente/form']">Registrarse</a>
-        </label>
-    </div>
-    <p class="mt-5 mb-3 text-muted">© 2021</p>
-</form>
+<div id="logreg-forms">
+    <form *ngIf="!formRegistro && !formPassword" class="form-signin">
+        <h1 class="h3 mb-3 font-weight-normal text-center">Iniciar sesión</h1>
+        <div class="social-login">
+            <button class="btn facebook-btn social-btn mr-1" type="button"><span><i class="fab fa-facebook-f"></i> Iniciar con Facebook</span> </button>
+            <button class="btn google-btn social-btn" type="button"><span><i class="fab fa-google"></i> Iniciar con Google</span> </button>
+        </div>
+        <p style="text-align:center"> O </p>
+        <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="">
+        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="">
+        
+        <button class="btn btn-outline-success btn-block" type="submit"><i class="fas fa-sign-in-alt"></i> Iniciar</button>
+        <a style="cursor: pointer;"  (click)="formPassword = !formPassword">Olvidaste tu contraseña?</a>
+        <hr>
+
+        <!-- <p>Si no se tiene cuenta</p>  -->
+        <button class="btn btn-outline-primary btn-block" type="button" id="btn-signup" (click)="formRegistro = !formRegistro"><i class="fas fa-user-plus"></i> Crear una cuenta</button>
+        </form>
+        <!--Form para cambiar la contraseña-->
+        <form *ngIf="formPassword" action="/reset/password/" class="form-reset">
+            <h1 class="h3 mb-3 font-weight-normal text-center">Ingresa tu email</h1>
+            <input type="email" id="resetEmail" class="form-control" placeholder="Email address" required="" autofocus="">
+            <button class="btn btn-primary btn-block" type="submit">Restablecer contraseña</button>
+            <a style="cursor: pointer;"  id="cancel_reset" (click)="formPassword = !formPassword"><i class="fas fa-angle-left"></i> Back</a>
+        </form> 
+        <!--Form para el registro-->
+        <form *ngIf="formRegistro" action="/signup/" class="form-signup ">
+            <h1 class="h3 mb-3 font-weight-normal text-center">Crear cuenta</h1>
+            <div class="social-login">
+                <button class="btn facebook-btn social-btn" type="button"><span><i class="fab fa-facebook-f"></i> Iniciar con Facebook</span> </button>
+            </div>
+            <div class="social-login">
+                <button class="btn google-btn social-btn" type="button"><span><i class="fab fa-google"></i> Iniciar con Google</span> </button>
+            </div>
+            
+            <p style="text-align:center">O</p>
+            <!--Datos del usuario-->     
+            <app-cliente></app-cliente>
+            <a href="#" id="cancel_signup" (click)="formRegistro = !formRegistro"><i class="fas fa-angle-left"></i> Volver</a>
+        </form>
+        <br>       
+</div>
