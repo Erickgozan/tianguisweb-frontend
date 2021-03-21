@@ -9,18 +9,19 @@ import { Cliente } from "../entity/cliente";
 })
 export class ClienteService {
   public urlEndPoint: string = "http://localhost:8080/api/clientes";
-  public httpHeaders = new HttpHeaders({ "content-type": "application/json" });
+  
+  //public httpHeaders = new HttpHeaders({ "content-type": "application/json" });
 
   constructor(private http: HttpClient) {}
 
   //Retornar el listado de clientes
   public customerList(): Observable<Array<Cliente>> {
-    return this.http.get<Array<Cliente>>(`${this.httpHeaders}`);
+    return this.http.get<Array<Cliente>>(`${this.urlEndPoint}`);
   }
 
   //Buscar cliente
   public findCustumerById(id:string):Observable<Cliente>{
-    return this.http.get<Cliente>(`${this.httpHeaders}/${id}`).pipe(
+    return this.http.get<Cliente>(`${this.urlEndPoint}/${id}`).pipe(
       catchError((err) => {
         if (err.status == 400 && err.error.error_400) {
           return throwError(err);
