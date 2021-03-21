@@ -19,3 +19,12 @@ li > a {
   margin-right: 15px;
   
 }
+
+.navbar{
+  padding: 1rem 1rem;
+}
+
+*, ::after, ::before{
+  box-sizing: content-box;
+}
+
