@@ -1,5 +1,5 @@
 <div class="container my-4 text-center">
-    <div class="row main" *ngFor="let pedido of pedido.productos">
+    <div class="row main" *ngFor="let pedido of pedido.itemProductos">
         <table class="table">
             <thead class="thead-ligth">
                 <tr>
@@ -40,9 +40,9 @@
                                 (change)="actualizarCantidad(pedido.producto,$event)">
                         </div>
                     </td>
-                    <td>
+                    <td> 
                         <div class="my-3">
-                            <button type="button" class="btn btn-primary">Compar</button>
+                            <button type="button" class="btn btn-primary" (click)="generarPedido(pedido)">Compar</button>
                         </div>
                     </td>
                     <td>
@@ -56,11 +56,11 @@
         </table>
     </div>
     
-    <div class="col-12" *ngIf="pedido.productos.length<=0">
+    <div class="col-12" *ngIf="pedido.itemProductos.length<=0">
         <p class="alert alert-info">Tu carrito esta vació!</p>
     </div>
 
-    <div class="float-right text-wrap" *ngIf="pedido.productos.length>0">
+    <div class="float-right text-wrap" *ngIf="pedido.itemProductos.length>0">
         <h4>Total: {{pedido.precioTotal | currency}}</h4>
    </div>
 
