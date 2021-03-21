@@ -1,38 +1,135 @@
-<nav *ngIf="router.url!='/cliente/login'" class="navbar navbar-expand-sm  nav-color lead">
-    <a class="navbar-brand marca " href="#">
-        <h4>Tianguisweb.com</h4>
-    </a>
-    <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId"
-        aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="collapsibleNavId">
-        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-            <li class="nav-item dropdown" routerLinkActive="active">
-                <a class="nav-link dropdown-toggle" href="#" id="categorias" data-toggle="dropdown" aria-haspopup="true"
-                    aria-expanded="false">Categorias</a>
-                <div class="dropdown-menu" aria-labelledby="categorias" style="background-color: #262626;">
-                    <a *ngFor="let categoria of categorias" class="dropdown-item lead item" style="color: white; "
-                        href="#">{{categoria.nombre}}</a>
-                </div>
-            </li>
-            <li class="nav-item" routerLinkActive="active">
-                <a class="nav-link" [routerLink]="['productos/form']">Agregar producto</a>
-            </li>
-            <li class="nav-item" routerLinkActive="active">
-                <a class="nav-link" [routerLink]="['cliente/login']">Ingresar</a>
-            </li>
-            <li class="nav-item active color-white" routerLinkActive="active">
-                <a class="nav-link" href="#">Ofertas</a>
-            </li>
-        </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <a style="cursor: pointer;" [routerLink]="['/productos/carrito']">
-                <i class="fas fa-shopping-cart icon-number "> {{carritoService.contarElemtosCarrito()}}</i>
+<!--Menu responsivo-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a [routerLink]="['/']" title="Bootstrap" class="navbar-brand">
+                <h3 class="store-image" alt="Bootstrap" >Tianguisweb.com</h3>
             </a>
+            
+            <!--Boton que se muestra en modo responsivo-->
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                data-target="#navbarContainer" aria-controls="navbarContainer" aria-expanded="true"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse justify-content-end collapse show" id="navbarContainer">
+                <!--Formulario de busqueda responsivo-->
+                <br>
+                <form id="search_mini_form" class="d-lg-none d-md-block" method="get" action="/mx/search">
+                    <div class="input-group ">
+                        <input type="text" value="" name="q" class="form-control form-control-sm"
+                            placeholder="Buscar productos">
+                        <button type="submit" class="btn btn-outline-secondary ml-2"><i class="fas fa-search"></i></button>
+                    </div>
                     
-            <input class="form-control mr-sm-2 lead" type="text" placeholder="Buscar productos...">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
-        </form>
-    </div>
-</nav>
+                </form>
+                <hr>
+                <!--Inicio de los enlaces-->
+                <ul id="navbarContainerMobile" class="navbar-nav d-lg-none">
+                    <li class="nav-item">
+                        <a [routerLink]="['/']" routerLinkActive="active" title="Inicio" class="level-1 trsn" >Inicio</a>
+                    </li>
+                    <li class="nav-item dropdown " style="width: 50%;">
+                        <a  title="categoria" class="dropdown-toggle level-1 trsn nav-link"
+                            data-toggle="dropdown">Categorias</a>
+                        <ul class="dropdown-menu text-center text-center"  style="background-color: #262626;">
+                            <!--Lista de categorias-->
+                            <a *ngFor="let categoria of categorias" class="trsn nav-link"
+                                href="#" >{{categoria.nombre}}</a>
+                        </ul>
+                    </li>
+                
+                    <li class="nav-item  ">
+                        <a href="#" class="nav-link" >Ofertas</a>
+
+                    </li>
+                    <li class="nav-item  ">
+                        <a href="#" title="Contact" class="level-1 trsn nav-link">Contacto</a>
+
+                    </li>
+                </ul>
+                <hr>
+                <ul class="nav navbar-nav float-left nav-top">
+                    <li class="dropdown" routerLinkActive="active">
+                        <a href="#" class="dropdown-toggle trsn nav-link" data-toggle="dropdown" role="button"
+                            aria-haspopup="true" aria-expanded="false" >
+                            <span><i class="fas fa-clipboard mr-1"></i></span>
+                            <span>Panel</span>
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu text-center"  style="background-color: #262626;">
+                        
+                            <li><a [routerLink]="['productos/form']" routerLinkActive="active" class="trsn nav-link"
+                                title="Agregar producto">Agregar producto</a></li>
+
+                            <li><a href="#" class="trsn nav-link"
+                                    title="Lista de clientes">Lista de clientes</a></li>
+
+                            <li><a href="#" class="trsn nav-link"
+                                    title="Lista de pedidos">Lista de pedidos</a></li>
+
+                        </ul>
+                    </li>
+                    <li>
+                        <!--Carrito-->
+                        <a [routerLink]="['/productos/carrito']" class="trsn nav-link"
+                            title="Ver/Editar Carro" routerLinkActive="active">
+                            <i class="fas fa-shopping-cart mr-1"> </i>
+                            <span id="nav-bar-cart "><span class="cart-size">{{carritoService.contarElemtosCarrito()}}</span> Producto(s) </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a [routerLink]="['cliente/login']" routerLinkActive="active" id="login-link" class="trsn nav-link" title="Ingresar">
+                            <i class="fas fa-user"></i>
+                            <span class="customer-name">
+                                Ingresar
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+                <!--Formulario escritorio-->
+                <form id="search_mini_form" class="navbar-form float-right form-inline d-none d-lg-flex ml-1 " method="get"
+                    >
+                    <input type="text" value="" name="q" class="form-control form-control-sm"
+                         placeholder="Buscar productos">
+                    <button type="submit" class="btn btn-secondary btn-sm ml-2 p-2"><i class="fas fa-search "></i></button>
+                    <input type="hidden">
+                </form>
+                <ul class="social list-inline d-lg-none text-center">
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!--Menu secundario-->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light d-none d-lg-block " >
+        <div class="container">
+            <div class="collapse navbar-collapse" id="navbarsContainer-2">
+                <ul class="navbar-nav mr-auto">
+
+                    <li class="nav-item  ">
+                        <a [routerLink]="['/']" title="Inicio" class="level-1 trsn nav-link">Inicio</a>
+                    </li>
+                    <li class="nav-item dropdown" >
+                        <a href="#" title="Categoria" class="dropdown-toggle level-1 trsn nav-link"
+                            data-toggle="dropdown">Categorias</a>
+                        <ul class="dropdown-menu multi-level" >
+                            <li class="nav-item dropdown" >
+                                <!--Lista de categorias-->
+                                <a *ngFor="let categoria of categorias" class="trsn nav-link"
+                                    href="#">{{categoria.nombre}}</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item  ">
+                        <a href="#" title="Oferta" class="level-1 trsn nav-link">Ofertas</a>
+
+                    </li>
+                    <li class="nav-item  ">
+                        <a href="#" title="Contacto" class="level-1 trsn nav-link">Contacto</a>
+
+                    </li>
+                </ul>
+                <ul class="social navbar-toggler-right list-inline">
+                </ul>
+            </div>
+        </div>
+    </nav>
