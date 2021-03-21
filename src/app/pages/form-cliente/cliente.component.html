@@ -1,134 +1,77 @@
-<div class="container mt-4 lead main">
-  <!--Pila de errores-->
-  <ul class="alert alert-danger" *ngIf="errores?.length>0">
-    <li *ngFor="let error of errores">{{error}}</li>
-  </ul>
-  <form method="POST">
-    <div class="form-row">
-      <!--Input nombre-->
-      <div class="form-group col-md-4">
-        <label for="nombre">Nombre:*</label>
-        <input type="text" class="form-control" #nombre="ngModel" name="nombre" [(ngModel)]="cliente.nombre" required>
-        <div class="alert alert-danger my-2" *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)">
-          <small class="form-text" *ngIf="nombre.errors.required">El nombre es requerido</small>
-        </div>
-      </div>
-      <!--Input apellido paterno-->
-      <div class="form-group col-md-4">
-        <label for="apellidoPaterno">Apellido Paterno:*</label>
-        <input type="text" class="form-control" #apellidoPaterno="ngModel" name="apellidoPaterno"
-          [(ngModel)]="cliente.apellidoPaterno" required>
-        <div class="alert alert-danger my-2"
-          *ngIf="apellidoPaterno.invalid && (apellidoPaterno.dirty || apellidoPaterno.touched)">
-          <small class="form-text" *ngIf="apellidoPaterno.errors.required">El apellido paterno es requerido</small>
-        </div>
-      </div>
-      <!--Input apellido materno-->
-      <div class="form-group col-md-4">
-        <label for="apellidoMaterno">Apellido Materno:</label>
-        <input type="text" class="form-control" name="apellidoMaterno" [(ngModel)]="cliente.apellidoMaterno">
-      </div>
-      <!--Input telefono-->
-      <div class="form-group col-md-4">
-        <label for="telefono">Celular:*</label>
-        <input type="text" class="form-control" #telefono="ngModel" name="telefono" [(ngModel)]="cliente.telefono"
-          required>
-        <div class="alert alert-danger my-2" *ngIf="telefono.invalid && (telefono.dirty || telefono.touched)">
-          <small class="form-text" *ngIf="telefono.errors.required">El celular es requerido</small>
-        </div>
-      </div>
-      <!--Input usuario-->
-      <div class="form-group col-md-4">
-        <label for="username">Nombre de suario:*</label>
-        <input type="text" class="form-control" #username="ngModel" name="username" [(ngModel)]="cliente.username"
-          required>
-        <div class="alert alert-danger my-2" *ngIf="username.invalid && (username.dirty || username.touched)">
-          <small class="form-text" *ngIf="username.errors.required">El usuario es requerdio</small>
-        </div>
-      </div>
-      <!--Input email-->
-      <div class="form-group col-md-4">
-        <label for="email">Email*</label>
-        <input type="email" class="form-control" #email="ngModel" name="email" [(ngModel)]="cliente.email" required>
-        <div class="alert alert-danger my-2" *ngIf="email.invalid && (email.dirty || email.touched)">
-          <small class="form-text" *ngIf="email.errors.required">El usuario es requerdio</small>
-        </div>
-      </div>
-      <!--Input contraseña-->
-      <div class="form-group col-md-4">
-        <label for="password">Password*:</label>
-        <input type="password" #password="ngModel" [(ngModel)]="cliente.password" name="password" class="form-control"
-          required>
-        <div class="alert alert-danger my-2" *ngIf="password.invalid && (password.dirty || password.touched)">
-          <small class="from-text" *ngIf="password.errors.required">La contraseña es requerida</small>
-        </div>
-      </div>
-      <!--Input confirmar contraseña-->
-      <div class="form-group col-md-4">
-        <label for="confirmPasword">Confirmar password*:</label>
-        <input type="password" #confirmPasword="ngModel" [(ngModel)]="cliente.confirmPasword" name="confirmPasword"
-          class="form-control" required>
-        <div class="alert alert-danger my-2"
-          *ngIf="confirmPasword.invalid && (confirmPasword.dirty || confirmPasword.touched)">
-          <small class="from-text" *ngIf="confirmPasword.errors.required">La contraseña es requerida</small>
-        </div>
-      </div>
+<!--Pila de errores-->
+<ul class="alert alert-danger" *ngIf="errores?.length>0">
+  <li *ngFor="let error of errores">{{error}}</li>
+</ul>
 
-      <div class=" ml-4 mt-4">
-      <div class="form-check form-check-inline" *ngFor="let role of cliente.roles">
-        <input class="form-check-input" type="checkbox" [value]="role.id" >
-        <label class="form-check-label">{{role.nombre}}</label>
-      </div>
-    </div>
-    </div>
-
-
-    <!--Seccion de la direccion-->
-    <hr>
-
-    <div class="form-row">
-      <!--Input codigo postal-->
-      <div class="form-group col-md-4">
-        <label for="codigoPostal">Codigo posta*</label>
-        <input type="number" class="form-control" #cp [(ngModel)]="direccion.cp" name="codigoPostal"
-          (focusout)="listarDirecciones(cp.value)" required>
-      </div>
-      <!--Input codigo Colonia-->
-      <div class="form-group col-md-4">
-        <label for="categoria">Colonia*</label>
-        <select class="form-control" #colonia="ngModel" [(ngModel)]="direccion.colonia" name="colonia" required>
-          <option [ngValue]="undefined">--Seleccionar--</option>
-          <option *ngFor="let colonia of apiDirecciones" [ngValue]="colonia.response.asentamiento">
-            {{colonia.response.asentamiento}}</option>
-        </select>
-
-      </div>
-      <!--Input codigo Municipio-->
-      <div class="form-group col-md-4">
-        <label for="municipio">Municipio*</label>
-        <input type="text" class="form-control" name="municipio" [(ngModel)]="direccion.municipio">
-      </div>
-      <!--Input codigo Estado-->
-      <div class="form-group col-md-4">
-        <label for="estado">Estado*</label>
-        <input type="text" class="form-control" name="estado" [(ngModel)]="direccion.estado">
-      </div>
-      <!--Input codigo Calle-->
-      <div class="form-group col-md-4">
-        <label for="calle">Calle*</label>
-        <input type="text" class="form-control" name="calle" [(ngModel)]="direccion.calle">
-      </div>
-      <!--Input codigo No exterior-->
-      <div class="form-group col-md-4">
-        <label for="noExterior">No. Exterior*</label>
-        <input type="number" class="form-control" name="noExterior" [(ngModel)]="direccion.noExterior">
-      </div>
-      <!--Input codigo No interior-->
-      <div class="form-group col-md-4">
-        <label for="noInterior">No. Interior</label>
-        <input type="number" class="form-control" name="noInterior" [(ngModel)]="direccion.noInterior">
-      </div>
-    </div>
-    <button type="submit" (click)="crearClientes()" class="btn btn-outline-primary btn-block">Submit</button>
-  </form>
+<!--Input nombre-->
+<div class="form-group mb-2">
+<input type="text" class="form-control" #nombre="ngModel" name="nombre" [(ngModel)]="cliente.nombre" required placeholder="nombre">
 </div>
+<!--Input apellido paterno-->
+<div class="form-group mb-2">
+<input type="text" class="form-control" #apellidoPaterno="ngModel" name="apellidoPaterno"
+  [(ngModel)]="cliente.apellidoPaterno" required placeholder="apellido paterno">
+</div>
+<!--Input apellido materno-->
+<div class="form-group mb-2">
+<input type="text" class="form-control" name="apellidoMaterno" [(ngModel)]="cliente.apellidoMaterno" placeholder="apellido materno">
+</div>
+<!--Input telefono-->
+<div class="form-group mb-2">
+<input type="text" class="form-control" #telefono="ngModel" name="telefono" [(ngModel)]="cliente.telefono" required placeholder="No. de celular">
+</div>
+<!--Input usuario-->
+<div class="form-group mb-2">
+<input type="text" class="form-control" #username="ngModel" name="username" [(ngModel)]="cliente.username" required placeholder="nombre de usuario">
+</div>
+<!--Input email-->
+<div class="form-group mb-2">
+<input type="email" class="form-control" #email="ngModel" name="email" [(ngModel)]="cliente.email" required placeholder="email">
+</div>
+<!--Input contraseña-->
+<div class="form-group mb-2">
+<input type="password" #password="ngModel" [(ngModel)]="cliente.password" name="password" class="form-control" required placeholder="password">
+</div>
+<!--Input confirmar contraseña-->
+<div class="form-group mb-2">
+<input type="password" #confirmPasword="ngModel" [(ngModel)]="cliente.confirmPasword" name="confirmPasword"
+  class="form-control" required placeholder="confirmar password">
+</div>
+
+<!--Seccion de la direccion-->
+<hr>
+<!--Input codigo postal-->
+<div class="form-group mb-2">
+<input type="number" class="form-control" #cp [(ngModel)]="direccion.cp" name="codigoPostal"
+  (focusout)="listarDirecciones(cp.value)" required placeholder="codigo postal">  
+</div>
+<!--Input codigo Colonia-->
+<div class="form-group mb-2">
+<select class="form-control" #colonia="ngModel" [(ngModel)]="direccion.colonia" name="colonia" required>
+  <option [ngValue]="undefined">--Seleccionar--</option>
+  <option *ngFor="let colonia of apiDirecciones" [ngValue]="colonia.response.asentamiento">
+    {{colonia.response.asentamiento}}</option>
+</select>
+</div>
+
+<!--Input codigo Municipio-->
+<div class="form-group mb-2">
+<input type="text" class="form-control" name="municipio" [(ngModel)]="direccion.municipio" placeholder="municipio">
+</div>
+<!--Input codigo Estado-->
+<div class="form-group mb-2">
+<input type="text" class="form-control" name="estado" [(ngModel)]="direccion.estado" placeholder="estado">
+</div>
+<!--Input codigo Calle-->
+<div class="form-group mb-2">
+<input type="text" class="form-control" name="calle" [(ngModel)]="direccion.calle" placeholder="calle">
+</div>
+<!--Input codigo No exterior-->
+<div class="form-group mb-2">
+<input type="number" class="form-control" name="noExterior" [(ngModel)]="direccion.noExterior" placeholder="No. exterior">
+</div>
+<!--Input codigo No interior-->
+<div class="form-group mb-2">
+<input type="number" class="form-control" name="noInterior" [(ngModel)]="direccion.noInterior" placeholder="No. interior">
+</div>
+ <button type="submit" (click)="crearClientes()" class="btn btn-outline-primary btn-block"><i class="fas fa-user-plus"></i> Registrarse</button>
