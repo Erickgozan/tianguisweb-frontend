@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
 import { Observable, throwError } from "rxjs";
 import { Producto } from "../entity/producto";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { catchError, map, switchAll, tap } from "rxjs/operators";
+import { HttpClient } from "@angular/common/http";
+import { catchError, map} from "rxjs/operators";
 import { Categoria } from "../entity/categoria";
 
 @Injectable({
@@ -12,13 +12,12 @@ import { Categoria } from "../entity/categoria";
 export class ProductoService {
 
   private urlEndPoint: string = "http://localhost:8080/api/productos";
-  public productos:Array<Producto>;
-
-  //private httpHeaders = new HttpHeaders({ "Content-Type": "form-data" });
+  public productos: Array<Producto>;
 
   constructor(private http: HttpClient) {
     this.productos = new Array();
   }
+
 
   //Listar productos
   public puductList(): Observable<Array<Producto>> {
@@ -30,6 +29,7 @@ export class ProductoService {
   }
   //Buscar un producto por su id
   public findProductById(id: string): Observable<Producto> {
+
     return (
       this.http
         .get<Producto>(`${this.urlEndPoint}/${id}`)
@@ -39,14 +39,14 @@ export class ProductoService {
             if (err.status == 404 && err.error.error_404) {
               return throwError(err);
             }
-             return throwError(err);
+            return throwError(err);
           })
         )
     );
   }
 
   //Guardar productos
-  public saveProduct(file: Array<File>, producto:any): Observable<Producto> {
+  public saveProduct(file: Array<File>, producto: any): Observable<Producto> {
     //Agregar todos los atributos del producto
     let formData = new FormData();
     //Agregar las imagenes
@@ -69,6 +69,7 @@ export class ProductoService {
       this.http
         .post<Producto>(`${this.urlEndPoint}/create`, formData)
         //Manejar errores 400 y 500
+
         .pipe(
           map((response: any) => response.producto as Producto),
           catchError((err) => {
@@ -86,6 +87,7 @@ export class ProductoService {
 
   //Actualizar producto
   public updateProduct(producto): Observable<any> {
+
     //Agregar todos los atributos del producto
     return this.http
       .put<any>(`${this.urlEndPoint}/update/${producto.id}`, producto)
@@ -103,10 +105,12 @@ export class ProductoService {
       );
   }
   //Actualizar la imagen
-  public updateImg(file: File[], id:string): Observable<any> {
+  public updateImg(file: File[], id: string): Observable<any> {
+
     let formData = new FormData();
     formData.append("file", file[0]);
     formData.append("id", id);
+
     return this.http
       .put<any>(`${this.urlEndPoint}/image/update`, formData)
       .pipe(
@@ -121,7 +125,7 @@ export class ProductoService {
       );
   }
   //Actualizar las imagenes
-  public updateImgs(file: File[], id:string): Observable<any> {
+  public updateImgs(file: File[], id: string): Observable<any> {
     let formData = new FormData();
     formData.append("file", file[0]);
     formData.append("file", file[1]);
@@ -146,6 +150,7 @@ export class ProductoService {
 
   //Eliminar la imagen
   public delateImg(id: string, img: string): Observable<any> {
+
     return this.http
       .put<any>(`${this.urlEndPoint}/image/delete/${id}/?img=${img}`, null)
       .pipe(
@@ -158,12 +163,13 @@ export class ProductoService {
           return throwError(err);
         })
       );
-      
-      
+
+
   }
 
   //Eliminar producto
   public deleteProduct(id: string): Observable<Producto> {
+
     return this.http.delete<Producto>(`${this.urlEndPoint}/delete/${id}`).pipe(
       catchError((err) => {
         if (err.status == 404 && err.error.error_404) {
