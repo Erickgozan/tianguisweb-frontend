@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { Pedido } from "src/app/entity/pedido";
 import { Producto } from "src/app/entity/producto";
+import { Role } from "src/app/entity/role";
+import { AuthService } from "src/app/service/Auth.service";
 import { CarritoService } from "src/app/service/carrito.service";
 import { ProductoService } from "src/app/service/producto.service";
 import Swal from "sweetalert2";
@@ -11,11 +13,13 @@ import Swal from "sweetalert2";
   styleUrls: ["./tarjeta-producto.component.css"],
 })
 export class TarjetaProductoComponent implements OnInit {
+
   @Input() public producto: Producto;
 
   constructor(
     private productoService: ProductoService,
-    private carritoService: CarritoService
+    private carritoService: CarritoService,
+    public authService:AuthService
   ) {
   }
 
