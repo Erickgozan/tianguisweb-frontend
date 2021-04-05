@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { FooterComponent } from './pages/footer/footer.component';
@@ -18,6 +18,10 @@ import { CarritoProductoComponent } from './pages/carrito-producto/carrito-produ
 import { TarjetaProductoComponent } from './pages/tarjeta-producto/tarjeta-producto.component';
 import { ClienteComponent } from './pages/form-cliente/cliente.component';
 import { LoginComponent } from './pages/login/login.component';
+import { TokenInterceptor } from './entity/interceptors/token.interceptor';
+import { AuthInterceptor } from './entity/interceptors/auth.interceptor';
+import { FormDireccionComponent } from './pages/form-direccion/form-direccion.component';
+
 
 @NgModule({
   declarations: [
@@ -34,6 +38,7 @@ import { LoginComponent } from './pages/login/login.component';
     TarjetaProductoComponent,
     ClienteComponent,
     LoginComponent,
+    FormDireccionComponent,
   ],
   imports: [
     BrowserModule,
@@ -42,7 +47,8 @@ import { LoginComponent } from './pages/login/login.component';
     HttpClientModule,
     FormsModule,
   ],
-  providers: [],
+  providers: [{provide:HTTP_INTERCEPTORS,useClass:TokenInterceptor,multi:true},
+              {provide:HTTP_INTERCEPTORS,useClass:AuthInterceptor,multi:true},],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
