@@ -5,8 +5,7 @@ import { Usuario } from "./usuario";
 export class Cliente extends Usuario {
     
     public nombre: string;
-    public apellidoPaterno: string;
-    public apellidoMaterno: string;
+    public apellido: string;
     public telefono: string;
     public direccion: Direccion;
     public producto: Array<Producto>;
