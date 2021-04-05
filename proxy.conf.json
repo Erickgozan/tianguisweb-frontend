@@ -1,0 +1,7 @@
+{
+    "/query/info_cp":{
+        "target":"https://api-sepomex.hckdrk.mx",
+        "secure":false,
+        "changeOrigin":true
+    }
+}
