@@ -6,6 +6,7 @@ import { Categoria } from "src/app/entity/categoria";
 import { Router } from "@angular/router";
 import swal from "sweetalert2";
 import { CategoriaService } from "src/app/service/categoria.service";
+import { AuthService } from "src/app/service/Auth.service";
 
 @Component({
   selector: "app-producto",
@@ -23,7 +24,8 @@ export class ProductoComponent implements OnInit {
   constructor(
     private productoService: ProductoService,
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    public authService: AuthService
   ) {
     this.producto = new Producto();
     this.categoria = new Categoria();
@@ -36,6 +38,8 @@ export class ProductoComponent implements OnInit {
 
     this.cargarProducto();
   }
+
+
   //Cargar las imagenes seleccionadas
   public fotosSeleccionadas(event: { target: { files: File[] } }) {
     this.files = event.target.files;
