@@ -1,5 +1,5 @@
-<div class="card animated fadeIn fast text-center">
-    <a [routerLink]="['productos/detalles',producto.id]">
+<div class="card text-center">
+    <a [routerLink]="['productos/detalles',producto.id]" >
         <div *ngIf="producto.img1">
             <img src="http://localhost:8080/api/uploads/img/{{producto.img1}}" class="card-img-top"
                 [alt]="producto.img1" style="max-width: 500px;">
@@ -14,17 +14,18 @@
             carrito</button>
         <a href="#" class="btn btn-outline-info " [routerLink]="['productos/detalles',producto.id]"
             routerLinkActive="router-link-active" style="margin: 5px;">Ver detalles...</a>
-        <hr>
-        <div class="btn-group" role="group">
+       </div>
+       <hr *ngIf="authService.hasRole('ROLE_ADMIN')">
+        <div class="btn-group mb-4" role="group" *ngIf="authService.hasRole('ROLE_ADMIN')">
             <button id="btnGroupDrop1" type="button" class="btn btn-outline-secondary dropdown-toggle"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Mas opciones
             </button>
-            <div class="dropdown-menu ">
+            <div class="dropdown-menu " >
                 <a class="dropdown-item" [routerLink]="['productos/form',producto.id]">Editar</a>
                 <!---->
                 <a class="dropdown-item" (click)="eliminarProducto(producto)" style="cursor: pointer;">Eliminar</a>
             </div>
         </div>
-    </div>
+    
 </div>
