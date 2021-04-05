@@ -3,9 +3,11 @@ import { Router } from "@angular/router";
 import { Cliente } from "src/app/entity/cliente";
 import { Direccion } from "src/app/entity/direccion";
 import { Role } from "src/app/entity/role";
+import { Usuario } from "src/app/entity/usuario";
 import { AuthService } from "src/app/service/Auth.service";
 import { ClienteService } from "src/app/service/cliente.service";
 import { DireccionService } from "src/app/service/direccion.service";
+import { RoleService } from "src/app/service/role.service";
 import Swal from "sweetalert2";
 
 @Component({
@@ -16,22 +18,15 @@ import Swal from "sweetalert2";
 export class ClienteComponent implements OnInit {
 
   public cliente: Cliente;
-  public apiDirecciones: any;
   public role_user: Role;
-  public role_admin: Role;
-  public direccion: Direccion;
   public errores: Array<string>;
 
   constructor(
     private clienteService: ClienteService,
-    private direccionService: DireccionService,
-    private authService: AuthService,
-    private router: Router
+    private roleService: RoleService,
   ) {
     this.cliente = new Cliente();
-    this.direccion = new Direccion();
     this.role_user = new Role();
-    this.role_admin = new Role();
     this.cliente.roles = new Array();
   }
 
@@ -41,64 +36,39 @@ export class ClienteComponent implements OnInit {
 
   //Obtener los roles
   public listarRoles(): void {
-    this.authService.findAllRoles().subscribe(roles => {
-      this.role_admin = roles[0];
+    this.roleService.findAllRoles().subscribe(roles => {
       this.role_user = roles[1];
       this.cliente.roles.push(this.role_user);
       this.cliente.habilitado = true;
     });
   }
-
-  //Obtener direcciones
-  public listarDirecciones(cp: number): void {
-    this.direccionService.obtenerDireciones(cp).subscribe(
-      (jsonDirecciones) => {
-        this.apiDirecciones = jsonDirecciones;
-        this.direccion.cp = jsonDirecciones[0].response.cp;
-        this.direccion.municipio = jsonDirecciones[0].response.municipio;
-        this.direccion.estado = jsonDirecciones[0].response.estado;
-        this.cliente.direccion = this.direccion;
-      },
-      (err: any) => {
-        Swal.fire("Upps!", `${err.error.error_message}`, "error");
-        this.cliente.direccion.municipio = "";
-        this.cliente.direccion.estado = "";
-        this.apiDirecciones = null;
-      }
-    );
-  }
+ 
 
   //Crear clientes
   public crearClientes(): void {
-  
+
     this.clienteService.saveCustomer(this.cliente).subscribe(
-      (jsonCliente) => {
-        this.cliente = jsonCliente;
-        Swal.fire(
-          "Genial!!",
-          `${jsonCliente.mensaje}`,
-          "success"
-        ).then(result => {
-          if (result.isConfirmed) {
-            this.cliente = new Cliente();
-            this.direccion = new Direccion();
-            this.apiDirecciones = null;
-          }
-        });
-        this.router.navigate(["/"]);
-      },
-      (err) => {
+      () => {  
+        //console.log(this.cliente);
+           
+      }, (err) => {
         this.errores = err.error.error_400 as Array<string>;
         if (err.status == 400) {
           Swal.fire(`Error: ${err.status}`, "Los campos con (*) son obligatorios", "error");
-          console.log(err);
-
         }
         if (err.status == 500) {
-          Swal.fire(`Error: ${err.status}`, `Error: ${err.error.message}`, "error");
-          console.log(err);
+          let error_duplicado: string = err.error.error_500.localizedMessage.split(" ")[2];
+          Swal.fire(`Error: ${err.status}`, `El valor: ${error_duplicado} ya esta existe.`, "error");
         }
       }
     );
+
+    Swal.fire("Registro", `Bienvenido ${this.cliente.username} te has registrado con éxito, ahora puedes inicar sesión`, 'success')
+    .then(result => {
+      if (result.isConfirmed) {
+        location.reload();
+      }
+    });
+
   }
 }
