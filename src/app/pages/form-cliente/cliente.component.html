@@ -5,32 +5,28 @@
 
 <!--Input nombre-->
 <div class="form-group mb-2">
-<input type="text" class="form-control" #nombre="ngModel" name="nombre" [(ngModel)]="cliente.nombre" required placeholder="nombre">
+<input type="text" class="form-control" #nombre="ngModel" name="nombre" [(ngModel)]="cliente.nombre" required placeholder="nombre*">
 </div>
-<!--Input apellido paterno-->
+
+<!--Input apellido-->
 <div class="form-group mb-2">
-<input type="text" class="form-control" #apellidoPaterno="ngModel" name="apellidoPaterno"
-  [(ngModel)]="cliente.apellidoPaterno" required placeholder="apellido paterno">
-</div>
-<!--Input apellido materno-->
-<div class="form-group mb-2">
-<input type="text" class="form-control" name="apellidoMaterno" [(ngModel)]="cliente.apellidoMaterno" placeholder="apellido materno">
+<input type="text" class="form-control" name="apellido" [(ngModel)]="cliente.apellido" placeholder="apellido*">
 </div>
 <!--Input telefono-->
 <div class="form-group mb-2">
-<input type="text" class="form-control" #telefono="ngModel" name="telefono" [(ngModel)]="cliente.telefono" required placeholder="No. de celular">
+<input type="text" class="form-control" #telefono="ngModel" name="telefono" [(ngModel)]="cliente.telefono" required placeholder="No. de celular*">
 </div>
 <!--Input usuario-->
 <div class="form-group mb-2">
-<input type="text" class="form-control" #username="ngModel" name="username" [(ngModel)]="cliente.username" required placeholder="nombre de usuario">
+<input type="text" class="form-control" #username="ngModel" name="username" [(ngModel)]="cliente.username" required placeholder="nombre de usuario*">
 </div>
 <!--Input email-->
 <div class="form-group mb-2">
-<input type="email" class="form-control" #email="ngModel" name="email" [(ngModel)]="cliente.email" required placeholder="email">
+<input type="email" class="form-control" #email="ngModel" name="email" [(ngModel)]="cliente.email" required placeholder="email*">
 </div>
 <!--Input contraseña-->
 <div class="form-group mb-2">
-<input type="password" #password="ngModel" [(ngModel)]="cliente.password" name="password" class="form-control" required placeholder="password">
+<input type="password" #password="ngModel" [(ngModel)]="cliente.password" name="password" class="form-control" required placeholder="password*">
 </div>
 <!--Input confirmar contraseña-->
 <div class="form-group mb-2">
@@ -38,40 +34,5 @@
   class="form-control" required placeholder="confirmar password">
 </div>
 
-<!--Seccion de la direccion-->
-<hr>
-<!--Input codigo postal-->
-<div class="form-group mb-2">
-<input type="number" class="form-control" #cp [(ngModel)]="direccion.cp" name="codigoPostal"
-  (focusout)="listarDirecciones(cp.value)" required placeholder="codigo postal">  
-</div>
-<!--Input codigo Colonia-->
-<div class="form-group mb-2">
-<select class="form-control" #colonia="ngModel" [(ngModel)]="direccion.colonia" name="colonia" required>
-  <option [ngValue]="undefined">--Seleccionar--</option>
-  <option *ngFor="let colonia of apiDirecciones" [ngValue]="colonia.response.asentamiento">
-    {{colonia.response.asentamiento}}</option>
-</select>
-</div>
 
-<!--Input codigo Municipio-->
-<div class="form-group mb-2">
-<input type="text" class="form-control" name="municipio" [(ngModel)]="direccion.municipio" placeholder="municipio">
-</div>
-<!--Input codigo Estado-->
-<div class="form-group mb-2">
-<input type="text" class="form-control" name="estado" [(ngModel)]="direccion.estado" placeholder="estado">
-</div>
-<!--Input codigo Calle-->
-<div class="form-group mb-2">
-<input type="text" class="form-control" name="calle" [(ngModel)]="direccion.calle" placeholder="calle">
-</div>
-<!--Input codigo No exterior-->
-<div class="form-group mb-2">
-<input type="number" class="form-control" name="noExterior" [(ngModel)]="direccion.noExterior" placeholder="No. exterior">
-</div>
-<!--Input codigo No interior-->
-<div class="form-group mb-2">
-<input type="number" class="form-control" name="noInterior" [(ngModel)]="direccion.noInterior" placeholder="No. interior">
-</div>
  <button type="submit" (click)="crearClientes()" class="btn btn-outline-primary btn-block"><i class="fas fa-user-plus"></i> Registrarse</button>
