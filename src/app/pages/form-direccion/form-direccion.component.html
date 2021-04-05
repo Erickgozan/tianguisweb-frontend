@@ -1,0 +1,40 @@
+<!--Seccion de la direccion-->
+<div class="container mt-5">
+<!--Input codigo postal-->
+<div class="form-group mb-2">
+    <input type="number" class="form-control" #cp [(ngModel)]="direccion.cp" name="codigoPostal"
+        (focusout)="listarDirecciones(cp.value)" required placeholder="Codigo postal*" >
+</div>
+<!--Input codigo Colonia-->
+<div class="form-group mb-2">
+    <select class="form-control" #colonia="ngModel" [(ngModel)]="direccion.colonia" name="colonia" required>
+        <option [ngValue]="undefined">--Seleccionar*--</option>
+        <option *ngFor="let colonia of apiDirecciones" [ngValue]="colonia.response.asentamiento">
+            {{colonia.response.asentamiento}}</option>
+    </select>
+</div>
+
+<!-- Input codigo Municipio -->
+<div class="form-group mb-2">
+    <input type="text" class="form-control" name="municipio" [(ngModel)]="direccion.municipio" placeholder="Municipio*">
+</div>
+<!--Input codigo Estado-->
+<div class="form-group mb-2">
+    <input type="text" class="form-control" name="estado" [(ngModel)]="direccion.estado" placeholder="Estado*">
+</div>
+<!--Input codigo Calle-->
+<div class="form-group mb-2">
+    <input type="text" class="form-control" name="calle" [(ngModel)]="direccion.calle" placeholder="Calle*">
+</div>
+<!--Input codigo No exterior-->
+<div class="form-group mb-2">
+    <input type="number" class="form-control" name="noExterior" [(ngModel)]="direccion.noExterior"
+        placeholder="No. exterior*">
+</div>
+<!--Input codigo No interior-->
+<div class="form-group mb-2">
+    <input type="number" class="form-control" name="noInterior" [(ngModel)]="direccion.noInterior"
+        placeholder="No. interior">
+</div>
+<button type="submit" (click)="guardarDireccion()" class="btn btn-outline-primary btn-block"><i class="far fa-save"></i> Guardar</button>
+</div>
