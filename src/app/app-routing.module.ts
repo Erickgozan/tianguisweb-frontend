@@ -9,6 +9,9 @@ import { DetalleProductoComponent } from "./pages/detalle-producto/detalle-produ
 import { CarritoProductoComponent } from "./pages/carrito-producto/carrito-producto.component";
 import { ClienteComponent } from "./pages/form-cliente/cliente.component";
 import { LoginComponent } from "./pages/login/login.component";
+import { AuthGuard } from "./guards/auth.guard";
+import { RoleGuard } from "./guards/role.guard";
+import { FormDireccionComponent } from "./pages/form-direccion/form-direccion.component";
 
 const routes: Routes = [ 
   //Ruta principal
@@ -18,22 +21,28 @@ const routes: Routes = [
   {
     path: "productos/form",
     component: ProductoComponent,
+    canActivate:[AuthGuard, RoleGuard],data:{role:'ROLE_ADMIN'},
     children: [
       {
         //Ruta para categorias
         path: "categorias",
         component: CategoriaComponent,
+        canActivate:[AuthGuard,RoleGuard],data:{role:'ROLE_ADMIN'}
       },
     ],
   },
   //Ruta para edita
-  { path: "productos/form/:id", component: ProductoComponent },
+  { path: "productos/form/:id", component: ProductoComponent, 
+    canActivate:[AuthGuard,RoleGuard],data:{role:'ROLE_ADMIN'} },
   //Ruta para ver detalles
   { path: "productos/detalles/:id", component: DetalleProductoComponent },
   //Ruta para el carrito de compras
   { path: "productos/carrito", component: CarritoProductoComponent },
   //Ruta para el formulario del cliente
   { path: "cliente/form", component: ClienteComponent },
+  //Ruta par el formulario de direcciones
+  {path:"cliente/form/direccion/:id",component:FormDireccionComponent,
+  canActivate:[AuthGuard]},
   //Ruta para el login
   { path: "cliente/login", component: LoginComponent },
   //Ruta pie de pagina
