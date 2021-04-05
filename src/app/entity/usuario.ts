@@ -8,4 +8,5 @@ export class Usuario{
     public email:string;
     public habilitado:boolean;
     public roles:Array<Role>;
+    public rolesString:string[]=[];
 }
