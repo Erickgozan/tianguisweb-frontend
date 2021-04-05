@@ -1,15 +1,16 @@
 <div id="logreg-forms">
     <form *ngIf="!formRegistro && !formPassword" class="form-signin">
+        <!--Form de inicio de sesión-->
         <h1 class="h3 mb-3 font-weight-normal text-center">Iniciar sesión</h1>
         <div class="social-login">
             <button class="btn facebook-btn social-btn mr-1" type="button"><span><i class="fab fa-facebook-f"></i> Iniciar con Facebook</span> </button>
             <button class="btn google-btn social-btn" type="button"><span><i class="fab fa-google"></i> Iniciar con Google</span> </button>
         </div>
         <p style="text-align:center"> O </p>
-        <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="">
-        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="">
+        <input [(ngModel)]="usuario.username" type="email" class="form-control" placeholder="Nombre de usuario" name="usuario" required autofocus>
+        <input [(ngModel)]="usuario.password" type="password" class="form-control" placeholder="Password" name="password" required>
         
-        <button class="btn btn-outline-success btn-block" type="submit"><i class="fas fa-sign-in-alt"></i> Iniciar</button>
+        <button class="btn btn-outline-success btn-block" type="submit" (click)="login()"><i class="fas fa-sign-in-alt" ></i> Iniciar</button>
         <a style="cursor: pointer;"  (click)="formPassword = !formPassword">Olvidaste tu contraseña?</a>
         <hr>
 
@@ -19,7 +20,7 @@
         <!--Form para cambiar la contraseña-->
         <form *ngIf="formPassword" action="/reset/password/" class="form-reset">
             <h1 class="h3 mb-3 font-weight-normal text-center">Ingresa tu email</h1>
-            <input type="email" id="resetEmail" class="form-control" placeholder="Email address" required="" autofocus="">
+            <input type="email" class="form-control" placeholder="Email" required>
             <button class="btn btn-primary btn-block" type="submit">Restablecer contraseña</button>
             <a style="cursor: pointer;"  id="cancel_reset" (click)="formPassword = !formPassword"><i class="fas fa-angle-left"></i> Back</a>
         </form> 
