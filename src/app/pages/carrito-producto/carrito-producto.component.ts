@@ -5,9 +5,11 @@ import { EstadoPedido } from "src/app/entity/estadoPedido.enum";
 import { ItemProducto } from "src/app/entity/itemProducto";
 import { Pedido } from "src/app/entity/pedido";
 import { Producto } from "src/app/entity/producto";
+import { AuthService } from "src/app/service/Auth.service";
 import { CarritoService } from "src/app/service/carrito.service";
 import { ClienteService } from "src/app/service/cliente.service";
 import { CompraService } from "src/app/service/compra.service";
+import { ProductoService } from "src/app/service/producto.service";
 import Swal from "sweetalert2";
 
 @Component({
@@ -17,20 +19,29 @@ import Swal from "sweetalert2";
 })
 export class CarritoProductoComponent implements OnInit {
   public pedido: Pedido;
+  public producto: Producto;
   public cliente: Cliente;
 
   constructor(private carritoService: CarritoService,
     private clienteService: ClienteService,
-    private compraService: CompraService) {
-
+    private compraService: CompraService,
+    private authService: AuthService,
+    private router: Router) {
     this.pedido = carritoService.getPedido();
     this.cliente = new Cliente();
-    this.pedido.cliente = new Cliente();
-
   }
 
   ngOnInit(): void {
-    this.cargarClinete();
+
+    if (this.authService.token) {
+      this.obtenerCliente();
+    }
+
+  }
+
+  private obtenerCliente(): void {
+    this.clienteService.findCustumerById(this.authService.usuario.id).
+      subscribe(jsonClie => this.cliente = jsonClie)
   }
 
   //Actualizar la cantidad del producto
@@ -41,8 +52,8 @@ export class CarritoProductoComponent implements OnInit {
   //Elimina el item del producto
   public eliminarProducto(producto: Producto) {
     Swal.fire({
-      title: `¿Estas seguro de que deseas eliminar el producto ${producto.nombre}?`,
-      text: "Esta operación ya no se puede revertir!",
+      title: `Quitar del carrito!`,
+      text: `¿Estas seguro de que deseas eliminar el producto ${producto.nombre}?`,
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -60,55 +71,49 @@ export class CarritoProductoComponent implements OnInit {
     });
   }
 
-//Temporal para probar la logica de el metodo generar pedido
-  public cargarClinete(): void {
-    this.clienteService.findCustumerById("cc6dd638-1106-4afd-bc2b-54da2301d5ff")
-      .subscribe(jsonCiente => {
-        this.cliente = jsonCiente;
-        this.pedido.cliente.nombre = this.cliente.nombre;
-        this.pedido.cliente.apellidoMaterno = this.cliente.apellidoMaterno;
-        this.pedido.cliente.apellidoPaterno = this.cliente.apellidoPaterno;
-        this.pedido.cliente.direccion = this.cliente.direccion;
-        this.pedido.cliente.email = this.cliente.email;
-        this.pedido.cliente.fechaCompra = this.cliente.fechaCompra;
-        this.pedido.cliente.telefono = this.cliente.telefono;
-        this.pedido.cliente.username = this.cliente.username;
-        this.pedido.cliente.habilitado = this.cliente.habilitado;
-        this.pedido.cliente.id = this.cliente.id;
-        this.pedido.estado = EstadoPedido.ENVIADO;
-      })
-  }
-
-
   public generarPedido(item: ItemProducto): void {
 
-    this.pedido.itemProductos = new Array();
-    this.pedido.precioTotal = item.producto.precio;
-    this.pedido.itemProductos.push(item);
+    if (this.authService.isAuthenticated()) {
 
-    Swal.fire({
-      title: 'Confirmar la compra?',
-      text: `${item.producto.nombre}`,
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Si lo quiero!'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.compraService.generarCompra(this.pedido).subscribe();
-        Swal.fire(
-          `Ya es tuyo ${this.pedido.cliente.nombre}!`,
-          'Hemos confirmado tu compra.',
-          'success'
-        ).then((result) => {
+      if (this.cliente.direccion == null) {
+        Swal.fire("Bien ya pronto sera tuyo", "Necesitamos saber tu dirección.", "info")
+          .then(result => {
+            if (result.isConfirmed) {
+              this.router.navigate(["cliente/form/direccion", this.authService.usuario.id]);//,
+            }
+          });
+      } else {
+
+        Swal.fire({
+          title: 'Confirmar la compra?',
+          text: `${item.producto.nombre}`,
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Si lo quiero!'
+        }).then((result) => {
           if (result.isConfirmed) {
-            location.reload();
+            this.pedido.itemProductos = new Array();
+            this.pedido.precioTotal = item.producto.precio;
+            this.pedido.itemProductos.push(item);
+            if (this.pedido != null) {
+              this.compraService.generarCompra(this.pedido).subscribe();
+            }
+            Swal.fire(
+              `Ya es tuyo ${this.pedido.cliente.nombre}!`,
+              'Hemos confirmado tu compra.',
+              'success'
+            ).then(result => {
+              if (result.isConfirmed) {
+                location.reload();
+              }
+            });
           }
         });
-      } else {
-        location.reload();
       }
-    });
+    } else {
+      this.router.navigate(["/cliente/login"]);
+    }
   }
 }
