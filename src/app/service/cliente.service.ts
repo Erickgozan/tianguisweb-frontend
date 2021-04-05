@@ -45,7 +45,7 @@ export class ClienteService {
 
   //Actualizar el cliente
   public updateCustomer(cliente: Cliente, id: string): Observable<Cliente> {
-    return this.http.put<Cliente>(`${this.urlEndPoint}/${id}`, cliente).pipe(
+    return this.http.put<Cliente>(`${this.urlEndPoint}/update/${id}`, cliente).pipe(
       catchError((err) => {
         if (err.status == 404 && err.error.error_404) {
           return throwError(err);
