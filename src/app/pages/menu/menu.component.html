@@ -77,7 +77,7 @@
                                 class="cart-size">{{carritoService.contarElemtosCarrito()}}</span> Producto(s) </span>
                     </a>
                 </li>
-                <li *ngIf="!authService.isAuthenticated()">
+                <li *ngIf="!authService.isAuthenticated() && !isLogged">
                     <a [routerLink]="['cliente/login']" routerLinkActive="active" id="login-link" class="trsn nav-link"
                         title="Ingresar">
                         <i class="fas fa-user"></i>
@@ -86,11 +86,12 @@
                         </span>
                     </a>
                 </li>
-                <li *ngIf="authService.isAuthenticated()" class="dropdown" routerLinkActive="active">
+                <li *ngIf="authService.isAuthenticated() || isLogged" class="dropdown" routerLinkActive="active">
                     <a href="#" class="dropdown-toggle trsn nav-link" data-toggle="dropdown" role="button"
                         aria-haspopup="true" aria-expanded="false">
                         <span><i class="fas fa-user m-1"></i></span>
                         <span>{{authService.usuario.username}}</span>
+                        <span *ngIf="isLogged">{{userLogged.name}}</span>
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu text-center" style="background-color: #262626;">
@@ -100,6 +101,7 @@
                     </ul>
                 </li>
             </ul>
+                <img *ngIf="isLogged" src="{{userLogged.photoUrl}}" class="rounded-circle mr-3" style="width: 30px;">
             <!--Formulario escritorio-->
             <form id="search_mini_form" class="navbar-form float-right form-inline d-none d-lg-flex ml-1 " method="get">
                 <input type="text" value="" name="q" class="form-control form-control-sm"

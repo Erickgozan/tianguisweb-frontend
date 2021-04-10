@@ -3,8 +3,8 @@
         <!--Form de inicio de sesión-->
         <h1 class="h3 mb-3 font-weight-normal text-center">Iniciar sesión</h1>
         <div class="social-login">
-            <button class="btn facebook-btn social-btn mr-1" type="button"><span><i class="fab fa-facebook-f"></i> Iniciar con Facebook</span> </button>
-            <button class="btn google-btn social-btn" type="button"><span><i class="fab fa-google"></i> Iniciar con Google</span> </button>
+            <button class="btn facebook-btn social-btn mr-1" type="button" (click)="signInWithFB()"><span><i class="fab fa-facebook-f"></i> Iniciar con Facebook</span> </button>
+            <button class="btn google-btn social-btn" type="button" (click)="signInWithGoogle()"><span><i class="fab fa-google"></i> Iniciar con Google</span> </button>
         </div>
         <p style="text-align:center"> O </p>
         <input [(ngModel)]="usuario.username" type="email" class="form-control" placeholder="Nombre de usuario" name="usuario" required autofocus>
@@ -27,14 +27,15 @@
         <!--Form para el registro-->
         <form *ngIf="formRegistro" action="/signup/" class="form-signup ">
             <h1 class="h3 mb-3 font-weight-normal text-center">Crear cuenta</h1>
-            <div class="social-login">
+            <!--Social login-->
+            <!-- <div class="social-login">
                 <button class="btn facebook-btn social-btn" type="button"><span><i class="fab fa-facebook-f"></i> Iniciar con Facebook</span> </button>
             </div>
             <div class="social-login">
                 <button class="btn google-btn social-btn" type="button"><span><i class="fab fa-google"></i> Iniciar con Google</span> </button>
             </div>
-            
-            <p style="text-align:center">O</p>
+            <p style="text-align:center">O</p> -->
+
             <!--Datos del usuario-->     
             <app-cliente></app-cliente>
             <a href="#" id="cancel_signup" (click)="formRegistro = !formRegistro"><i class="fas fa-angle-left"></i> Volver</a>
