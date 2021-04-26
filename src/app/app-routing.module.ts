@@ -41,7 +41,7 @@ const routes: Routes = [
   //Ruta para el formulario del cliente
   { path: "cliente/form", component: ClienteComponent },
   //Ruta par el formulario de direcciones
-  {path:"cliente/form/direccion/:id",component:FormDireccionComponent,
+  {path:"cliente/form/direccion:/id",component:FormDireccionComponent,
   canActivate:[AuthGuard]},
   //Ruta para el login
   { path: "cliente/login", component: LoginComponent },
