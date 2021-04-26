@@ -1,5 +1,5 @@
 <div class="container mt-4 lead main" >
-  <form method="POST" enctype="multipart/form-data">
+  <form enctype="multipart/form-data" #f="ngForm" (ngSubmit)="crearProducto(f)">
     <div class="form-row ">
       <!--Lista de errores-->
       <ul class="alert alert-danger" *ngIf="errores?.length>0">
@@ -10,82 +10,125 @@
       <!--Campo Nombre--->
       <div class="form-group col-md-6">
         <label for="nombre">Nombre:</label>
-        <input type="text" class="form-control" [(ngModel)]="producto.nombre" name="nombre"
-          placeholder="Nombre del producto" required #nombre="ngModel">
-        <div class="alert alert-danger my-2" *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)">
-          <small *ngIf="nombre.errors.required">El nombre es requerido!</small>
-        </div>
+        <input type="text"
+         class="form-control"
+         name="nombre"
+         placeholder="Nombre del producto" 
+         #nombre="ngModel" 
+         [class.is-invalid]="nombre.invalid && nombre.touched"
+         [(ngModel)]="producto.nombre"       
+         required >
+          <small class="text-danger" *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)">El nombre es requerido!</small>
       </div>
       <!--Campo precio-->
-      <div class="form-group col-md-6">
+      <div class="form-group " [ngClass]="{colOferta:!producto.oferta}">
         <label for="precio">Precio:</label>
-        <input type="number" class="form-control" [(ngModel)]="producto.precio" name="precio" placeholder="Precio"
-          required #precio="ngModel">
-        <div class="alert alert-danger my-2" *ngIf="precio.invalid && (precio.dirty || precio.touched)">
-          <small *ngIf="precio.errors.required">El precio es requerido!</small>
-        </div>
+        <input type="number" 
+        class="form-control"
+        name="precio" 
+        placeholder="Precio"
+        #precio="ngModel"
+        [class.is-invalid]="precio.invalid && precio.touched"
+        [(ngModel)]="producto.precio"   
+          required >
+        <small class="text-danger" *ngIf="precio.invalid && (precio.dirty || precio.touched)">El precio es requerido!</small>
+      </div>
+      <!--Campo precio original-->
+      <div class="form-group col-md-3" *ngIf="producto.oferta">
+        <label for="precioOriginal">Precio original:</label>
+        <input 
+        type="number" 
+        class="form-control"
+        name="precioOriginal" 
+        placeholder="Precio original" 
+        #precioOriginal="ngModel"
+        [class.is-invalid]="precioOriginal.invalid && precioOriginal.touched"
+        [(ngModel)]="producto.precioOriginal"     
+        required >
+          <small class="text-danger" *ngIf="precioOriginal.invalid && (precioOriginal.dirty || precioOriginal.touched)">El precio es requerido!</small>
       </div>
     </div>
+    
     <!--Campo descripción-->
     <div class="form-group">
       <label for="descripcion">Descripción</label>
-      <textarea class="form-control" [(ngModel)]="producto.descripcion" name="descripcion" placeholder="Descripción"
-        required #descripcion="ngModel"></textarea>
-      <div class="alert alert-danger my-2" *ngIf="descripcion.invalid && (descripcion.dirty || descripcion.touched)">
-        <small *ngIf="descripcion.errors.required">La descrición es requerida!</small>
-      </div>
+      <textarea 
+      class="form-control" 
+      name="descripcion" 
+      placeholder="Descripción"
+      #descripcion="ngModel"
+      [class.is-invalid]="descripcion.invalid && descripcion.touched"
+      [(ngModel)]="producto.descripcion"    
+        required></textarea>
+        <small class="text-danger" *ngIf="descripcion.invalid && (descripcion.dirty || descripcion.touched)">La descrición es requerida!</small>
     </div>
     <!--Campos caracteristicas-->
     <div class="form-group">
       <label for="caracteristicas">Características</label>
-      <textarea class="form-control" [(ngModel)]="producto.caracteristicas" name="caracteristicas"
-        placeholder="características" required #caracteristicas="ngModel"></textarea>
-      <div class="alert alert-danger my-2"
-        *ngIf="caracteristicas.invalid && (caracteristicas.dirty || caracteristicas.touched)">
-        <small *ngIf="caracteristicas.errors.required">La característica es requerida!</small>
-      </div>
+      <textarea
+       class="form-control"
+       name="caracteristicas"
+       placeholder="Características"
+       #caracteristicas="ngModel"
+      [class.is-invalid]="caracteristicas.invalid && caracteristicas.touched"
+       [(ngModel)]="producto.caracteristicas"     
+       required ></textarea>
+        <small class="text-danger" *ngIf="caracteristicas.invalid && (caracteristicas.dirty || caracteristicas.touched)">La característica es requerida!</small>
     </div>
 
     <div class="form-row">
       <!--Campo stock-->
       <div class="form-group col-md-4">
         <label for="stock">Stock</label>
-        <input type="number" class="form-control" [(ngModel)]="producto.stock" name="stock"
-          placeholder="Cantidad de productos" required #stock="ngModel">
-        <div class="alert alert-danger my-2" *ngIf="stock.invalid && (stock.dirty || stock.touched)">
-          <small *ngIf="stock.errors.required">El stock es requerido!</small>
-        </div>
+        <input 
+        type="number"
+        class="form-control"
+        name="stock"
+        placeholder="Cantidad de productos"
+        #stock="ngModel"
+        [class.is-invalid]="stock.invalid && stock.touched"
+        [(ngModel)]="producto.stock"
+        required >
+          <small class="text-danger" *ngIf="stock.invalid && (stock.dirty || stock.touched)">El stock es requerido!</small>
       </div>
       <!--Campo oferta-->
       <div class="form-group col-md-4">
         <label for="oferta">Oferta</label>
-        <select class="form-control" [(ngModel)]="producto.oferta" name="oferta" required #oferta="ngModel">
-          <option [ngValue]="undefined">--Seleccionar--</option>
-          <option>true</option>
-          <option>false</option>
+        <select 
+        class="form-control"
+        name="oferta" 
+        #oferta="ngModel"
+        [class.is-invalid]="oferta.invalid && oferta.touched"
+        [(ngModel)]="producto.oferta"   
+        required >
+          <option [ngValue]=0>--Seleccionar--</option>
+          <option [ngValue]=true>Con oferta</option>
+          <option [ngValue]=false>Sin oferta</option>
         </select>
-        <div class="alert alert-danger my-2" *ngIf="oferta.invalid && (oferta.dirty || oferta.touched)">
-          <small *ngIf="oferta.errors.required">La oferta es requerida!</small>
-        </div> 
+          <small class="text-danger" *ngIf="oferta.invalid && (oferta.dirty || oferta.touched)">La oferta es requerida!</small>
       </div>
       <!--Campo categoria-->
       <div class="form-group col-md-2">
         <label for="categoria">Categoria</label>
-        <select [compareWith]="compararCategoria" [(ngModel)]="producto.categoria" name="categoria" type="categoria"
-          class="form-control" required #categoria="ngModel">
+        <select 
+          name="categoria" 
+          class="form-control" 
+          #categoria="ngModel"
+         [class.is-invalid]="categoria.invalid && categoria.touched"
+          [compareWith]="compararCategoria"
+          [(ngModel)]="producto.categoria"        
+          required >
           <option [ngValue]="undefined">--Seleccionar--</option>
           <option *ngFor="let categoria of categorias" [ngValue]="categoria">{{categoria.nombre}}</option>
         </select>
-        <div class="alert alert-danger my-2" *ngIf="categoria.invalid && (categoria.dirty || categoria.touched)">
-          <small *ngIf="categoria.errors.required">La categoria es requerida</small>
-        </div>
+          <small class="text-danger" *ngIf="categoria.invalid && (categoria.dirty || categoria.touched)">La categoria es requerida</small>
       </div>
       <!--Boton para agregar categoria-->
       <div class="form-group col-md-2 " style="margin-top: 2rem">
         <!--Ruta que mustra la ventana para editar la cateoria-->
-        <router-outlet></router-outlet>
+        <app-categoria></app-categoria>
         <a *ngIf="!producto.id" class="btn btn-outline-info btn-block" data-toggle="modal"
-          [routerLink]="['/productos/form/categorias']" data-target="#categoriaModal">Agregar
+          [routerLink]="['/productos/form/categorias']" data-target="#categoriaModal"><i class="fas fa-plus"></i> Agregar
           categoria</a>
       </div>
     </div>
@@ -98,31 +141,31 @@
         <li *ngIf="producto.img1!=''" class="list-group-item"><img
             src="http://localhost:8080/api/uploads/img/{{producto.img1}}" alt="{{producto.img1}}" width="100px"
             height="100px"> {{producto.img1}} <div style="float: right;"><button class="btn btn-danger"
-              (click)="eliminarImg(producto.img1)">X</button></div>
+              (click)="eliminarImg(producto.img1)"><i class="fas fa-times"></i></button></div>
         </li>
         <!--Imagen 2-->
         <li *ngIf="producto.img2!=''" class="list-group-item"><img
             src="http://localhost:8080/api/uploads/img/{{producto.img2}}" alt="{{producto.img2}}" width="100px"
             height="100px"> {{producto.img2}} <div style="float: right;"><button class="btn btn-danger"
-              (click)="eliminarImg(producto.img2)">X</button></div>
+              (click)="eliminarImg(producto.img2)"><i class="fas fa-times"></i></button></div>
         </li>
         <!--Imagen 3-->
         <li *ngIf="producto.img3!=''" class="list-group-item"><img
             src="http://localhost:8080/api/uploads/img/{{producto.img3}}" alt="{{producto.img3}}" width="100px"
             height="100px"> {{producto.img3}} <div style="float: right;"><button class="btn btn-danger"
-              (click)="eliminarImg(producto.img3)">X</button></div>
+              (click)="eliminarImg(producto.img3)"><i class="fas fa-times"></i></button></div>
         </li>
         <!--Imagen 4-->
         <li *ngIf="producto.img4!=''" class="list-group-item"><img
             src="http://localhost:8080/api/uploads/img/{{producto.img4}}" alt="{{producto.img4}}" width="100px"
             height="100px"> {{producto.img4}} <div style="float: right;"><button class="btn btn-danger"
-              (click)="eliminarImg(producto.img4)">X</button></div>
+              (click)="eliminarImg(producto.img4)"><i class="fas fa-times"></i></button></div>
         </li>
         <!--Imagen 5-->
         <li *ngIf="producto.img5!=''" class="list-group-item"><img
             src="http://localhost:8080/api/uploads/img/{{producto.img5}}" alt="{{producto.img5}}" width="100px"
             height="100px"> {{producto.img5}} <div style="float: right;"><button class="btn btn-danger"
-              (click)="eliminarImg(producto.img5)">X</button></div>
+              (click)="eliminarImg(producto.img5)"><i class="fas fa-times"></i></button></div>
         </li>
 
         <!--Input file actualizar imagen por imagen-->
@@ -130,7 +173,7 @@
           class="list-group-item">
           <div class="input-group">
             <div class="custom-file">
-              <input type="file" class="custom-file-input" id="file-1" (change)="fotosSeleccionadas($event)" required>
+              <input type="file" class="custom-file-input" id="file-1" (change)="fotosSeleccionadas($event)" >
               <label *ngIf="files?.length<=0" class="custom-file-label" for="file-1">Seleccionar Archivo</label>
               <label *ngIf="files?.length>0" class="custom-file-label" for="file-1">{{files[0].name}}</label>
             </div>
@@ -148,8 +191,11 @@
       <div *ngIf="!producto.id">
         <div class="input-group">
           <div class="custom-file">
-            <input type="file" class="custom-file-input" id="files" (change)="fotosSeleccionadas($event)" required
-              multiple>
+            <input type="file"
+             class="custom-file-input" 
+             id="files"
+             (change)="fotosSeleccionadas($event)" 
+              multiple style="cursor: pointer;">
             <label *ngIf="files?.length<=0" class="custom-file-label" for="files">Seleccionar Archivo</label>
             <label *ngIf="files?.length>0" class="custom-file-label" for="files">{{files.length}}
               imagenes seleccionadas</label>
@@ -159,11 +205,11 @@
 
     <br>
     <div class="form-group col">
-      <button type="button" *ngIf="!producto.id else elseBlock" (click)="crearProducto()"
-        class="btn btn-outline-primary btn-block">Guardar</button><br>
+      <button type="submit" *ngIf="!producto.id else elseBlock"
+        class="btn btn-outline-primary btn-block"><i class="fas fa-save"></i> Guardar</button><br>
       <ng-template #elseBlock>
-        <button type="button" (click)="actualizarProducto()"
-          class="btn btn-outline-primary btn-block">Actualizar</button>
+        <button type="submit" (click)="actualizarProducto(f)"
+          class="btn btn-outline-primary btn-block"><i class="fas fa-save"></i> Actualizar</button>
       </ng-template>
     </div>
   </form>
