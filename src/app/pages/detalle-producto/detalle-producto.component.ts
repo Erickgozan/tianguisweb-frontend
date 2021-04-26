@@ -1,7 +1,7 @@
-import { Component, OnInit } from "@angular/core";
+import { Component,  OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
+import { Categoria } from "src/app/entity/categoria";
 import { Cliente } from "src/app/entity/cliente";
-import { ItemProducto } from "src/app/entity/itemProducto";
 import { Pedido } from "src/app/entity/pedido";
 import { Producto } from "src/app/entity/producto";
 import { AuthService } from "src/app/service/Auth.service";
@@ -21,11 +21,10 @@ import Swal from "sweetalert2";
 export class DetalleProductoComponent implements OnInit {
 
   public producto: Producto;
-  public pedido: Pedido;
   public imagen: string;
   public total: number;
   public cantidad: number = 1;
-  private cliente: Cliente;
+  public cliente: Cliente;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -33,27 +32,27 @@ export class DetalleProductoComponent implements OnInit {
     public carritoService: CarritoService,
     private clienteService: ClienteService,
     public compraService: CompraService,
-    private authService: AuthService,
+    public authService: AuthService,
     private router: Router
-  ) {
-    this.producto = new Producto();
-    this.pedido = this.carritoService.getPedido();
+  ) { 
+    //this.pedido = this.carritoService.getPedido();
     this.cliente = new Cliente();
+    this.producto = new Producto();
+    this.producto.categoria = new Categoria();
+    this.cargarProducto();
   }
 
   ngOnInit(): void {
-
-    this.cargarProducto();
     if (this.authService.token) {
-      this.obtenerCliente();
+        this.obtenerCliente(this.authService.usuario.id);
     }
   }
 
-  //Muestra el producto que en base a su id
+  //Muestra el producto en base a su id
   public cargarProducto(): void {
     this.activatedRoute.params.subscribe((params) => {
       let id = params.id;
-      if (id != null) {
+      if (id != null ) {
         this.productoService
           .findProductById(id)
           .subscribe((producto) => {
@@ -64,28 +63,34 @@ export class DetalleProductoComponent implements OnInit {
     });
   }
 
+  private obtenerCliente(id:string): void {
+    this.clienteService.findCustumerById(id).
+      subscribe(jsonClie => {
+        this.cliente = jsonClie
+      });
+  }
   //Actualizar la cantidad del producto
   public actualizarCantidad(event: any): void {
     let cantidad = event.target.value as number;
-    this.total = this.producto.precio * cantidad;
-    this.cantidad = cantidad;
+    if (cantidad > this.producto.stock) {
+      Swal.fire("Lo sentimos!", "No hay stok disponible.", "warning");
+      event.target.value = 1;
+      this.total = this.producto.precio;
+    } else {
+      this.total = this.producto.precio * cantidad;
+      this.cantidad = cantidad;
+    }
   }
 
-  private obtenerCliente(): void {
-    this.clienteService.findCustumerById(this.authService.usuario.id).
-      subscribe(jsonClie => this.cliente = jsonClie)
-  }
+
 
   //Genera el pedido
   public generarPedido(producto: Producto): void {
+        
     if (this.authService.isAuthenticated()) {
-      if (this.cliente.direccion == null) {
-        Swal.fire("Bien ya pronto sera tuyo", "Necesitamos saber tu dirección.", "info")
-          .then(result => {
-            if (result.isConfirmed) {
-              this.router.navigate(["cliente/form/direccion", this.authService.usuario.id]);
-            }
-          });
+      if (this.cliente.direccion.id===undefined) {
+        this.cliente.direccion=null;
+        return;
       } else {
         Swal.fire({
           title: 'Confirmar la compra?',
@@ -97,17 +102,14 @@ export class DetalleProductoComponent implements OnInit {
           confirmButtonText: 'Si lo quiero!'
         }).then((result) => {
           if (result.isConfirmed) {
-            this.carritoService.addProductoDetalle(producto, this.cantidad, this.total);
-            if (this.pedido != null) {
-              this.compraService.generarCompra(this.pedido).subscribe();
-            }
+            this.carritoService.comprarProductoDetalle(producto, this.cantidad, this.total);
             Swal.fire(
-              `Ya es tuyo ${this.cliente.nombre} ${this.cliente.apellido}!`,
+              `Ya es tuyo ${this.authService.usuario.nombre}!`,
               'Hemos confirmado tu compra.',
               'success'
             ).then(result => {
-              if (result.isConfirmed) {
-                this.carritoService.eliminarItem(producto.id);
+              if (result.isConfirmed) {           
+                location.reload();
               }
             });
 
