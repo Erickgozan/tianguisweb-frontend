@@ -1,15 +1,12 @@
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
+import {  Router } from "@angular/router";
 import { Cliente } from "src/app/entity/cliente";
-import { EstadoPedido } from "src/app/entity/estadoPedido.enum";
-import { ItemProducto } from "src/app/entity/itemProducto";
 import { Pedido } from "src/app/entity/pedido";
 import { Producto } from "src/app/entity/producto";
 import { AuthService } from "src/app/service/Auth.service";
 import { CarritoService } from "src/app/service/carrito.service";
 import { ClienteService } from "src/app/service/cliente.service";
-import { CompraService } from "src/app/service/compra.service";
-import { ProductoService } from "src/app/service/producto.service";
+
 import Swal from "sweetalert2";
 
 @Component({
@@ -24,11 +21,12 @@ export class CarritoProductoComponent implements OnInit {
 
   constructor(private carritoService: CarritoService,
     private clienteService: ClienteService,
-    private compraService: CompraService,
     private authService: AuthService,
     private router: Router) {
+
     this.pedido = carritoService.getPedido();
     this.cliente = new Cliente();
+    this.producto = new Producto();
   }
 
   ngOnInit(): void {
@@ -46,6 +44,12 @@ export class CarritoProductoComponent implements OnInit {
 
   //Actualizar la cantidad del producto
   public actualizarCantidad(producto: Producto, event: any): void {
+    let cantidad = event.target.value as number;
+    if (cantidad > producto.stock) {
+      Swal.fire("Lo sentimos!", "No hay stok disponible.", "warning");
+      event.target.value = 1;
+    }
+
     this.carritoService.addProductoPedidoChange(producto, event);
   }
 
@@ -71,22 +75,16 @@ export class CarritoProductoComponent implements OnInit {
     });
   }
 
-  public generarPedido(item: ItemProducto): void {
+  public generarPedido(producto: Producto): void {
 
     if (this.authService.isAuthenticated()) {
-
-      if (this.cliente.direccion == null) {
-        Swal.fire("Bien ya pronto sera tuyo", "Necesitamos saber tu dirección.", "info")
-          .then(result => {
-            if (result.isConfirmed) {
-              this.router.navigate(["cliente/form/direccion", this.authService.usuario.id]);//,
-            }
-          });
+      if (this.cliente.direccion.id===undefined) {
+        this.cliente.direccion=null;
+        return;
       } else {
-
         Swal.fire({
           title: 'Confirmar la compra?',
-          text: `${item.producto.nombre}`,
+          text: `${producto.nombre}`,
           icon: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#3085d6',
@@ -94,26 +92,19 @@ export class CarritoProductoComponent implements OnInit {
           confirmButtonText: 'Si lo quiero!'
         }).then((result) => {
           if (result.isConfirmed) {
-            this.pedido.itemProductos = new Array();
-            this.pedido.precioTotal = item.producto.precio;
-            this.pedido.itemProductos.push(item);
-            if (this.pedido != null) {
-              this.compraService.generarCompra(this.pedido).subscribe();
-            }
+            this.carritoService.comprarActualCarrito(producto, producto.total);
             Swal.fire(
-              `Ya es tuyo ${this.pedido.cliente.nombre}!`,
+              `Ya es tuyo ${this.authService.usuario.nombre}!`,
               'Hemos confirmado tu compra.',
               'success'
-            ).then(result => {
-              if (result.isConfirmed) {
-                location.reload();
-              }
-            });
-          }
+            );
+          }  
         });
       }
     } else {
       this.router.navigate(["/cliente/login"]);
     }
   }
+
+
 }
