@@ -1,0 +1,11 @@
+.disabled{
+    pointer-events: none;
+  }
+
+  .img-tamanio {
+    width: 300px; height: 300px;
+  }
+
+  .img-list-tamanio{
+    width: 130px; height: 130px;
+  }
