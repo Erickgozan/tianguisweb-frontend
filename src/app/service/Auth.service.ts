@@ -28,8 +28,7 @@ export class AuthService {
     params.set('grant_type', 'password');
     params.set('username', usuario.username);
     params.set('password', usuario.password);
-    //console.log("parametros: "+params);
-
+    
     return this.http.post<any>(urlEndPoint, params.toString(), { headers: httpHeaders });
   }
 
@@ -60,12 +59,9 @@ export class AuthService {
     let payload = this.obtenerDatosToken(accessToken);
     this._usuario = new Cliente();
     this._usuario.username = payload.user_name;
-    this._usuario.email = payload.email;
-    this._usuario.apellido = payload.apellido;
+    this._usuario.nombre = payload.nombre;
     this._usuario.rolesString = payload.authorities;
     this._usuario.id = payload.id;
-    // console.log(this._usuario);
-
     sessionStorage.setItem('usuario', JSON.stringify(this._usuario));
 
   }
