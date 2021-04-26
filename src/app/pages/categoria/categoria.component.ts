@@ -29,7 +29,7 @@ export class CategoriaComponent implements OnInit {
   ngOnInit(): void {}
 
   //Listar las categorias.
-  public ListarCategorias(): void {
+  public listarCategorias(): void {
     this.productoService.categoriaList().subscribe((categors) => {
       this.categorias = categors;
     });
