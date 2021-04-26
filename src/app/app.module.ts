@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
@@ -46,6 +46,7 @@ import { FormDireccionComponent } from './pages/form-direccion/form-direccion.co
     BrowserAnimationsModule,
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule
   ],
   providers: [{provide:HTTP_INTERCEPTORS,useClass:TokenInterceptor,multi:true},
               {provide:HTTP_INTERCEPTORS,useClass:AuthInterceptor,multi:true},],
