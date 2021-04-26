@@ -54,8 +54,13 @@ export class TarjetaProductoComponent implements OnInit {
   }
 
   //Agrega el producto al carrito
-  public agregarCarrito(producto: Producto): void {
+  public agregarCarrito(producto: Producto): void {    
+      
     this.carritoService.addProductoPedido(producto);
+    if(this.carritoService.sinStock){
+      Swal.fire("Sin stock!", "Sobrepasaste el stock disponible", "warning");
+      return;
+    }
     Swal.fire("Listo!", "El articulo se agrego al carrito", "success");
   }
 }
