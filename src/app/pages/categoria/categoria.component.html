@@ -1,7 +1,7 @@
 <!-- Modal para el formulario de categorias -->
 <div class="modal fade" id="categoriaModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog">
-    <div class="modal-content">
+    <div class="modal-content" >
       <div class="modal-header">
         <h5 class="modal-title">Agregar categoria</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="cerrar()">
@@ -20,8 +20,8 @@
             <input type="text" class="form-control" name="nombre" [(ngModel)]="categoria.nombre"
               placeholder="Nombre de la categoria">
           </div>
-          <div *ngIf="habilitar">
-            <table class="table">
+          <div *ngIf="habilitar" style="overflow: auto;">
+            <table class="table" >
               <thead>
                 <tr>
                   <th scope="col">Eliminar</th>
@@ -32,7 +32,7 @@
               </thead>
               <tbody>
                 <tr *ngFor="let categoria of categorias; let i = index">
-                  <th scope="row"><button class="btn btn-danger" (click)="eliminarCategoria(categoria)">X</button></th>
+                  <th scope="row"><button class="btn btn-danger" (click)="eliminarCategoria(categoria)"><i class="fas fa-times"></i></button></th>
                   <td *ngIf="categoria.id != idSeleccionado">{{categoria.nombre}}</td>
                   <td *ngIf="categoria.id == idSeleccionado">
                     <input type="text" class="form-control" [(ngModel)]="categoria.nombre" name="nombre"
@@ -42,8 +42,8 @@
                     <div style="float: right;" *ngIf="categoria.id != idSeleccionado">
                       <button class="btn btn-warning" (click)="seleccionarCategoria(categoria.id)">Editar</button>
                     </div>
-                    <div style="float: right;" *ngIf="categoria.id == idSeleccionado">
-                      <button class="btn btn-primary" (click)="editarCategoria(categoria)">Guardar</button>
+                    <div style="float: right;" *ngIf="categoria.id == idSeleccionado" >
+                      <button class="btn btn-primary" (click)="editarCategoria(categoria)"> Guardar</button>
                     </div>
                   </td>
                   <td>
@@ -56,12 +56,12 @@
             </table>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cerrar()">Cerra</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cerrar()"> Cerra</button>
             <button type="submit" class="btn btn-primary" (click)="crearCategoria()">Guardar</button>
             <button type="submit" class="btn btn-success" *ngIf="!categorias"
-              (click)="ListarCategorias()">{{getButtonValue()}}</button>
+              (click)="listarCategorias()">  {{getButtonValue()}}</button>
             <button type="submit" class="btn btn-success" *ngIf="categorias"
-              (click)="ocultarListaCategoria()">{{getButtonValue()}}</button>
+              (click)="habilitar=!habilitar"> {{getButtonValue()}}</button>
           </div>
         </form>
 
