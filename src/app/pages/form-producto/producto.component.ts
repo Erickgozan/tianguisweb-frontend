@@ -1,12 +1,12 @@
 import { Component, OnInit } from "@angular/core";
 import { Producto } from "src/app/entity/producto";
 import { ProductoService } from "src/app/service/producto.service";
-import { ActivatedRoute, Params } from "@angular/router";
+import { ActivatedRoute } from "@angular/router";
 import { Categoria } from "src/app/entity/categoria";
 import { Router } from "@angular/router";
 import swal from "sweetalert2";
-import { CategoriaService } from "src/app/service/categoria.service";
 import { AuthService } from "src/app/service/Auth.service";
+import { NgForm } from "@angular/forms";
 
 @Component({
   selector: "app-producto",
@@ -46,51 +46,52 @@ export class ProductoComponent implements OnInit {
   }
 
   //Crear el producto
-  public crearProducto(): void {
-    if (this.files == null) {
-      swal.fire({
-        icon: "error",
-        title: "Ups...Error!",
-        text: "Debes de seleccionar una imagen",
+  public crearProducto(f: NgForm): void {
+    if (f.invalid) {
+      return Object.values(f.controls).forEach(control => {
+        control.markAsTouched();
       });
-    } else {
-      this.productoService.saveProduct(this.files, this.producto).subscribe(
-        (producto) => {
-          this.producto = producto;
-
-          swal.fire(
-            "Nuevo producto",
-            `Se ha creado el producto ${this.producto.nombre} con éxito`,
-            "success"
-          );
-          this.router.navigate(["/"]);
-        },
-        (err) => {
-          this.errores = err.error.error_400 as string[];
-          if (err.status == 500) {
-            swal.fire("Error! ", `Error: ${err.error.message}`, "error");
-          }
-        }
-      );
     }
+    this.productoService.saveProduct(this.files, this.producto).subscribe(
+      (producto) => {
+        this.producto = producto;
+        swal.fire(
+          "Nuevo producto",
+          `Se ha creado el producto ${this.producto.nombre} con éxito`,
+          "success"
+        );
+        this.router.navigate(["/"]);
+      },(err) => {
+        this.errores = err.error.error_400 as string[];
+        if (err.status == 500) {
+          swal.fire("Error! ", `Error: ${err.error.message}`, "error");
+        }
+      }
+    );
   }
 
   //Actualizar producto
-  public actualizarProducto(): void {
-    this.productoService.updateProduct(this.producto).subscribe((json) => {
-      swal.fire(
-        "Actualizar producto",
-        `Se ha actualizado el producto ${json.producto.nombre} con éxito`,
-        "success"
-      );
-      this.router.navigate(["/"]);
-    }),
-      (err: any) => {
-        this.errores = err.error.error_404 as string[];
-        if (err.status == 500) {
-          swal.fire("Error!", `Error: ${err.error.message}`, "error");
-        }
-      };
+  public actualizarProducto(f: NgForm): void {
+    if (f.invalid) {
+      return Object.values(f.controls).forEach(control => {
+        control.markAsTouched();
+      })
+    } else {
+      this.productoService.updateProduct(this.producto).subscribe((json) => {
+        swal.fire(
+          "Actualizar producto",
+          `Se ha actualizado el producto ${json.producto.nombre} con éxito`,
+          "success"
+        );
+        this.router.navigate(["/"]);
+      }),
+        (err: any) => {
+          this.errores = err.error.error_404 as string[];
+          if (err.status == 500) {
+            swal.fire("Error!", `Error: ${err.error.message}`, "error");
+          }
+        };
+    }
   }
 
   //Actualizar la imagen
@@ -111,6 +112,7 @@ export class ProductoComponent implements OnInit {
                 location.reload();
               }
             });
+
         } else {
           swal
             .fire({
@@ -151,6 +153,7 @@ export class ProductoComponent implements OnInit {
                 location.reload();
               }
             });
+
         } else {
           swal
             .fire({
@@ -175,6 +178,7 @@ export class ProductoComponent implements OnInit {
 
   //Eliminar la imagen
   public eliminarImg(img: string): void {
+
     swal
       .fire({
         title: "Estas seguro de que quieres eliminar la imagen?",
