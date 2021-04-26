@@ -1,6 +1,6 @@
 import { ItemProducto } from "./itemProducto";
 import { Cliente } from "./cliente";
-import { EstadoPedido } from "./estadoPedido.enum";
+import { EstadoPedido } from "./estadoPedido.type";
 
 export class Pedido {
   id: string;
