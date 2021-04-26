@@ -1,43 +1,43 @@
-<div id="logreg-forms">
-    <form *ngIf="!formRegistro && !formPassword" class="form-signin">
+<div class="logreg-forms" >
+    <form  class="form-signin" *ngIf="!formRegistro && !formPassword"  [formGroup]="form" (ngSubmit)="login()">
         <!--Form de inicio de sesión-->
         <h1 class="h3 mb-3 font-weight-normal text-center">Iniciar sesión</h1>
-        <div class="social-login">
-            <button class="btn facebook-btn social-btn mr-1" type="button"><span><i class="fab fa-facebook-f"></i> Iniciar con Facebook</span> </button>
-            <button class="btn google-btn social-btn" type="button"><span><i class="fab fa-google"></i> Iniciar con Google</span> </button>
+        <!--Username-->
+        <input  type="text" class="form-control" placeholder="Nombre de usuario" formControlName="username" [class.is-invalid]="usernameInvalido">
+        <small *ngIf="usernameInvalido" class="text-danger">El usuario es requerido</small>
+        <!--Password-->
+        <div class="input-group mb-3">
+        <input *ngIf="!isVisible" type="password" class="form-control" placeholder="Password" formControlName="password" [class.is-invalid]="passwordInvalido" >
+        <input *ngIf="isVisible" type="text" class="form-control" placeholder="Password" formControlName="password" [class.is-invalid]="passwordInvalido" >
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button" (click)="isVisible = !isVisible">
+                <i *ngIf="isVisible" class="fas fa-eye"></i>
+                <i *ngIf="!isVisible" class="fas fa-eye-slash"></i>
+            </button>
+          </div>
+        <small *ngIf="passwordInvalido" class="text-danger">La contraseña es requerida y debe de tener minimo 8 caracteres</small>
         </div>
-        <p style="text-align:center"> O </p>
-        <input [(ngModel)]="usuario.username" type="email" class="form-control" placeholder="Nombre de usuario" name="usuario" required autofocus>
-        <input [(ngModel)]="usuario.password" type="password" class="form-control" placeholder="Password" name="password" required>
         
-        <button class="btn btn-outline-success btn-block" type="submit" (click)="login()"><i class="fas fa-sign-in-alt" ></i> Iniciar</button>
-        <a style="cursor: pointer;"  (click)="formPassword = !formPassword">Olvidaste tu contraseña?</a>
+        <button class="btn btn-outline-success btn-block" type="submit" ><i class="fas fa-sign-in-alt" ></i> Iniciar</button>
+        
+        <a class="enlace" style="cursor: pointer; color: seagreen; " (click)="formPassword = !formPassword">Olvidaste tu contraseña?</a>
         <hr>
 
         <!-- <p>Si no se tiene cuenta</p>  -->
-        <button class="btn btn-outline-primary btn-block" type="button" id="btn-signup" (click)="formRegistro = !formRegistro"><i class="fas fa-user-plus"></i> Crear una cuenta</button>
+        <button class="btn btn-outline-danger btn-block" type="button" id="btn-signup" (click)="formRegistro = !formRegistro"><i class="fas fa-user-plus"></i> Crear una cuenta</button>
         </form>
         <!--Form para cambiar la contraseña-->
         <form *ngIf="formPassword" action="/reset/password/" class="form-reset">
             <h1 class="h3 mb-3 font-weight-normal text-center">Ingresa tu email</h1>
             <input type="email" class="form-control" placeholder="Email" required>
             <button class="btn btn-primary btn-block" type="submit">Restablecer contraseña</button>
-            <a style="cursor: pointer;"  id="cancel_reset" (click)="formPassword = !formPassword"><i class="fas fa-angle-left"></i> Back</a>
+            <a class="enlace" style="cursor: pointer; color: seagreen; "  id="cancel_reset" (click)="formPassword = !formPassword"><i class="fas fa-angle-left"></i> Volver</a>
         </form> 
         <!--Form para el registro-->
-        <form *ngIf="formRegistro" action="/signup/" class="form-signup ">
-            <h1 class="h3 mb-3 font-weight-normal text-center">Crear cuenta</h1>
-            <div class="social-login">
-                <button class="btn facebook-btn social-btn" type="button"><span><i class="fab fa-facebook-f"></i> Iniciar con Facebook</span> </button>
-            </div>
-            <div class="social-login">
-                <button class="btn google-btn social-btn" type="button"><span><i class="fab fa-google"></i> Iniciar con Google</span> </button>
-            </div>
-            
-            <p style="text-align:center">O</p>
-            <!--Datos del usuario-->     
-            <app-cliente></app-cliente>
-            <a href="#" id="cancel_signup" (click)="formRegistro = !formRegistro"><i class="fas fa-angle-left"></i> Volver</a>
-        </form>
+        <section *ngIf="formRegistro">
+            <app-cliente ></app-cliente>
+            <a style="margin-left: 20px; cursor: pointer; color: seagreen; " id="cancel_signup" (click)="formRegistro = !formRegistro"><i class="fas fa-angle-left"></i> Volver</a>   
+        </section>
+       
         <br>       
 </div>
