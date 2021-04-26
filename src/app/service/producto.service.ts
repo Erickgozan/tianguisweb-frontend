@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { EventEmitter, Injectable } from "@angular/core";
 import { Observable, throwError } from "rxjs";
 import { Producto } from "../entity/producto";
 import { HttpClient } from "@angular/common/http";
@@ -13,7 +13,7 @@ export class ProductoService {
 
   private urlEndPoint: string = "http://localhost:8080/api/productos";
   public productos: Array<Producto>;
-
+  
   constructor(private http: HttpClient) {
     this.productos = new Array();
   }
@@ -58,6 +58,7 @@ export class ProductoService {
     //Agregar los datos del producto
     formData.append("nombre", producto.nombre);
     formData.append("precio", producto.precio);
+    formData.append("precioOriginal", producto.precioOriginal);
     formData.append("descripcion", producto.descripcion);
     formData.append("caracteristicas", producto.caracteristicas);
     formData.append("stock", producto.stock);
