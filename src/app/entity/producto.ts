@@ -4,6 +4,8 @@ export class Producto {
   public id: string;
   public nombre: string;
   public precio: number;
+  public precioOriginal:number;
+  public total:number;
   public descripcion: string;
   public caracteristicas: string;
   public stock: number;
