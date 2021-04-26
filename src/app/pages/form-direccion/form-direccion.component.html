@@ -1,40 +1,90 @@
 <!--Seccion de la direccion-->
-<div class="container mt-5">
-<!--Input codigo postal-->
-<div class="form-group mb-2">
-    <input type="number" class="form-control" #cp [(ngModel)]="direccion.cp" name="codigoPostal"
-        (focusout)="listarDirecciones(cp.value)" required placeholder="Codigo postal*" >
-</div>
-<!--Input codigo Colonia-->
-<div class="form-group mb-2">
-    <select class="form-control" #colonia="ngModel" [(ngModel)]="direccion.colonia" name="colonia" required>
-        <option [ngValue]="undefined">--Seleccionar*--</option>
-        <option *ngFor="let colonia of apiDirecciones" [ngValue]="colonia.response.asentamiento">
-            {{colonia.response.asentamiento}}</option>
-    </select>
-</div>
+<div class="modal fade text-center" id="direccionModal" data-backdrop="static" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Por favor ingresé su dirección</h5>
+                <button type="reset" class="close" data-dismiss="modal" aria-label="Close"  (click)="close(); f.resetForm()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="form-direccion" #f="ngForm" (ngSubmit)="guardarDireccion(f)" >
+                    <!--Id del cliente-->
+                    <input type="hidden" class="form-control" [ngModel]="cliente.id" name="id" disabled>
+                    
+                    <!--Input codigo postal-->
+                    <input 
+                    type="number" 
+                    class="form-control"
+                    name="codigoPostal"
+                    placeholder="Codigo postal*"
+                    #cp="ngModel"
+                    [(ngModel)]="direccion.cp"
+                    [class.is-invalid]="cp.invalid && cp.touched"
+                    (focusout)="listarDirecciones(cp.value)"
+                    required>
+                     <small *ngIf="cp.invalid && cp.touched"
+                        class="form-text text-danger">El codigo postal es requerido</small>
+                    
+                    <!--Input Colonia-->
+                    <select
+                     class="form-control" 
+                     name="colonia"
+                     #colonia="ngModel"
+                     [(ngModel)]="direccion.colonia" 
+                     [class.is-invalid]="colonia.invalid && colonia.touched"
+                     required>
+                        <option [ngValue]="undefined">--Seleccionar*--</option>
+                        <option *ngFor="let colonia of apiDirecciones" [ngValue]="colonia.response.asentamiento">
+                            {{colonia.response.asentamiento}}</option>
+                    </select>
+                    <small *ngIf="colonia.invalid && colonia.touched"
+                        class="form-text text-danger">La colonia es requerida</small>
 
-<!-- Input codigo Municipio -->
-<div class="form-group mb-2">
-    <input type="text" class="form-control" name="municipio" [(ngModel)]="direccion.municipio" placeholder="Municipio*">
-</div>
-<!--Input codigo Estado-->
-<div class="form-group mb-2">
-    <input type="text" class="form-control" name="estado" [(ngModel)]="direccion.estado" placeholder="Estado*">
-</div>
-<!--Input codigo Calle-->
-<div class="form-group mb-2">
-    <input type="text" class="form-control" name="calle" [(ngModel)]="direccion.calle" placeholder="Calle*">
-</div>
-<!--Input codigo No exterior-->
-<div class="form-group mb-2">
-    <input type="number" class="form-control" name="noExterior" [(ngModel)]="direccion.noExterior"
-        placeholder="No. exterior*">
-</div>
-<!--Input codigo No interior-->
-<div class="form-group mb-2">
-    <input type="number" class="form-control" name="noInterior" [(ngModel)]="direccion.noInterior"
-        placeholder="No. interior">
-</div>
-<button type="submit" (click)="guardarDireccion()" class="btn btn-outline-primary btn-block"><i class="far fa-save"></i> Guardar</button>
+                    <!-- Input Municipio -->
+                    <input type="text" class="form-control" name="municipio" [(ngModel)]="direccion.municipio" placeholder="Municipio*" disabled>
+                      
+                    <!--Input Estado-->
+                    <input type="text" class="form-control" name="estado" [(ngModel)]="direccion.estado" placeholder="Estado*" disabled>
+                   
+                    <!--Input  Calle-->
+                    <input 
+                    type="text" 
+                    class="form-control"
+                    name="calle" 
+                    placeholder="Calle*"
+                    #calle="ngModel"
+                    [(ngModel)]="direccion.calle"
+                    [class.is-invalid]="calle.invalid && calle.touched"
+                    required>
+                    <small *ngIf="calle.invalid && calle.touched"
+                    class="form-text text-danger">La calle es requerida</small>
+
+                    <!--Input codigo No exterior-->
+                    <input 
+                    type="number"
+                    class="form-control"
+                    name="noExterior"
+                    placeholder="No. exterior*"
+                    #noExterior="ngModel"
+                    [(ngModel)]="direccion.noExterior"
+                    [class.is-invalid]="noExterior.invalid && noExterior.touched"
+                    required>
+                    <small *ngIf="noExterior.invalid && noExterior.touched"
+                    class="form-text text-danger">El número exterior es requerido</small>
+                   
+                    <!--Input codigo No interior-->
+                    <input type="number" class="form-control" name="noInterior" [(ngModel)]="direccion.noInterior"
+                        placeholder="No. interior">
+                
+              <div class="modal-footer">
+                <button type="reset" class="btn btn-danger" data-dismiss="modal" (click)="close(); f.resetForm()"><i class="fas fa-times"></i>
+                    Cerrar</button>
+                <button type="submit" class="btn btn-primary"><i class="far fa-save"></i>
+                    Guardar</button>
+            </div>
+        </form>
+        </div>
+    </div>
 </div>
