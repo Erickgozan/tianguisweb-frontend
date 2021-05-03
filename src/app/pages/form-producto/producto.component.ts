@@ -29,6 +29,7 @@ export class ProductoComponent implements OnInit {
   ) {
     this.producto = new Producto();
     this.categoria = new Categoria();
+    this.producto.precioOriginal = 0;
   }
 
   ngOnInit(): void {
