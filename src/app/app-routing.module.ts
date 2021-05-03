@@ -12,6 +12,8 @@ import { LoginComponent } from "./pages/login/login.component";
 import { AuthGuard } from "./guards/auth.guard";
 import { RoleGuard } from "./guards/role.guard";
 import { FormDireccionComponent } from "./pages/form-direccion/form-direccion.component";
+import { SliderComponent } from "./pages/slider/slider.component";
+import { FormSliderComponent } from "./pages/form-slider/form-slider.component";
 
 const routes: Routes = [ 
   //Ruta principal
@@ -45,6 +47,9 @@ const routes: Routes = [
   canActivate:[AuthGuard]},
   //Ruta para el login
   { path: "cliente/login", component: LoginComponent },
+   //Ruta para el slider
+  { path: "slider/form", component: FormSliderComponent, 
+   canActivate:[AuthGuard,RoleGuard], data:{role:'ROLE_ADMIN'} },
   //Ruta pie de pagina
   { path: "footer", component: FooterComponent },
   //Ruta error 404
