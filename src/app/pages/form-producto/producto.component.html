@@ -37,7 +37,7 @@
       <div class="form-group col-md-3" *ngIf="producto.oferta">
         <label for="precioOriginal">Precio original:</label>
         <input 
-        type="number" 
+        type="number"
         class="form-control"
         name="precioOriginal" 
         placeholder="Precio original" 
@@ -101,7 +101,7 @@
         [class.is-invalid]="oferta.invalid && oferta.touched"
         [(ngModel)]="producto.oferta"   
         required >
-          <option [ngValue]=0>--Seleccionar--</option>
+          <option [ngValue]="undefined">--Seleccionar--</option>
           <option [ngValue]=true>Con oferta</option>
           <option [ngValue]=false>Sin oferta</option>
         </select>
