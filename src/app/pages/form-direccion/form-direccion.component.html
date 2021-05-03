@@ -15,7 +15,7 @@
                     
                     <!--Input codigo postal-->
                     <input 
-                    type="number" 
+                    type="text" 
                     class="form-control"
                     name="codigoPostal"
                     placeholder="Codigo postal*"
@@ -23,9 +23,10 @@
                     [(ngModel)]="direccion.cp"
                     [class.is-invalid]="cp.invalid && cp.touched"
                     (focusout)="listarDirecciones(cp.value)"
-                    required>
+                    required
+                    pattern="^\d{5}$">
                      <small *ngIf="cp.invalid && cp.touched"
-                        class="form-text text-danger">El codigo postal es requerido</small>
+                        class="form-text text-danger">El codigo postal es requerido o inválido</small>
                     
                     <!--Input Colonia-->
                     <select
