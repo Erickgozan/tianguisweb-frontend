@@ -61,7 +61,7 @@
        <section *ngIf="cliente.id">
         <app-form-direccion  [cliente]="cliente" ></app-form-direccion>
        </section>    
-      <a *ngIf="cliente.direccion===null" class="w-100 btn btn-primary btn-lg" type="submit" data-toggle="modal"  [routerLink]="['/cliente/form/direccion/']" data-target="#direccionModal" >Comprar</a> 
+      <a *ngIf="cliente.direccion===null" class="w-100 btn btn-primary btn-lg" type="submit" data-toggle="modal"  [routerLink]="['/cliente/form/direccion/']" data-target="#direccionModal" >Siguiente</a> 
       <button *ngIf="cliente.direccion!==null" class="w-100 btn btn-primary btn-lg" type="submit"  (click)="generarPedido(producto)" [ngClass]="{disabled: producto.stock<1}">Comprar</button> 
     </div>
     <!--Seccion del carrusel de las imagenes-->
