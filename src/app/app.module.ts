@@ -21,6 +21,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { TokenInterceptor } from './entity/interceptors/token.interceptor';
 import { AuthInterceptor } from './entity/interceptors/auth.interceptor';
 import { FormDireccionComponent } from './pages/form-direccion/form-direccion.component';
+import { FormSliderComponent } from './pages/form-slider/form-slider.component';
 
 
 @NgModule({
@@ -39,6 +40,7 @@ import { FormDireccionComponent } from './pages/form-direccion/form-direccion.co
     ClienteComponent,
     LoginComponent,
     FormDireccionComponent,
+    FormSliderComponent,
   ],
   imports: [
     BrowserModule,
