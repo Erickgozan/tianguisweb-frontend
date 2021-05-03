@@ -71,19 +71,19 @@ export class ProductoService {
         .post<Producto>(`${this.urlEndPoint}/create`, formData)
         //Manejar errores 400 y 500
 
-        .pipe(
-          map((response: any) => response.producto as Producto),
-          catchError((err) => {
-            if (err.status == 400 && err.error.error_400) {
+          .pipe(
+            map((response: any) => response.producto as Producto),
+            catchError((err) => {
+              if (err.status == 400 && err.error.error_400) {
+                return throwError(err);
+              }
+              if (err.status == 500 && err.error.error_500) {
+                return throwError(err);
+              }
               return throwError(err);
-            }
-            if (err.status == 500 && err.error.error_500) {
-              return throwError(err);
-            }
-            return throwError(err);
-          })
-        )
-    );
+            })
+          )
+      );
   }
 
   //Actualizar producto
