@@ -94,7 +94,7 @@ export class CarritoService {
     let cantidad = event.target.value as number;
 
     //Eliminar si la cantidad de productos es igual a 0
-    if (cantidad == 0) {
+    if (cantidad <= 0) {
       this.eliminarItem(producto.id);
     }
 
