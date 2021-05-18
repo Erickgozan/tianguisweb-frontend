@@ -4,8 +4,15 @@
   <div class="row">
     <div class="col">
       <div class="card-columns">
+        <!--| search:filtro_valor-->
         <app-tarjeta-producto [producto]="producto" *ngFor="let producto of productos"></app-tarjeta-producto>
       </div>
+      <div>
+        <div *ngIf="productoPaginador?.length!=0">
+          <app-paginator *ngIf="productoPaginador" [paginador]="productoPaginador"></app-paginator>
+        </div>
+      </div>
+      <div *ngIf="productos?.length==0">
+        <p class="alert alert-danger text-center">No hay ningun producto que coincida con tu busqueda.</p>
+      </div>
     </div>
-  </div>
-</div>
