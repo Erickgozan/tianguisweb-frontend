@@ -20,7 +20,7 @@ export class SliderComponent implements OnInit {
     this.getAllSliders();  
   } 
 
-  //Guarda el array de sliders
+  //Guardar el array de sliders
   public getAllSliders(){
     this.sliderService.listSlider().subscribe(jSliders=>{
       this.sliders = jSliders;
