@@ -20,9 +20,15 @@ export class ProductoService {
 
 
   //Listar productos
-  public puductList(): Observable<Array<Producto>> {
-    return this.http.get<Array<Producto>>(this.urlEndPoint);
+  public puductList(page:number): Observable<any> {
+    return this.http.get<any>(`${this.urlEndPoint}/page/`+page);
   }
+
+  //Buscar producto por nombre
+  public findProductoByNombre(nombre:string):Observable<Array<Producto>>{
+    return this.http.get<Array<Producto>>(`${this.urlEndPoint}/buscar/nombre?nombre=${nombre}`);
+  }
+
   //Retorna el listado de categorias
   public categoriaList(): Observable<Array<Categoria>> {
     return this.http.get<Array<Categoria>>(`${this.urlEndPoint}/categorias`);
