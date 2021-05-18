@@ -1,5 +1,5 @@
-<div class="card text-center animated">
-    <a [routerLink]="['productos/detalles',producto.id]" [ngClass]="{disabled: producto.stock<1}">
+<div class="card text-center animated sombra">
+    <a [routerLink]="['/productos/detalles',producto.id]" [ngClass]="{disabled: producto.stock<1}">
         <div *ngIf="producto.img1">
             <img src="http://localhost:8080/api/uploads/img/{{producto.img1}}" class="card-img-top"
                 [alt]="producto.img1" class="img-tamanio">
@@ -7,10 +7,10 @@
     </a>
     
     <hr>
-    <div class="card-body " >
+    <div class="card-body">
         <h5 class="card-title">{{producto.nombre}}</h5>
         <ul class="list-group list-unstyled p-2">
-            <span class="text-muted me-2">descripción: </span>
+            <!-- <span class="text-muted me-2">descripción: </span> -->
             <li class="p-2 card-text descripcion">{{producto.descripcion}}</li>
             <li class="p-2 card-text" *ngIf="producto.stock>0"><span class="text-muted me-2">Stok: </span>{{producto.stock}}.</li>
             <li class="p-2 card-text" *ngIf="producto.stock<1"><span class="text-muted me-2">Stok: </span>Sin Stock.</li>
@@ -22,8 +22,8 @@
         
         <button class="btn btn-outline-success" (click)="agregarCarrito(producto)" style="margin: 5px;" [ngClass]="{disabled: producto.stock<1}"> <i class="fas fa-cart-plus"></i> Agregar al
             carrito</button>
-        <button href="#" class="btn btn-outline-info " [routerLink]="['productos/detalles',producto.id]"
-            routerLinkActive="router-link-active" style="margin: 5px;" [ngClass]="{disabled: producto.stock<1}"><i class="fas fa-book-open"></i> Ver detalles...</button>
+        <!-- <button href="#" class="btn btn-outline-info " [routerLink]="['/productos/detalles',producto.id]"
+            routerLinkActive="router-link-active" style="margin: 5px;" [ngClass]="{disabled: producto.stock<1}"><i class="fas fa-book-open"></i> Ver detalles...</button> -->
        </div>
        <hr *ngIf="authService.hasRole('ROLE_ADMIN')">
         <div class="btn-group mb-4" role="group" *ngIf="authService.hasRole('ROLE_ADMIN')">
@@ -32,7 +32,7 @@
                 Mas opciones
             </button>
             <div class="dropdown-menu " >
-                <a class="dropdown-item" [routerLink]="['productos/form',producto.id]">Editar</a>
+                <a class="dropdown-item" [routerLink]="['/productos/form',producto.id]">Editar</a>
                 <a class="dropdown-item" (click)="eliminarProducto(producto)" style="cursor: pointer;">Eliminar</a>
             </div>
         </div>
