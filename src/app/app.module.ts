@@ -22,7 +22,8 @@ import { TokenInterceptor } from './entity/interceptors/token.interceptor';
 import { AuthInterceptor } from './entity/interceptors/auth.interceptor';
 import { FormDireccionComponent } from './pages/form-direccion/form-direccion.component';
 import { FormSliderComponent } from './pages/form-slider/form-slider.component';
-
+import { PaginatorComponent } from './pages/paginator/paginator.component';
+import { SearchPipe } from './pipes/search.pipe';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,8 @@ import { FormSliderComponent } from './pages/form-slider/form-slider.component';
     LoginComponent,
     FormDireccionComponent,
     FormSliderComponent,
+    PaginatorComponent,
+    SearchPipe,
   ],
   imports: [
     BrowserModule,
