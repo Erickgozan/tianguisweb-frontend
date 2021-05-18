@@ -1,5 +1,7 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { FormControl, NgForm } from "@angular/forms";
 import { Router } from "@angular/router";
+import { debounceTime } from "rxjs/operators";
 import { Categoria } from "src/app/entity/categoria";
 import { Pedido } from "src/app/entity/pedido";
 import { Producto } from "src/app/entity/producto";
@@ -20,6 +22,15 @@ export class MenuComponent implements OnInit {
   public producto:Producto;
   public pedido:Pedido;
   public isAdmin:boolean=false;
+
+  public productos:Producto[]=[];
+
+  inputForm = new FormControl('');
+  
+  @Output('search')
+  searchEmitter = new EventEmitter<string>();
+ 
+  
   constructor(
     public router: Router,
     private productoService: ProductoService,
@@ -31,10 +42,15 @@ export class MenuComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.cargarCategoria();
-    
-  }
 
+    this.cargarCategoria();
+    //Buscar productos desde el evento valueChanges del input
+    this.inputForm.valueChanges.pipe(
+      debounceTime(300)
+    )
+    .subscribe(value => this.searchEmitter.emit(value)); 
+
+  } 
 
   //Listar las categorias
   public cargarCategoria(): void {
@@ -43,9 +59,12 @@ export class MenuComponent implements OnInit {
     });
   }
 
+  public buscarProducto(value:string){
+    //Buscar formulario desde el evento click    
+    this.searchEmitter.emit(value);
+  }
 
   public logout():void{
-
 
     Swal.fire({
       title: 'Quieres cerrar tu sesión?',

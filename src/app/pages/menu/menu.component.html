@@ -4,7 +4,6 @@
         <a [routerLink]="['/']" title="Bootstrap" class="navbar-brand">
             <h3 class="store-image" alt="Bootstrap">Tianguisweb.com</h3>
         </a>
-
         <!--Boton que se muestra en modo responsivo-->
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
             data-target="#navbarContainer" aria-controls="navbarContainer" aria-expanded="true"
@@ -14,13 +13,12 @@
         <div class="navbar-collapse justify-content-end collapse show" id="navbarContainer">
             <!--Formulario de busqueda responsivo-->
             <br>
-            <form id="search_mini_form" class="d-lg-none d-md-block" method="get" action="/mx/search">
+            <form id="search_mini_form" class="d-lg-none d-md-block" method="get">
                 <div class="input-group ">
-                    <input type="text" value="" name="q" class="form-control form-control-sm"
-                        placeholder="Buscar productos">
-                    <button type="submit" class="btn btn-outline-secondary ml-2"><i class="fas fa-search"></i></button>
+                    <input type="text"  #nombre  class="form-control form-control-sm"
+                        placeholder="Buscar productos"> 
+                    <button type="submit" class="btn btn-outline-secondary ml-2"  (click)="buscarProducto(nombre.value)"><i class="fas fa-search"></i></button>
                 </div>
-
             </form>
             <hr>
             <!--Inicio de los enlaces-->
@@ -36,10 +34,8 @@
                         <a *ngFor="let categoria of categorias" class="trsn nav-link" href="#">{{categoria.nombre}}</a>
                     </ul>
                 </li>
-
                 <li class="nav-item  ">
                     <a href="#" class="nav-link">Ofertas</a>
-
                 </li>
                 <li class="nav-item  ">
                     <a href="#" title="Contact" class="level-1 trsn nav-link">Contacto</a>
@@ -57,14 +53,15 @@
                     </a>
                     <ul class="dropdown-menu text-center" style="background-color: #262626;">
 
-                        <li><a [routerLink]="['productos/form']" routerLinkActive="active" class="trsn nav-link"
+                        <li><a [routerLink]="['/productos/form']" routerLinkActive="active" class="trsn nav-link"
                                 title="Agregar producto">Agregar producto</a></li>
 
                         <li><a href="#" class="trsn nav-link" title="Lista de clientes">Lista de clientes</a></li>
 
                         <li><a href="#" class="trsn nav-link" title="Lista de pedidos">Lista de pedidos</a></li>
-                        
-                        <li><a [routerLink]="['slider/form']" routerLinkActive="active" class="trsn nav-link" title="Lista de pedidos">Editar slider</a></li>
+
+                        <li><a [routerLink]="['/slider/form']" routerLinkActive="active" class="trsn nav-link"
+                                title="Lista de pedidos">Editar slider</a></li>
                     </ul>
                 </li>
                 <li>
@@ -99,12 +96,14 @@
                     </ul>
                 </li>
             </ul>
-            <!--Formulario escritorio-->
-            <form id="search_mini_form" class="navbar-form float-right form-inline d-none d-lg-flex ml-1 " method="get">
-                <input type="text" value="" name="q" class="form-control form-control-sm"
-                    placeholder="Buscar productos">
-                <button type="submit" class="btn btn-secondary btn-sm ml-2 p-2"><i class="fas fa-search "></i></button>
-                <input type="hidden">
+
+            <!--Formulario de busqueda escritorio-->
+            <form class="navbar-form float-right form-inline d-none d-lg-flex ml-1 " method="get">
+                <!--[formControl]="search"-->
+                <input #nombre class="form-control form-control-sm" placeholder="Buscar productos">
+                <button type="submit" class="btn btn-secondary btn-sm ml-2 p-2"
+                    (click)="buscarProducto(nombre.value)"><i class="fas fa-search "></i></button>
+
             </form>
             <ul class="social list-inline d-lg-none text-center">
             </ul>
