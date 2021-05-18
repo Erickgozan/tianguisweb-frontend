@@ -12,30 +12,36 @@ import { LoginComponent } from "./pages/login/login.component";
 import { AuthGuard } from "./guards/auth.guard";
 import { RoleGuard } from "./guards/role.guard";
 import { FormDireccionComponent } from "./pages/form-direccion/form-direccion.component";
-import { SliderComponent } from "./pages/slider/slider.component";
 import { FormSliderComponent } from "./pages/form-slider/form-slider.component";
 
-const routes: Routes = [ 
+const routes: Routes = [
   //Ruta principal
   //{path:'', redirectTo:'lista-productos', pathMatch:'full'},
   { path: "", component: ListaProductosComponent },
+  { path: "productos", component: ListaProductosComponent },
+  //Productos paginados
+  { path: "productos/page/:page", component: ListaProductosComponent },
+  //Buscar Productos
+  { path: "productos/buscar/:nombre", component: ListaProductosComponent },
   //ruta encabezado
   {
     path: "productos/form",
     component: ProductoComponent,
-    canActivate:[AuthGuard, RoleGuard],data:{role:'ROLE_ADMIN'},
+    canActivate: [AuthGuard, RoleGuard], data: { role: 'ROLE_ADMIN' },
     children: [
       {
         //Ruta para categorias
         path: "categorias",
         component: CategoriaComponent,
-        canActivate:[AuthGuard,RoleGuard],data:{role:'ROLE_ADMIN'}
+        canActivate: [AuthGuard, RoleGuard], data: { role: 'ROLE_ADMIN' }
       },
     ],
   },
   //Ruta para edita
-  { path: "productos/form/:id", component: ProductoComponent, 
-    canActivate:[AuthGuard,RoleGuard],data:{role:'ROLE_ADMIN'} },
+  {
+    path: "productos/form/:id", component: ProductoComponent,
+    canActivate: [AuthGuard, RoleGuard], data: { role: 'ROLE_ADMIN' }
+  },
   //Ruta para ver detalles
   { path: "productos/detalles/:id", component: DetalleProductoComponent },
   //Ruta para el carrito de compras
@@ -43,13 +49,17 @@ const routes: Routes = [
   //Ruta para el formulario del cliente
   { path: "cliente/form", component: ClienteComponent },
   //Ruta par el formulario de direcciones
-  {path:"cliente/form/direccion:/id",component:FormDireccionComponent,
-  canActivate:[AuthGuard]},
+  {
+    path: "cliente/form/direccion:/id", component: FormDireccionComponent,
+    canActivate: [AuthGuard]
+  },
   //Ruta para el login
   { path: "cliente/login", component: LoginComponent },
-   //Ruta para el slider
-  { path: "slider/form", component: FormSliderComponent, 
-   canActivate:[AuthGuard,RoleGuard], data:{role:'ROLE_ADMIN'} },
+  //Ruta para el slider
+  {
+    path: "slider/form", component: FormSliderComponent,
+    canActivate: [AuthGuard, RoleGuard], data: { role: 'ROLE_ADMIN' }
+  },
   //Ruta pie de pagina
   { path: "footer", component: FooterComponent },
   //Ruta error 404
@@ -62,4 +72,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
