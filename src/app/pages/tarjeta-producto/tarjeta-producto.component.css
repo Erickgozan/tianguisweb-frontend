@@ -13,3 +13,7 @@
 .img-tamanio {
   width: 200px; height: 200px;
 }
+
+.sombra:hover  {
+  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.50);
+}
