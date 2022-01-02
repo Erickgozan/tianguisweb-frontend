@@ -26,7 +26,7 @@ export class AuthService {
     });
     let params = new URLSearchParams();
     params.set('grant_type', 'password');
-    params.set('username', usuario.username);
+    params.set('username', usuario.email);
     params.set('password', usuario.password);
     
     return this.http.post<any>(urlEndPoint, params.toString(), { headers: httpHeaders });
@@ -58,7 +58,7 @@ export class AuthService {
   public guardarUsuario(accessToken: string): void {
     let payload = this.obtenerDatosToken(accessToken);
     this._usuario = new Cliente();
-    this._usuario.username = payload.user_name;
+    this._usuario.email = payload.user_name;
     this._usuario.nombre = payload.nombre;
     this._usuario.rolesString = payload.authorities;
     this._usuario.id = payload.id;
