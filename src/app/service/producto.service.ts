@@ -29,6 +29,20 @@ export class ProductoService {
     return this.http.get<Array<Producto>>(`${this.urlEndPoint}/buscar/nombre?nombre=${nombre}`);
   }
 
+  //Buscar producto por datos
+  public findProductosByDatos(datos:string):Observable<Array<Producto>>{
+    return this.http.get<Array<Producto>>(`${this.urlEndPoint}/buscar/datos?datos=${datos}`);
+  }
+
+  //Buscar producto por categoria
+  public findProductosByCategoria(id:string):Observable<Array<Producto>>{
+    return this.http.get<Array<Producto>>(`${this.urlEndPoint}/buscar/categoria?id=${id}`);
+  }
+
+  //Buscar productos por oferta
+  public findProductosByOferta(oferta:string):Observable<Array<Producto>>{
+    return this.http.get<Array<Producto>>(`${this.urlEndPoint}/buscar/oferta?oferta=${oferta}`)
+  }
   //Retorna el listado de categorias
   public categoriaList(): Observable<Array<Categoria>> {
     return this.http.get<Array<Categoria>>(`${this.urlEndPoint}/categorias`);
