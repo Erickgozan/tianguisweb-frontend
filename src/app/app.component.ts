@@ -1,15 +1,13 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Producto } from './entity/producto';
-import { ProductoService } from './service/producto.service';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent{
-  
+export class AppComponent {
+
   public filtro_valor: string = "";
 
   constructor(private router: Router) { }
@@ -20,6 +18,14 @@ export class AppComponent{
     if (this.filtro_valor) {
       this.router.navigate(['productos/buscar/', this.filtro_valor]);
     }
+  }
+
+  handleSearchCategorie(value: string) {
+    this.router.navigate(['productos/buscar/categoria/', value]);
+  }
+
+  handledSerachOferta(value: boolean) {
+    this.router.navigate(['productos/buscar/oferta/', value]);
   }
 
 }
