@@ -1,5 +1,9 @@
 <header>
-  <app-menu (search)="handleSearch($event)"></app-menu>
+  <app-menu 
+  (search)="handleSearch($event)" 
+  (searchCategoria)="handleSearchCategorie($event)"
+  (searchOferta)="handledSerachOferta($event)"
+  ></app-menu>
 </header>
 <router-outlet></router-outlet>
 <app-footer></app-footer>
