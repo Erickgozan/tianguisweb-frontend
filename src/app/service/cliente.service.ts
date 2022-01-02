@@ -21,7 +21,19 @@ export class ClienteService {
 
   //Buscar cliente
   public findCustumerById(id:string):Observable<Cliente>{
-    return this.http.get<Cliente>(`${this.urlEndPoint}/${id}`).pipe(
+    return this.http.get<Cliente>(`${this.urlEndPoint}/buscar/${id}`).pipe(
+      catchError((err) => {
+        if (err.status == 400 && err.error.error_400) {
+          return throwError(err);
+        }
+        return throwError(err);
+      })
+    );
+  }
+
+  //Buscar cliente por email
+  public findCustumerByEmail(email:string):Observable<Cliente>{
+    return this.http.get<Cliente>(`${this.urlEndPoint}/buscar?email=${email}`).pipe(
       catchError((err) => {
         if (err.status == 400 && err.error.error_400) {
           return throwError(err);
@@ -51,6 +63,21 @@ export class ClienteService {
           return throwError(err);
         }
         if (err.status == 400 && err.error.error_400) {
+          return throwError(err);
+        }
+        if (err.status == 500 && err.error.error_500) {
+          return throwError(err);
+        }
+        return throwError(err);
+      })
+    );
+  }
+
+  //Actualizar el cliente
+  public updatePassword(password:string, id: string): Observable<Cliente> {
+    return this.http.post<Cliente>(`${this.urlEndPoint}/update/${id}?password=${password}`, null).pipe(
+      catchError((err) => {
+        if (err.status == 404 && err.error.error_404) {
           return throwError(err);
         }
         if (err.status == 500 && err.error.error_500) {
