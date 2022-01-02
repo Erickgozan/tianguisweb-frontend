@@ -2,39 +2,43 @@
 <ul class="alert alert-danger" *ngIf="errores?.length>0">
   <li *ngFor="let error of errores">{{error}}</li>
 </ul>
-
-<form class="form-signup" [formGroup]="form" (ngSubmit)="crearClientes()">
- <h1 class="h3 mb-3 font-weight-normal text-center">Crear cuenta</h1>
-  <!--Input nombre-->
-  <input type="text" class="form-control" placeholder="Nombre*" formControlName="nombre"
-    [class.is-invalid]="nombreInvalido">
-  <small *ngIf="nombreInvalido" class="text-danger">El nombre es requerido</small>
-  <!--Input apellido-->
-  <input type="text" class="form-control" placeholder="Apellido*" formControlName="apellido"
-    [class.is-invalid]="apellidoInvalido">
-  <small *ngIf="apellidoInvalido" class="text-danger">El apellido es requerido</small>
-  <!--Input telefono-->
-  <input type="text" class="form-control" placeholder="No. de celular*" formControlName="telefono"
-    [class.is-invalid]="celularInvalido">
-  <small *ngIf="celularInvalido" class="text-danger">El celualar es requerido</small>
-  <!--Input usuario-->
-  <input type="text" class="form-control" placeholder="Nombre de usuario*" formControlName="username"
-    [class.is-invalid]="usuarioInvalido">
-  <small *ngIf="usuarioInvalido" class="text-danger">El usuario es requerido</small>
-  <!--Input email-->
-  <input type="email" class="form-control" placeholder="Email*" formControlName="email"
-    [class.is-invalid]="emailInvalido">
-  <small *ngIf="emailInvalido" class="text-danger">El email es requerido o es invalido</small>
-  <!--Input contraseña-->
-  <input type="password" class="form-control" placeholder="Password*" formControlName="password"
-    [class.is-invalid]="passwordInvalido">
-  <small *ngIf="passwordInvalido" class="text-danger">La contraseña es requerida y debe de tener minimo 8 caracteres
-  </small>
-  <!--Input confirmar contraseña-->
-  <input type="password" class="form-control" placeholder="Confirmar password" formControlName="password2"
-    [class.is-invalid]="password2Invalido">
-  <small *ngIf="password2Invalido" class="text-danger">Las contraseñas deben de coincidir</small>
-
-  <hr>
-  <button type="submit" class="btn btn-outline-primary btn-block"><i class="fas fa-user-plus"></i> Registrarse</button>
-</form>
+<div [ngClass]="{'logreg-forms': router.url==rutaUpdate}">
+  <form class="form-signup" [formGroup]="form" (ngSubmit)="crearClientes()">
+    <h1 *ngIf="id" class="h3 mb-3 font-weight-normal text-center">Actualizar contraseña</h1>
+    <h1 *ngIf="!id" class="h3 mb-3 font-weight-normal text-center">Crear cuenta</h1>
+    <!--Input nombre-->
+    <input *ngIf="!id" type="text" class="form-control" placeholder="Nombre*" formControlName="nombre"
+      [class.is-invalid]="nombreInvalido">
+    <small *ngIf="nombreInvalido" class="text-danger">El nombre es requerido</small>
+    <!--Input apellido-->
+    <input *ngIf="!id" type="text" class="form-control" placeholder="Apellido*" formControlName="apellido"
+      [class.is-invalid]="apellidoInvalido">
+    <small *ngIf="apellidoInvalido" class="text-danger">El apellido es requerido</small>
+    <!--Input telefono-->
+    <input *ngIf="!id" type="text" class="form-control" placeholder="No. de celular*" formControlName="telefono"
+      [class.is-invalid]="celularInvalido">
+    <small *ngIf="celularInvalido" class="text-danger">El celualar es requerido</small>
+    <!--Input email-->
+    <input *ngIf="!id" type="email" class="form-control" placeholder="Email*" formControlName="email"
+      [class.is-invalid]="emailInvalido">
+    <small *ngIf="emailInvalido" class="text-danger">El email es requerido o es invalido</small>
+    <!--Input contraseña-->
+    <input type="password" class="form-control" placeholder="Password*" formControlName="password"
+      [class.is-invalid]="passwordInvalido">
+    <small *ngIf="passwordInvalido" class="text-danger">La contraseña es requerida y debe de tener minimo 8 caracteres
+    </small>
+    <!--Input confirmar contraseña-->
+    <input type="password" class="form-control" placeholder="Confirmar password" formControlName="password2"
+      [class.is-invalid]="password2Invalido">
+    <small *ngIf="password2Invalido" class="text-danger">Las contraseñas deben de coincidir</small>
+    <hr>
+     <!--boton para registrarse-->
+    <button *ngIf="!id" type="submit" class="btn btn-outline-primary btn-block"><i class="fas fa-user-plus"></i>
+      Registrarse</button>
+  </form>
+  <!--boton para actualizar contraseña-->
+  <form style="margin-top:-1.5rem ;">
+  <button *ngIf="id" class="btn btn-outline-primary btn-block"  (click)="actualizarContra()"><i class="fas fa-unlock-alt"></i>
+    Restablecer </button>
+  </form>
+</div>
