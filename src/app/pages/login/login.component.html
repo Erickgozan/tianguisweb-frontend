@@ -3,8 +3,8 @@
         <!--Form de inicio de sesión-->
         <h1 class="h3 mb-3 font-weight-normal text-center">Iniciar sesión</h1>
         <!--Username-->
-        <input  type="text" class="form-control" placeholder="Nombre de usuario" formControlName="username" [class.is-invalid]="usernameInvalido">
-        <small *ngIf="usernameInvalido" class="text-danger">El usuario es requerido</small>
+        <input  type="text" class="form-control" placeholder="Email" formControlName="username" [class.is-invalid]="usernameInvalido">
+        <small *ngIf="usernameInvalido" class="text-danger">El email es requerido</small>
         <!--Password-->
         <div class="input-group mb-3">
         <input *ngIf="!isVisible" type="password" class="form-control" placeholder="Password" formControlName="password" [class.is-invalid]="passwordInvalido" >
@@ -27,9 +27,10 @@
         <button class="btn btn-outline-danger btn-block" type="button" id="btn-signup" (click)="formRegistro = !formRegistro"><i class="fas fa-user-plus"></i> Crear una cuenta</button>
         </form>
         <!--Form para cambiar la contraseña-->
-        <form *ngIf="formPassword" action="/reset/password/" class="form-reset">
+        <form *ngIf="formPassword" [formGroup]="formEmail" class="form-reset" (ngSubmit)="enviarEmail()">
             <h1 class="h3 mb-3 font-weight-normal text-center">Ingresa tu email</h1>
-            <input type="email" class="form-control" placeholder="Email" required>
+            <input type="email" class="form-control" placeholder="Email" formControlName="email" [class.is-invalid]="emailInvalido">
+            <small *ngIf="emailInvalido" class="text-danger">El email es requerido o es invalido</small>
             <button class="btn btn-primary btn-block" type="submit">Restablecer contraseña</button>
             <a class="enlace" style="cursor: pointer; color: seagreen; "  id="cancel_reset" (click)="formPassword = !formPassword"><i class="fas fa-angle-left"></i> Volver</a>
         </form> 
