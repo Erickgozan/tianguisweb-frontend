@@ -21,8 +21,12 @@ const routes: Routes = [
   { path: "productos", component: ListaProductosComponent },
   //Productos paginados
   { path: "productos/page/:page", component: ListaProductosComponent },
-  //Buscar Productos
+  //Buscar Productos por nombre
   { path: "productos/buscar/:nombre", component: ListaProductosComponent },
+  //Buscar Productos por categoria
+  { path: "productos/buscar/categoria/:id", component: ListaProductosComponent },
+  //Buscar Productos por oferta
+  {path: "productos/buscar/oferta/:oferta", component: ListaProductosComponent },
   //ruta encabezado
   {
     path: "productos/form",
@@ -48,6 +52,8 @@ const routes: Routes = [
   { path: "productos/carrito", component: CarritoProductoComponent },
   //Ruta para el formulario del cliente
   { path: "cliente/form", component: ClienteComponent },
+  //Ruta para el formulario del cliente
+  { path: "cliente/form/:id", component: ClienteComponent },
   //Ruta par el formulario de direcciones
   {
     path: "cliente/form/direccion:/id", component: FormDireccionComponent,
