@@ -1,5 +1,7 @@
 <div class="container mt-4 lead main" >
   <form enctype="multipart/form-data" #f="ngForm" (ngSubmit)="crearProducto(f)">
+    <h1 class="text-center">Agregar productos</h1>
+    <hr>
     <div class="form-row ">
       <!--Lista de errores-->
       <ul class="alert alert-danger" *ngIf="errores?.length>0">
