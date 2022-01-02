@@ -86,7 +86,7 @@
                     <a href="#" class="dropdown-toggle trsn nav-link" data-toggle="dropdown" role="button"
                         aria-haspopup="true" aria-expanded="false">
                         <span><i class="fas fa-user m-1"></i></span>
-                        <span>{{authService.usuario.username}}</span>
+                        <span>{{authService.usuario.nombre}}</span>
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu text-center" style="background-color: #262626;">
@@ -121,17 +121,17 @@
                 </li>
                 <li class="nav-item dropdown">
                     <a href="#" title="Categoria" class="dropdown-toggle level-1 trsn nav-link"
-                        data-toggle="dropdown">Categorias</a>
+                        data-toggle="dropdown">Categorías</a>
                     <ul class="dropdown-menu multi-level">
                         <li class="nav-item dropdown">
                             <!--Lista de categorias-->
                             <a *ngFor="let categoria of categorias" class="trsn nav-link"
-                                href="#">{{categoria.nombre}}</a>
+                                style="cursor: pointer;" (click)="buscarProductoByCategoria(categoria.id)">{{categoria.nombre}}</a>
                         </li>
                     </ul>
                 </li>
                 <li class="nav-item  ">
-                    <a href="#" title="Oferta" class="level-1 trsn nav-link">Ofertas</a>
+                    <a style="cursor: pointer;" title="Oferta" class="level-1 trsn nav-link" (click)="buscarProductoByOferta(true)">Ofertas</a>
 
                 </li>
                 <li class="nav-item  ">
