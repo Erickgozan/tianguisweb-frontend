@@ -38,13 +38,13 @@
 
         <!--Total de los productos-->
         <div class=" border-top text-right pt-4 pb-4" *ngIf="pedido.itemProductos.length>0">
-            <h4 style="color: rgb(39, 46, 56); " class="mt-lg-4">Total carrito: {{pedido.precioTotal | currency}}</h4>
+            <h5 style="color: rgb(39, 46, 56); " class="mt-lg-4">Total carrito: {{pedido.precioTotal | currency}}</h5>
         </div>
 
     </section>
 
     <!--Si el carrito esta vació-->
     <div class="col-12" *ngIf="pedido.itemProductos.length<=0">
-        <p class="alert alert-info">Tu carrito esta vació!</p>
+        <h4 class="alert alert-info text-center">Tu carrito esta vació!</h4>
     </div>
 </div>
