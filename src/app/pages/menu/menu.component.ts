@@ -22,14 +22,14 @@ export class MenuComponent implements OnInit {
   public producto:Producto;
   public pedido:Pedido;
   public isAdmin:boolean=false;
-
-  public productos:Producto[]=[];
-
-  inputForm = new FormControl('');
   
   @Output('search')
-  searchEmitter = new EventEmitter<string>();
- 
+  searchEmitter = new EventEmitter<string>(); 
+  @Output('searchCategoria')
+  searchCategoria = new EventEmitter<string>();
+  @Output('searchOferta')
+  searchOferta = new EventEmitter<boolean>();
+  
   
   constructor(
     public router: Router,
@@ -42,33 +42,34 @@ export class MenuComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.cargarCategoria();
-    //Buscar productos desde el evento valueChanges del input
-    this.inputForm.valueChanges.pipe(
-      debounceTime(300)
-    )
-    .subscribe(value => this.searchEmitter.emit(value)); 
-
   } 
 
   //Listar las categorias
   public cargarCategoria(): void {
     this.productoService.categoriaList().subscribe((categorias) => {
-      this.categorias = categorias;
+      this.categorias = categorias;     
     });
   }
-
-  public buscarProducto(value:string){
-    //Buscar formulario desde el evento click    
+  
+  //Buscar formulario desde el evento click 
+  public buscarProducto(value:string){     
     this.searchEmitter.emit(value);
+  }
+
+  public buscarProductoByCategoria(value:string){
+    this.searchCategoria.emit(value);
+  }
+
+  public buscarProductoByOferta(value:boolean){
+    this.searchOferta.emit(value);   
   }
 
   public logout():void{
 
     Swal.fire({
-      title: 'Quieres cerrar tu sesión?',
-      text:`Hasta la proxima ${this.authService.usuario.username}`,
+      title: 'Cerrar sesión.',
+      text:`Hola ${this.authService.usuario.nombre}, ¿Quieres cerrar tu sesión?`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -76,7 +77,7 @@ export class MenuComponent implements OnInit {
       confirmButtonText: 'Si, cerrar!'
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire("Logout",`Hola ${this.authService.usuario.username} has cerrado sesión con éxito`,"success")
+        Swal.fire("Sesión cerrada.",`Hasta la próxima ${this.authService.usuario.nombre}, espero volver a verte pronto por aquí!`,"success")
         this.router.navigate(["cliente/login"]);
         this.authService.logout();
       }
